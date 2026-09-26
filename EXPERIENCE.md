@@ -104,7 +104,8 @@ Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
 **Trigger:** writing any file containing `\` → Write tool, then read the file back.
 **Not for:** content without backslashes or other escape characters.
 **Recurred:** 2026-09-26, minutes after this entry — `sed -i "s#...C:\\\\Program Files...#"` on a build script produced
-`C:Program FilesMicrosoft...`; caught by reading the file back. Two strikes → candidate guard: a PreToolUse hook that
+`C:Program FilesMicrosoft...`; caught by reading the file back. Third time the same day — `sed -i 's#…F:\\kast-maintenance\\…#…#'` on STATUS.md
+matched nothing (caught by grepping the line back). Two strikes → candidate guard: a PreToolUse hook that
 refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` (proposal pending, not wired).
 none-cheap: the guard is a PreToolUse hook in the Claude Code settings, and the agent may not change its own settings (auto-mode classifier: Self-Modification, 2026-09-26) — wiring it is the owner's call; until then the Trigger line + read-back is the defence
 
