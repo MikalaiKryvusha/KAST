@@ -43,6 +43,7 @@ hookCase('gate alone, rc checked, then commit', ev('node .kaif/tools/kaif-voice-
 hookCase('gate piped for reading, no commit', ev('node .kaif/tools/kaif-voice-lint.mjs check a.md 2>&1 | tail -3'), 0);
 hookCase('commit alone', ev('git add a.md && git commit -m "x | y"'), 0);
 hookCase('logical OR is not a pipe', ev('node .kaif/tools/kaif-experience-lint.mjs check || echo red && git status'), 0);
+hookCase('gate alone, then a later command piped, then commit (false refusal 20:35)', ev('node .kaif/tools/kaif-testrun-lint.mjs check > /dev/null 2>&1; r1=$?; [ $r1 -eq 0 ] && git add a && git diff --cached --stat | tail -1 && git commit -q -m x'), 0);
 
 // Part C — backtick-in-inline-script (EXP-0007): the 19:53 form that ran tools/make-launcher-icon.mjs
 console.log('C. backtick-in-inline-script');

@@ -62,7 +62,11 @@ export function gatePipedIntoCommit(command) {
     const g = line.search(GATE);
     if (g < 0) continue;
     const rest = line.slice(g);
-    const pipe = rest.search(/[^|]\|[^|]/);
+    // the gate's own command ends at the first `;`, `&&` or `||`: a pipe of a LATER command (`git diff … | tail`) is not
+    // the gate's (a false refusal 2026-09-26 20:35)
+    const own = rest.search(/;|&&|\|\|/);
+    const segment = own < 0 ? rest : rest.slice(0, own);
+    const pipe = segment.search(/[^|]\|[^|]/);
     if (pipe < 0) continue;
     if (/&&\s*git\s+(commit|push)\b/.test(rest.slice(pipe))) return line.trim();
   }
