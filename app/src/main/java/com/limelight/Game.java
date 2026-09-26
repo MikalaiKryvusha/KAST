@@ -103,9 +103,6 @@ import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.graphics.Bitmap;
-import android.view.PixelCopy;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -341,7 +338,23 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private static final int KAST_LABEL_FADE_MS = 500;
     private boolean kastLabelShown;
 
+    // Hides the «connection lost» label with the fade and gives the label its earlier text back only when the fade ends —
+    // set before the fade, an empty earlier text collapsed the label at once (the second judge, finding 2). [NOT-TESTED]
+    private void kastFadeLabelRestoring(int visibility, final CharSequence earlierText) {
+        if (visibility == View.VISIBLE || notificationOverlayView.getVisibility() != View.VISIBLE) {
+            notificationOverlayView.setText(earlierText); // nothing is fading out — the text goes back at once
+            kastFadeLabel(visibility, null);
+            return;
+        }
+        kastFadeLabel(visibility, earlierText);
+    }
+
     private void kastFadeLabel(int visibility) {
+        kastFadeLabel(visibility, null);
+    }
+
+    // textAfterHide: the text the label takes once a fade-out has finished (null — keep the text)
+    private void kastFadeLabel(int visibility, final CharSequence textAfterHide) {
         final View label = notificationOverlayView;
         boolean show = visibility == View.VISIBLE;
         if (show == kastLabelShown && (!show || label.getVisibility() == View.VISIBLE)) {
@@ -361,6 +374,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 if (!kastLabelShown) {
                     label.setVisibility(visibility);
                     label.setAlpha(1f);
+                    if (textAfterHide != null) {
+                        notificationOverlayView.setText(textAfterHide);
+                    }
                 }
             }).start();
         }
@@ -406,112 +422,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
             decoderRenderer = kastCreateDecoderRenderer();
             decoderRenderer.setRenderTarget(surface);
+            decoderRenderer.kastSetKeepCodecOnCleanup(true); // step 10: takes the parked codec in setup(), parks it again on failure
             conn.setKastResumeAttempt(true);
             conn.start(new AndroidAudioRenderer(Game.this, prefConfig.playHostAudio), decoderRenderer, Game.this);
         }
     };
-
-    // KAST (plans/06, step 2): the last frame stays on screen through the resume. The surface keeps it by itself while no
-    // decoder is attached, but a new decoder taking the surface blanks it until its first frame — the black flash the owner
-    // saw on the Titan (testcases/reports/2026-09-26_F3_resume.md, run 2). So at the resume start the surface is copied
-    // (PixelCopy, API 24+) into a picture over the video, and the picture goes once the new decoder put out its first
-    // frame plus one more tick for it to reach the screen. [TESTED: 2026-09-26 18:56 · testcases/reports/2026-09-26_F3_resume.md, runs
-    // 3–4: last frame shown 2560x1440 at the resume start, hidden 0.5 s after outcome=resumed] [NOT-TESTED: the owner's eye on
-    // the black flash; API < 24 (no PixelCopy — the old flash stays)]
-    private static final int KAST_LAST_FRAME_POLL_MS = 50;
-    private static final int KAST_LAST_FRAME_SETTLE_MS = 50; // the picture on screen before the old decoder goes
-    private static final int KAST_LAST_FRAME_MAX_WAIT_MS = 10000; // no new frame by then — show the stream anyway
-    private ImageView kastLastFrameView;
-    private long kastLastFrameHideDeadlineMs;
-
-    // `then` runs once, after the picture is on screen — or at once when there is nothing to copy: the old decoder is
-    // released only after that (the owner saw a change at the 10th second while the release ran 90 ms ahead of the
-    // picture). [TESTED: 2026-09-26 19:49 · the same report, run 12, by the log: resume start → last frame shown → the first
-    // attempt planned after the release] [NOT-TESTED: the owner's eye on the 10th second]
-    private void kastShowLastFrame(final Runnable then) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            then.run();
-            return;
-        }
-        SurfaceView surfaceView = streamContainer.getSurfaceView();
-        if (surfaceView == null || surfaceView.getWidth() <= 0 || surfaceView.getHeight() <= 0
-                || !surfaceView.getHolder().getSurface().isValid()) {
-            Log.i(KAST_TAG, "last frame: no surface to copy");
-            then.run();
-            return;
-        }
-        // bugs/08: PixelCopy converts the video's transfer (BT.709) into the bitmap's colour space, while the screen shows SDR
-        // video as is — an sRGB copy came out washed out (the owner: «на 10-й секунде выцветает»; live 12 / 77 / 133 → copy
-        // 24 / 93 / 143, the BT.709 → sRGB transfer to within 2 levels). So an SDR stream is copied into a BT.709 bitmap —
-        // no transfer change — and then relabelled sRGB without conversion, which is how the screen treats the video. An HDR
-        // stream and API < 29 keep the sRGB copy. [TESTED: 2026-09-26 19:42 · testcases/reports/2026-09-26_F3_resume.md, run 11:
-        // snapshot = 1.000 × live + 0.00 in R, G and B; the owner: «выцветение ушло, да»] [NOT-TESTED: HDR, API < 29]
-        final boolean sameAsScreen = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-                && (decoderRenderer.getActiveVideoFormat() & MoonBridge.VIDEO_FORMAT_MASK_10BIT) == 0;
-        final Bitmap frame = sameAsScreen
-                ? Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888, true,
-                        android.graphics.ColorSpace.get(android.graphics.ColorSpace.Named.BT709))
-                : Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
-        try {
-            PixelCopy.request(surfaceView, frame, result -> {
-                if (result != PixelCopy.SUCCESS || !kastResuming) {
-                    Log.i(KAST_TAG, "last frame: copy result=" + result + " resuming=" + kastResuming);
-                    then.run();
-                    return;
-                }
-                if (sameAsScreen) {
-                    frame.setColorSpace(android.graphics.ColorSpace.get(android.graphics.ColorSpace.Named.SRGB));
-                }
-                if (kastLastFrameView == null) {
-                    kastLastFrameView = new ImageView(this);
-                    kastLastFrameView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    // a child of the stream container, over the video and under every overlay of the screen
-                    streamContainer.addView(kastLastFrameView, new FrameLayout.LayoutParams(
-                            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-                }
-                kastLastFrameView.animate().cancel();
-                kastLastFrameView.setAlpha(1f);
-                kastLastFrameView.setImageBitmap(frame);
-                kastLastFrameView.setVisibility(View.VISIBLE);
-                Log.i(KAST_TAG, "last frame shown " + frame.getWidth() + "x" + frame.getHeight() + (sameAsScreen ? " bt709" : " srgb"));
-                // the picture reaches the screen on the next window frame; the release waits three frames (60 Hz) for it
-                timerHandler.postDelayed(then, KAST_LAST_FRAME_SETTLE_MS);
-            }, timerHandler);
-        } catch (IllegalArgumentException e) {
-            Log.i(KAST_TAG, "last frame: copy refused " + e);
-            then.run();
-        }
-    }
-
-    // polls the new decoder after a resume; hides the picture one tick after its first frame is out
-    private final Runnable kastHideLastFrameWhenDrawn = new Runnable() {
-        @Override
-        public void run() {
-            if (kastLastFrameView == null || kastLastFrameView.getVisibility() != View.VISIBLE) {
-                return;
-            }
-            boolean drawn = decoderRenderer != null && decoderRenderer.getFramesOut() > 0;
-            if (drawn || SystemClock.elapsedRealtime() >= kastLastFrameHideDeadlineMs) {
-                timerHandler.postDelayed(() -> kastHideLastFrame(drawn ? "first new frame" : "no new frame in time"),
-                        KAST_LAST_FRAME_POLL_MS);
-                return;
-            }
-            timerHandler.postDelayed(this, KAST_LAST_FRAME_POLL_MS);
-        }
-    };
-
-    private void kastHideLastFrame(String why) {
-        if (kastLastFrameView == null || kastLastFrameView.getVisibility() != View.VISIBLE) {
-            return;
-        }
-        final ImageView view = kastLastFrameView;
-        view.animate().alpha(0f).setDuration(KAST_LABEL_FADE_MS).withEndAction(() -> {
-            view.setVisibility(View.GONE);
-            view.setImageBitmap(null);
-            view.setAlpha(1f);
-        }).start();
-        Log.i(KAST_TAG, "last frame hidden: " + why);
-    }
 
     // UI thread: the next attempt after the backoff delay
     private void kastScheduleAttempt() {
@@ -574,12 +489,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         connected = false;
         Log.i(KAST_TAG, "resume start cause=" + errorCode + " elapsed=" + elapsed);
         timerHandler.post(kastResumeTick);
-        // step 2: the picture of the last frame first, the release of the dead connection after it
-        kastShowLastFrame(() -> {
-            if (kastResuming) {
-                kastReleaseAndRetry();
-            }
-        });
+        // step 10: the decoder outlives the dead connection — its cleanup parks the codec, the last frame stays on the
+        // video layer (MediaCodecDecoderRenderer.kastKeptCodec); then the dead connection is released at once
+        decoderRenderer.kastSetKeepCodecOnCleanup(true);
+        kastReleaseAndRetry();
         return true;
     }
 
@@ -613,6 +526,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             connecting = false; // stopConnection must not stop it
             Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " left to finish on its own");
         }
+        // step 10: no more attempts — whatever codec the orphan holds is released the Moonlight way, and a parked one now
+        decoderRenderer.kastSetKeepCodecOnCleanup(false);
+        MediaCodecDecoderRenderer.kastReleaseKeptCodec("the resume ended");
     }
 
     // UI thread, first thing in stopConnection: the user left (or the activity stops) while resuming
@@ -624,7 +540,6 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         timerHandler.removeCallbacks(kastAttempt);
         timerHandler.removeCallbacks(kastResumeTick);
         kastOrphanAttempt();
-        kastHideLastFrame("cancelled");
         Log.i(KAST_TAG, "outcome=cancelled attempts=" + kastResumeAttempt);
         return true;
     }
@@ -2122,6 +2037,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         instance = null;
         timerHandler.removeCallbacksAndMessages(null);
         kastNetworkWatchStop(); // KAST (plans/06, step 3)
+        MediaCodecDecoderRenderer.kastReleaseKeptCodec("the stream screen closed"); // KAST (plans/06, step 10)
 
         if (prefConfig.enableFullExDisplay) handleDisplayRemoved();
 
@@ -4132,9 +4048,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         else if (silenceMs >= 0 && kastSilenceStartMs != 0) {
             Log.i(KAST_TAG, "outcome=held elapsed=" + (now - kastSilenceStartMs));
             kastSilenceStartMs = 0;
-            notificationOverlayView.setText(kastOverlayTextBeforeSilence);
             if (!isHidingOverlays) {
-                kastFadeLabel(requestedNotificationOverlayVisibility);
+                kastFadeLabelRestoring(requestedNotificationOverlayVisibility, kastOverlayTextBeforeSilence);
+            }
+            else {
+                notificationOverlayView.setText(kastOverlayTextBeforeSilence);
             }
         }
     }
@@ -4201,15 +4119,16 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     kastAttemptInFlight = false;
                     timerHandler.removeCallbacks(kastAttempt);
                     timerHandler.removeCallbacks(kastResumeTick);
-                    notificationOverlayView.setText(kastOverlayTextBeforeSilence);
                     if (!isHidingOverlays) {
-                        kastFadeLabel(requestedNotificationOverlayVisibility);
+                        kastFadeLabelRestoring(requestedNotificationOverlayVisibility, kastOverlayTextBeforeSilence);
+                    }
+                    else {
+                        notificationOverlayView.setText(kastOverlayTextBeforeSilence);
                     }
                     // judge S5: the host of the new session learns the controllers again (type, motion, touchpad, LED)
                     controllerHandler.kastReannounceControllers();
-                    // step 2: the snapshot of the last frame goes once the new decoder has drawn
-                    kastLastFrameHideDeadlineMs = SystemClock.elapsedRealtime() + KAST_LAST_FRAME_MAX_WAIT_MS;
-                    timerHandler.post(kastHideLastFrameWhenDrawn);
+                    // step 10: the stream is back on the same codec; from now on its stop releases it the Moonlight way
+                    decoderRenderer.kastSetKeepCodecOnCleanup(false);
                 }
 
                 connected = true;

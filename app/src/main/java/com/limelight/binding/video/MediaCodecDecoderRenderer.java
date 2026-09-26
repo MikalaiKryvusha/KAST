@@ -654,12 +654,93 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         }
     }
 
+    // KAST (plans/06_epic02_F3_resume.md, step 10; the owner, 2026-09-26: «не нужно разбирать соединение» · «какую ценность несет
+    // пересоздание декодера, а не использование предыдущего?»): the decoder outlives a reconnect. Moonlight binds a MediaCodec to
+    // one connection — created in setup(), released in cleanup() — because it never reconnects. On a resume the same stream
+    // comes back with the same parameters, so a new codec would only cost a black screen (a new codec re-attaches to the
+    // surface and blanks it until its first frame), setup time and risk. So while Game resumes, cleanup() flushes the codec
+    // and parks it here instead of releasing it; the surface keeps showing its last frame on the video layer. The next
+    // renderer's setup() takes it back when the codec, type, size, stream format and surface all match — no configure(), the
+    // surface is never re-attached — and otherwise releases it and builds its own. Game releases a parked codec when the
+    // resume ends without a new stream (give-up, the user left, onDestroy). One codec at most; guarded by the class lock.
+    // [TESTED: 2026-09-26 20:25 · testcases/reports/2026-09-26_F3_resume.md, run 15: decoder kept c2.mtk.hevc.decoder.lowlatency
+    // 1280x720 → attempts 1–3 failed → decoder reused → outcome=resumed] [NOT-TESTED: the owner's eye; a stream with other
+    // parameters (the release path); a codec that cannot be flushed]
+    private static MediaCodec kastKeptCodec;
+    private static String kastKeptCodecName;
+    private static int kastKeptWidth, kastKeptHeight, kastKeptVideoFormat;
+    private static Surface kastKeptSurface;
+    private static MediaFormat kastKeptFormat;
+    private volatile boolean kastKeepCodecOnCleanup;
+    private String kastCodecName; // the name of the codec this renderer configured or took over
+
+    public void kastSetKeepCodecOnCleanup(boolean keep) {
+        kastKeepCodecOnCleanup = keep;
+    }
+
+    public static void kastReleaseKeptCodec(String why) {
+        MediaCodec codec;
+        synchronized (MediaCodecDecoderRenderer.class) {
+            codec = kastKeptCodec;
+            kastKeptCodec = null;
+            kastKeptSurface = null;
+            kastKeptFormat = null;
+        }
+        if (codec != null) {
+            try {
+                codec.release();
+            } catch (RuntimeException ignored) {
+                // already released or broken — nothing to give back
+            }
+            android.util.Log.i("KastReconnect", "decoder released: " + why);
+        }
+    }
+
+    // setup() side: the parked codec if it fits this stream, else null (a codec that does not fit is released)
+    private MediaCodec kastTakeKeptCodec(String codecName) {
+        MediaCodec codec = null;
+        boolean fits;
+        synchronized (MediaCodecDecoderRenderer.class) {
+            if (kastKeptCodec == null) {
+                return null;
+            }
+            fits = codecName.equals(kastKeptCodecName) && initialWidth == kastKeptWidth && initialHeight == kastKeptHeight
+                    && videoFormat == kastKeptVideoFormat && renderTarget == kastKeptSurface;
+            if (fits) {
+                codec = kastKeptCodec;
+                configuredFormat = kastKeptFormat;
+                kastKeptCodec = null;
+                kastKeptSurface = null;
+                kastKeptFormat = null;
+            }
+        }
+        if (!fits) {
+            kastReleaseKeptCodec("the new stream differs (codec, size, format or surface)");
+            return null;
+        }
+        return codec;
+    }
+
     private boolean tryConfigureDecoder(MediaCodecInfo selectedDecoderInfo, MediaFormat format, boolean throwOnCodecError) {
+        // KAST (step 10): a codec parked by the previous connection of this resume, when it fits
+        MediaCodec kept = kastTakeKeptCodec(selectedDecoderInfo.getName());
+        if (kept != null) {
+            videoDecoder = kept;
+            kastCodecName = selectedDecoderInfo.getName();
+            submittedCsd = false; // the flushed codec needs the new stream's parameter sets again
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                inputFormat = videoDecoder.getInputFormat();
+            }
+            android.util.Log.i("KastReconnect", "decoder reused " + kastCodecName + " " + initialWidth + "x" + initialHeight);
+            return true;
+        }
+
         boolean configured = false;
         try {
             videoDecoder = MediaCodec.createByCodecName(selectedDecoderInfo.getName());
             configureAndStartDecoder(format);
             LimeLog.info("Using codec " + selectedDecoderInfo.getName() + " for hardware decoding " + format.getString(MediaFormat.KEY_MIME));
+            kastCodecName = selectedDecoderInfo.getName(); // KAST (step 10)
             configured = true;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -1641,8 +1722,33 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         }
     }
 
+    // Called by the core after stop() (the renderer threads have ended): gives the codec back to the system — or, while
+    // Game resumes (KAST, step 10), parks it with its last frame still on the surface for the next connection.
     @Override
     public void cleanup() {
+        if (kastKeepCodecOnCleanup && videoDecoder != null && kastCodecName != null) {
+            try {
+                videoDecoder.flush(); // drop the dead stream's pending buffers; the last rendered frame stays on the surface
+                synchronized (MediaCodecDecoderRenderer.class) {
+                    if (kastKeptCodec != null && kastKeptCodec != videoDecoder) {
+                        kastKeptCodec.release(); // cannot happen with one stream at a time; never leak one
+                    }
+                    kastKeptCodec = videoDecoder;
+                    kastKeptCodecName = kastCodecName;
+                    kastKeptWidth = initialWidth;
+                    kastKeptHeight = initialHeight;
+                    kastKeptVideoFormat = videoFormat;
+                    kastKeptSurface = renderTarget;
+                    kastKeptFormat = configuredFormat;
+                }
+                android.util.Log.i("KastReconnect", "decoder kept " + kastCodecName + " " + initialWidth + "x" + initialHeight);
+                videoDecoder = null;
+                return;
+            } catch (RuntimeException e) {
+                android.util.Log.i("KastReconnect", "decoder could not be kept: " + e);
+                // fall through: release it the Moonlight way
+            }
+        }
         videoDecoder.release();
     }
 
@@ -2233,13 +2339,6 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
             return 0;
         }
         return (int)(globalVideoStats.totalTimeMs / globalVideoStats.totalFramesReceived);
-    }
-
-    // KAST (plans/06_epic02_F3_resume.md, step 2): frames that came out of the decoder so far — Game hides the snapshot of
-    // the previous connection's last frame once the first frame of a resumed connection is out. [TESTED: 2026-09-26 18:56 ·
-    // testcases/reports/2026-09-26_F3_resume.md, runs 3–4: last frame hidden: first new frame]
-    public int getFramesOut() {
-        return numFramesOut;
     }
 
     public int getAverageDecoderLatency() {
