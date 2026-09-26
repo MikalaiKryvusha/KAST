@@ -3,10 +3,57 @@
 > **Создан:** 2026-09-26 (агент, по слову владельца: логотип — два узла; слева ПК на Windows с Vibepollo и антенной,
 > которая шлёт сигналы в небо; справа антенна и Android-устройство с KAST, которое принимает радиоволны с неба; KAST
 > дружит с Vibepollo; Windows передаётся на Android-клиент по беспроводным сетям почти бесшовно) · **Родитель:** слово
-> владельца в чате · **Статус:** промпт готов; картинку владелец запрашивает у ChatGPT · **Вовне:** готовый логотип —
-> в эту папку (`assets/logo/`), затем в шапку `README.md`
+> владельца в чате · **Статус:** версия 1 — картинка получена 2026-09-26, сцена принята с правками, иконка отклонена
+> владельцем («нужна сильная абстракция про стрим»); версия 2 — промпты ниже · **Вовне:** готовый логотип — в эту
+> папку (`assets/logo/`), затем в шапку `README.md`
 
-Промпт ниже вставляется в ChatGPT целиком. Эмблема Windows и робот Android описаны узнаваемыми формами без точных
+## Версия 2 (2026-09-26) — после первой картинки
+
+Разбор первой картинки:
+1. Сцена читается слева направо (ПК → дуга летящих кадров → планшет), палитра и плоский стиль совпали с заказом.
+2. Шахматный «прозрачный» фон нарисован в самой картинке, по углам — разводы вроде водяных знаков.
+3. На экране ПК стоит точный логотип Windows — товарный знак Microsoft.
+4. Надпись «KAST» стоит дважды: большая надпись и табличка под планшетом (ошибка промпта версии 1).
+5. В букве «A» большой надписи — белый обломок у основания.
+6. Иконка из двух антенн с дугами при 48 px читается как значок Wi-Fi или магнит; стрим в ней не виден
+   (слово владельца: «нужна сильная абстракция про стрим»).
+
+Промпт 2A — иконка приложения (вставляется в ChatGPT целиком):
+
+```text
+Design a square app icon for KAST — an Android client that streams games and the desktop from a PC to a
+phone or tablet and keeps the stream alive through weak mobile internet. The icon must say "stream" at a
+glance, even at 48 x 48 px.
+
+Direction A, "a screen assembled from a stream": one rounded landscape screen (a tablet) fills the right
+two-thirds; inside it sits a bold play triangle. From the left, a short trail of 3-4 small squares (fragments
+of a video frame) flies into the screen, each square larger and brighter than the one before — the picture
+is being assembled from the stream.
+
+Direction B, "K monogram": a bold geometric letter K whose right half is a play triangle; behind the K a
+short motion trail of 3-4 small squares.
+
+For both directions: flat vector, three colors at most — deep navy background, bright cyan-teal for the
+stream, warm amber for one accent; thick shapes and no thin lines; no text; no Windows or Android logos;
+no antennas and no Wi-Fi symbol; no glassmorphism and no Liquid Glass; no gradients except one soft glow.
+A rounded-square icon on a solid navy background, no painted checkerboard. Show 4 variants per direction,
+and next to each big version render the same icon at 48 x 48 px.
+```
+
+Промпт 2B — правка горизонтальной сцены (вставляется вместе с картинкой версии 1):
+
+```text
+Keep this horizontal scene and its style, with these fixes:
+1) replace the Windows logo on the PC screen with an abstract desktop — a few simple window rectangles;
+2) remove the small "KAST" nameplate under the tablet — the big wordmark already names the app;
+3) redraw the wordmark "KAST" with clean letterforms — the letter A has a white glitch at its base;
+4) make the background truly transparent — no painted checkerboard, no watermark artifacts;
+5) place the chosen app icon to the left of the wordmark "KAST".
+```
+
+## Версия 1 (2026-09-26)
+
+Промпт ниже вставлялся в ChatGPT целиком. Эмблема Windows и робот Android описаны узнаваемыми формами без точных
 товарных знаков: логотип публичного проекта не должен копировать чужие знаки.
 
 ---
