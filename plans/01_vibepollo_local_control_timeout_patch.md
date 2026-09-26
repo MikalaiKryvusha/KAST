@@ -74,7 +74,8 @@ flowchart TD
         копия из `C:\Program Files\Apollo`; сами DLL мы не подменяем;
       - в оболочке MSYS2 пусты `APPDATA`, `LOCALAPPDATA`, `USERPROFILE` — сборка веб-админки (`npm ci`) без них падает
         молча, с кодом 1 и без текста; экспортировать их в той же команде (Windows-пути);
-      - сборка: `timeout 560 ninja -C build-kast2 -j 14 sunshine` кусками — Ninja продолжает с места остановки.
+      - сборка: `timeout 560 ninja -C build-kast2 -j 4 sunshine` кусками — Ninja продолжает с места остановки; при `-j 14`
+        компилятор упал на `cc1plus.exe: out of memory` (2026-09-26 10:34, тяжёлый C++ с Boost).
 - [ ] 5. Владелец ставит официальный `VibepolloSetup-v2.0.0-beta.3.exe` (окно UAC — его клик); проверка критерия 1.
 - [ ] 6. Подмена по схеме, только без активной сессии; копия официального файла —
       `C:\Program Files\Apollo\sunshine.exe.official-2.0.0-beta.3`.
