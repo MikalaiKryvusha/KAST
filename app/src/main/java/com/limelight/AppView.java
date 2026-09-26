@@ -316,6 +316,7 @@ public class AppView extends AppCompatActivity implements AdapterFragmentCallbac
         // Setup the profiles button
         findViewById(R.id.profilesButton)
             .setOnClickListener(v -> startActivity(new Intent(this, ProfilesActivity.class)));
+        UiHelper.keepAboveNavigationBar(findViewById(R.id.profilesButton)); // KAST bugs/01
 
         showHiddenApps = getIntent().getBooleanExtra(SHOW_HIDDEN_APPS_EXTRA, false);
         uuidString = getIntent().getStringExtra(UUID_EXTRA);

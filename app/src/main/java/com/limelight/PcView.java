@@ -158,6 +158,7 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         ImageButton addComputerButton = findViewById(R.id.manuallyAddPc);
         ImageButton helpButton = findViewById(R.id.helpButton);
         ExtendedFloatingActionButton profilesButton = findViewById(R.id.profilesButton);
+        UiHelper.keepAboveNavigationBar(profilesButton); // KAST bugs/01
 
         settingsButton.setOnClickListener(new OnClickListener() {
             @Override

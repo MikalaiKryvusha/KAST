@@ -41,6 +41,7 @@ public class ProfilesActivity extends AppCompatActivity implements ProfilesManag
             Intent intent = new Intent(this, EditProfileActivity.class);
             startActivity(intent);
         });
+        UiHelper.keepAboveNavigationBar(fab); // KAST bugs/01 — the same bottom-pinned button class
 
         // Register for profile changes
         ProfilesManager.getInstance().addListener(this);

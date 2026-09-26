@@ -17,10 +17,14 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.limelight.AppView;
 import com.limelight.Game;
@@ -177,6 +181,32 @@ public class UiHelper {
 
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
+    }
+
+    /**
+     * KAST (bugs/01): keeps a view pinned to the bottom edge ABOVE the navigation bar.
+     * The list screens draw under the system bars and pad only by the TAPPABLE insets (notifyNewRootView above),
+     * which are 0 in gesture navigation — so a bottom-pinned button (the profiles FAB) slid under the bar and looked
+     * cut off. This adds the navigation-bar inset to the view's own bottom margin from the layout; the list itself
+     * still scrolls under the bar as before.
+     * [TESTED: 2026-09-26 · Titan 1, Android 16, gesture navigation: uiautomator bounds — host list profilesButton
+     *  before [1384,2344][1552,2512], after [1384,2272][1552,2440]; app list profilesButton and profiles addProfileFab
+     *  after [..][1552,2440] (their "before" not measured separately); navigationBarBackground [0,2488]; WebP seen — bugs/01]
+     */
+    public static void keepAboveNavigationBar(View view) {
+        if (view == null || !(view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) {
+            return;
+        }
+        final int layoutBottomMargin = ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin;
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            int navigationBarBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            if (params.bottomMargin != layoutBottomMargin + navigationBarBottom) {
+                params.bottomMargin = layoutBottomMargin + navigationBarBottom;
+                v.setLayoutParams(params);
+            }
+            return insets;
+        });
     }
 
     public static void showDecoderCrashDialog(Activity activity) {
