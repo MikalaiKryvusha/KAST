@@ -167,10 +167,18 @@ public class AppGridAdapter extends GenericGridAdapter<AppView.AppObject> {
         allApps.clear();
     }
 
+    // Fills one app tile of the host's app list (GenericGridAdapter.getView calls it for every visible tile): the cover
+    // picture the host sends for the app (the app's name is usually drawn INSIDE that picture), the play overlay and the
+    // darkening mask while the app runs on the host, half transparency for an app the user hid.
     @Override
     public void populateView(View parentView, ImageView imgView, RelativeLayout gridMask, ProgressBar prgView, TextView txtView, ImageView overlayView, AppView.AppObject obj) {
         // Let the cached asset loader handle it
         loader.populateImageView(obj.app, imgView, txtView);
+
+        // KAST (the owner, 2026-09-26: UI automation by locators in the view tree, not by screenshots): a tile is a picture
+        // with no text, so neither a locator nor TalkBack could name it; its description is the app's name («Desktop»).
+        // [NOT-TESTED]
+        parentView.setContentDescription(obj.app.getAppName());
 
         if (obj.isRunning) {
             // Show the play button overlay
