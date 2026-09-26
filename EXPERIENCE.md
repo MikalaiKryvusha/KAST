@@ -56,7 +56,7 @@
 > <!-- classes: question-already-answered, guard-not-proven-against-threat, shown-as-link,
 >      claim-before-evidence, owner-decision-not-applied, text-in-agents-world,
 >      etalon-from-dirty-tree, shell-lied, escaping-layer, twins-missed,
->      field-dropped-in-rebuild -->
+>      field-dropped-in-rebuild, line-endings -->
 >
 > | Class slug | The failure it names |
 > |---|---|
@@ -71,6 +71,7 @@
 > | `escaping-layer` | one escaping level lost between the tool and the file |
 > | `twins-missed` | one of two layers/copies moved and the twin stayed behind |
 > | `field-dropped-in-rebuild` | a field or section silently lost when an artifact was regenerated |
+> | `line-endings` | a shell rewrite changed the line endings of a tracked file, so the whole file shows as changed |
 >
 > The `#tags` are **trigger-tags**: before a task, grep by the task's tags and QUOTE the relevant
 > lessons in your report (id + one line) — or state "no relevant lessons". An unquoted recall is
@@ -124,10 +125,21 @@ Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
 matched nothing (caught by grepping the line back). Two strikes → candidate guard: a PreToolUse hook that
 refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` (proposal pending, not wired).
 none-cheap: the guard is a PreToolUse hook in the Claude Code settings, and the agent may not change its own settings (auto-mode classifier: Self-Modification, 2026-09-26) — wiring it is the owner's call; until then the Trigger line + read-back is the defence
+**Recurred (4th):** 2026-09-26 ≈16:10 — a `node - <<'EOF'` script with `'$env:…; python D:\\Android\\…'` arrived as
+`D:\Android\…` and died on `\A` (Invalid Unicode escape); caught by the error, rewritten through the Write tool.
+**Guard written:** `tools/hooks/no-backslash-heredoc.mjs` (the logic of the owner's KUMM guard), self-test
+`node tools/test-hook-guards.mjs` 14/14, proven red on a pass-all mutant (7/14, exit 1). Wiring: the owner runs
+`F:\kast-maintenance\kast_wire_hooks.cmd` (plan 05, step 2); after the session restart the entry is marked as guarded by that hook.
 
-### EXP-0001 · 2026-01-01 · ✅ · #example #meta
-**Context:** first task after KAIF was deployed into this project (example entry — replace with real ones).
-**Tried / did:** wrote the first real lesson here in the canonical format.
-**Result:** ✅ — the experience log is live and greppable.
-**Lesson:** capture lessons at the level of *approach* (what worked / what to avoid), not defect detail
-(that lives in `bugs/`); one short entry beats a long story.   → link: (none)
+### EXP-0005 · 2026-09-26 · ❌→✅ · #shell #line-endings #windows
+class: line-endings
+**Context:** flipping one comment marker in `StreamSettings.java` (an upstream file stored with CRLF in git) by `sed -i`.
+**Tried / did:** `sed -i '778s/\[NOT-TESTED\]/[TESTED …]/' StreamSettings.java` from Git Bash.
+**Result:** ❌ `git diff --stat` showed the whole file rewritten (2213 lines): `sed -i` saved it with LF, while the blob
+has CRLF. ✅ restored with node — every `\r?\n` → CRLF — and the diff fell back to the real 107 lines.
+**Lesson:** after any shell rewrite of a file, the diff size is the check: a whole-file diff means the line endings moved,
+not the text; edit upstream files with the Edit tool, which keeps the file's endings.
+**Repro:** `git diff --stat <file>` right after the edit — the count must match the lines you touched.
+**Trigger:** `sed -i` / `awk > file` / a node rewrite on a tracked file → `git diff --stat <file>` before anything else.
+**Not for:** files the agent created itself with LF (`core.autocrlf=true` normalises them on add).
+none-cheap: a hook sees the command, not the endings of the file it will touch; the one-command check in Trigger catches it before a commit
