@@ -68,3 +68,6 @@ AUTHOR_STYLOMETRY.md
 
 # logo: 4x upscales are derived working files (20-26 MB each) — kept locally, not in git
 assets/logo/*_upscayl_*
+
+# Claude Code personal permissions of this machine (never public)
+.claude/settings.local.json
