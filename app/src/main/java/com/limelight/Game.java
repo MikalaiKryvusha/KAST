@@ -249,7 +249,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // last frame and the outage label; the dead connection is stopped and the SAME NvConnection is started again —
     // NvConnection.startApp picks /resume, since the host keeps the app running — with a fresh decoder
     // (kastCreateDecoderRenderer). Attempts follow KastReconnectPolicy.retryDelayMs or start at once on a network event;
-    // the grace clock runs from the start of the silence, and past it the old end dialog shows (outcome=gave-up). The
+    // the grace clock runs from the start of the silence, and past it the reason dialog shows (outcome=gave-up, step 11). The
     // controller handler is NOT stopped on this path: its stop() is final. Log tag KastReconnect: "resume start",
     // "attempt=N reason=", "outcome=resumed|gave-up|cancelled". [TESTED: 2026-09-26 18:46 · testcases/reports/2026-09-26_F3_resume.md,
     // runs 2–4: K2 — the transport died at 10 s, attempts failed while the host was unreachable, the stream came back 3.7 / 3.8 /
@@ -257,7 +257,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // on a network event]
     private static final int KAST_RESUME_TICK_MS = 500;
     private volatile boolean kastResuming;         // a transport death is being resumed (read on NvConnection's thread too)
-    private boolean kastGaveUp;           // the resume ran out of time: the next termination takes the old path
+    private boolean kastGaveUp;           // the resume ran out of time (or the end came past it): the end path shows the reason dialog
     private volatile boolean kastAttemptInFlight;  // conn.start of an attempt runs and has not reported yet; true with
                                                    // kastResuming false = an attempt that outlived its resume (see kastOrphanAttempt)
     private int kastResumeAttempt;        // attempts started in this resume
@@ -3899,9 +3899,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (kastResuming || kastAttemptInFlight) {
             Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode +
                     (kastResuming ? "" : " (after the resume ended — dropped)"));
-            // step 11: a refusal is an answer status from the host — HTTP /resume (NvConnection, HostHttpResponseException)
-            // or RTSP, ≥ 400; the core also reports errno values (110 ETIMEDOUT, 111 ECONNREFUSED) as positive codes, and
-            // those are «the host did not answer», not a refusal (the third judge, finding 2)
+            // step 11: a refusal is an answer status from the host that reaches here — an HTTP code rethrown by NvConnection
+            // (HostHttpResponseException) or an RTSP status, ≥ 400; the core also reports errno values (110 ETIMEDOUT, 111
+            // ECONNREFUSED) as positive codes, and those are «the host did not answer» (the third judge, finding 2). Not covered:
+            // NvConnection handles 470, 525 and resume="0" itself and reports code 0 — they read as «unreachable» (the fourth
+            // judge, S1; next session)
             if (errorCode >= 400) {
                 kastRefusedCode = errorCode;
             }
