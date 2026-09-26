@@ -71,3 +71,7 @@ assets/logo/*_upscayl_*
 
 # Claude Code personal permissions of this machine (never public)
 .claude/settings.local.json
+
+# local secrets (passwords, tokens) — never public
+.env
+.env.*
