@@ -64,4 +64,23 @@ public final class KastReconnectPolicy {
     public static boolean withinGrace(long silenceElapsedMs, int graceSeconds) {
         return silenceElapsedMs < graceSeconds * 1000L;
     }
+
+    /** The first retry delay and its growth (plan 06, step 3; research 02, A-4.1: gRPC backoff 1 s × 1.6). */
+    static final int RETRY_BASE_MS = 1000;
+    static final double RETRY_MULTIPLIER = 1.6;
+    /** ±20 % jitter (research 02, A-4.1 and A-4.2: retries without jitter hit the host in lockstep). */
+    static final double RETRY_JITTER = 0.2;
+
+    /**
+     * The delay before resume attempt {@code attempt} (1-based) when no network event came first: 1 s × 1.6^(attempt−1)
+     * with ±20 % jitter, never longer than the user's retry interval (the option «Интервал повторных попыток», step 5).
+     * {@code random01} is a uniform number in [0, 1) — passed in, so the rule stays a pure function for the tests.
+     * A network event (onAvailable) starts an attempt at once and bypasses this delay (Game).
+     */
+    public static long retryDelayMs(int attempt, int retryIntervalSeconds, double random01) {
+        double base = RETRY_BASE_MS * Math.pow(RETRY_MULTIPLIER, Math.max(0, attempt - 1));
+        double jittered = base * (1 - RETRY_JITTER + 2 * RETRY_JITTER * random01);
+        long cap = Math.max(1, retryIntervalSeconds) * 1000L;
+        return Math.min(cap, Math.round(jittered));
+    }
 }

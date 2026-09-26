@@ -57,6 +57,25 @@ public class KastReconnectPolicyTest {
     }
 
     @Test
+    public void retryDelayGrowsByOnePointSixUntilTheUserInterval() {
+        // random01 = 0.5 → no jitter: 1000, 1600, 2560, then the 3 s interval caps it
+        assertEquals(1000, KastReconnectPolicy.retryDelayMs(1, 3, 0.5));
+        assertEquals(1600, KastReconnectPolicy.retryDelayMs(2, 3, 0.5));
+        assertEquals(2560, KastReconnectPolicy.retryDelayMs(3, 3, 0.5));
+        assertEquals(3000, KastReconnectPolicy.retryDelayMs(4, 3, 0.5));
+        assertEquals(3000, KastReconnectPolicy.retryDelayMs(40, 3, 0.5));   // no overflow far out
+        assertEquals(10486, KastReconnectPolicy.retryDelayMs(6, 30, 0.5));  // a long interval lets it grow: 1.6^5 s
+    }
+
+    @Test
+    public void retryDelayJitterIsTwentyPercentEachWay() {
+        assertEquals(800, KastReconnectPolicy.retryDelayMs(1, 3, 0.0));
+        assertEquals(1200, KastReconnectPolicy.retryDelayMs(1, 3, 0.9999999));
+        assertEquals(1000, KastReconnectPolicy.retryDelayMs(1, 1, 0.9999999)); // the cap wins over the jitter
+        assertEquals(1000, KastReconnectPolicy.retryDelayMs(1, 0, 0.5));       // a broken interval still gives 1 s
+    }
+
+    @Test
     public void withinGraceIsStrictlyBelowTheWait() {
         assertTrue(KastReconnectPolicy.withinGrace(10110, 60));   // F3 instrument run: ended at 10.11 s of a 60 s wait
         assertFalse(KastReconnectPolicy.withinGrace(60000, 60));

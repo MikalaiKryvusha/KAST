@@ -63,6 +63,10 @@ public class PreferenceConfiguration {
     // crash getInt). Honoured only below the grace period (Game.kastEnetTimeoutMs). A client ENet timeout shorter than the grace period makes the transport die
     // inside the grace window, so the F3 resume path can be driven on the owner's live host. 0 = use the grace period. [TESTED: 2026-09-26 17:47 · testcases/reports/2026-09-26_F3_instrument.md: value 10 with grace 60 → policy grace=60000 enet=10000, a 20 s loss ended at 10.11 s]
     private static final String DEBUG_ENET_TIMEOUT_PREF_STRING = "kast_debug_enet_timeout_seconds";
+    // KAST (plans/06_epic02_F3_resume.md, step 5): the retry interval of the resume loop in seconds — the longest pause
+    // between two resume attempts when no network event comes first (KastReconnectPolicy.retryDelayMs). 1–30 s, default 3 s.
+    // [NOT-TESTED]
+    private static final String RECONNECT_RETRY_PREF_STRING = "seekbar_reconnect_retry_seconds";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";
     private static final String SMALL_ICONS_PREF_STRING = "checkbox_small_icon_mode";
@@ -161,6 +165,7 @@ public class PreferenceConfiguration {
     private static final boolean DEFAULT_HOST_AUDIO = false;
     private static final int DEFAULT_DEADZONE = 5;
     public static final int DEFAULT_RECONNECT_GRACE_SECONDS = 60; // KAST: the owner's 60 s (GOAL.md)
+    public static final int DEFAULT_RECONNECT_RETRY_SECONDS = 3; // KAST: plan 06, step 5 (research 02, A-4.4)
     private static final int DEFAULT_OPACITY = 90;
     public static final String DEFAULT_LANGUAGE = "default";
     private static final boolean DEFAULT_MULTI_CONTROLLER = true;
@@ -251,6 +256,7 @@ public class PreferenceConfiguration {
     public int deadzonePercentage;
     public int reconnectGraceSeconds; // KAST
     public int debugEnetTimeoutSeconds; // KAST F3 step 6: debug builds only; 0 = the grace period
+    public int reconnectRetrySeconds; // KAST F3 step 5
     public int oscOpacity;
     public int oscKeyboardOpacity;
     public int onscreenKeyboardHeight;
@@ -887,6 +893,7 @@ private static int getFramePacingValue(Context context) {
 
         config.reconnectGraceSeconds = prefs.getInt(RECONNECT_GRACE_PREF_STRING, DEFAULT_RECONNECT_GRACE_SECONDS);
         config.debugEnetTimeoutSeconds = com.limelight.BuildConfig.DEBUG ? prefs.getInt(DEBUG_ENET_TIMEOUT_PREF_STRING, 0) : 0;
+        config.reconnectRetrySeconds = prefs.getInt(RECONNECT_RETRY_PREF_STRING, DEFAULT_RECONNECT_RETRY_SECONDS);
 
         config.oscOpacity = prefs.getInt(OSC_OPACITY_PREF_STRING, DEFAULT_OPACITY);
 

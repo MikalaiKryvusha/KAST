@@ -244,10 +244,232 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         return KastReconnectPolicy.enetTimeoutMs(prefConfig.reconnectGraceSeconds, prefConfig.debugEnetTimeoutSeconds);
     }
 
-    // KAST (plans/06, step 3, first part — log only): the phone's default-network events. F3 will start a resume attempt
-    // on "net available" instead of waiting for the backoff; today the lines only show the order of events in a run.
-    // Callbacks arrive on a binder thread and only log. [TESTED: 2026-09-26 18:20 · testcases/reports/2026-09-26_F3_instrument.md, run 4: net watch on → net available →
-    // net watch off on leaving the stream] [NOT-TESTED: net lost — needs a network change on the phone itself]
+    // KAST (plans/06_epic02_F3_resume.md, steps 3–4): the resume loop. When the transport died inside the grace period
+    // (KastReconnectPolicy.endClass → transport, which needs a silence before the end), the stream screen stays with the
+    // last frame and the outage label; the dead connection is stopped and the SAME NvConnection is started again —
+    // NvConnection.startApp picks /resume, since the host keeps the app running — with a fresh decoder
+    // (kastCreateDecoderRenderer). Attempts follow KastReconnectPolicy.retryDelayMs or start at once on a network event;
+    // the grace clock runs from the start of the silence, and past it the old end dialog shows (outcome=gave-up). The
+    // controller handler is NOT stopped on this path: its stop() is final. Log tag KastReconnect: "resume start",
+    // "attempt=N reason=", "outcome=resumed|gave-up|cancelled". [TESTED: 2026-09-26 18:46 · testcases/reports/2026-09-26_F3_resume.md,
+    // run 2: K2 — the transport died at 10 s, attempts 1–2 failed while the host was unreachable, attempt 3 resumed 2.7 s after
+    // the network came back] [NOT-TESTED: gave-up (K3), cancel by the user, an attempt on a network event; a black frame at the
+    // moment of resume — plan 06, step 2]
+    private static final int KAST_RESUME_TICK_MS = 500;
+    private boolean kastResuming;         // a transport death is being resumed
+    private boolean kastGaveUp;           // the resume ran out of time: the next termination takes the old path
+    private boolean kastAttemptInFlight;  // conn.start of an attempt runs and has not reported yet
+    private int kastResumeAttempt;        // attempts started in this resume
+    private int kastResumeCause;          // the termination code that started the resume
+    private String kastNextAttemptReason = "backoff";
+    private final java.util.Random kastRandom = new java.util.Random();
+    // the decoder's inputs, kept from onCreate for kastCreateDecoderRenderer
+    private boolean kastDecoderMetered;
+    private boolean kastDecoderHdr;
+    private boolean kastDecoderInvertResolution;
+    private String kastDecoderGlRenderer;
+
+    // KAST (plans/06, step 4): builds the video decoder — once in onCreate and anew for every resume attempt, since a
+    // stopped MediaCodecDecoderRenderer cannot start again (its "stopping" flag is never cleared). The body is
+    // Artemis's onCreate code, moved as is.
+    private MediaCodecDecoderRenderer kastCreateDecoderRenderer() {
+        MediaCodecDecoderRenderer renderer = new MediaCodecDecoderRenderer(
+                this,
+                prefConfig,
+                new CrashListener() {
+                    @Override
+                    public void notifyCrash(Exception e) {
+                        // The MediaCodec instance is going down due to a crash
+                        // let's tell the user something when they open the app again
+
+                        // We must use commit because the app will crash when we return from this function
+                        tombstonePrefs.edit().putInt("CrashCount", tombstonePrefs.getInt("CrashCount", 0) + 1).commit();
+                        reportedCrash = true;
+                    }
+                },
+                tombstonePrefs.getInt("CrashCount", 0),
+                kastDecoderMetered,
+                kastDecoderHdr,
+                kastDecoderInvertResolution,
+                kastDecoderGlRenderer,
+                this);
+
+// --- Force tight thresholds (prefConfig.forceTightThresholds) ---
+        try {
+            boolean forceTight = false;
+            if (prefConfig != null) {
+                try {
+                    java.lang.reflect.Field f = prefConfig.getClass().getDeclaredField("forceTightThresholds");
+                    f.setAccessible(true);
+                    Object v = f.get(prefConfig);
+                    if (v instanceof Boolean) forceTight = (Boolean) v;
+                } catch (Throwable ignored) {}
+            }
+            try { renderer.setForceTightThresholds(forceTight); } catch (Throwable ignored) {}
+            if (forceTight) {
+                LimeLog.info("ForceTightThresholds enabled: using vsync-based thresholds on all devices");
+            }
+        } catch (Throwable ignored) {}
+
+// --- latency profile selection ---
+        try {
+            if (prefConfig != null && prefConfig.preferLowerDelays) {
+                // Intermediate: more responsive than Balanced but not 0 µs
+                renderer.setPreferLowerDelays(true);
+                renderer.setPreferLowerDelaysTimeoutUs(500);  // 0.5 ms
+                prefConfig.framePacing = PreferenceConfiguration.FRAME_PACING_BALANCED;
+                LimeLog.info("PreferLowerDelays: preferLowerDelays=true, timeout=500us, pacing=BALANCED");
+            } else {
+                // Balanced default
+                renderer.setPreferLowerDelays(false);
+                renderer.setPreferLowerDelaysTimeoutUs(2000); // 2 ms
+                prefConfig.framePacing = PreferenceConfiguration.FRAME_PACING_BALANCED;
+                LimeLog.info("Balanced: preferLowerDelays=false, timeout=2000us, pacing=BALANCED");
+            }
+        } catch (Throwable ignored) {}
+        return renderer;
+    }
+
+    // KAST: the grace clock and the label while resuming; past the grace period — the old end
+    private final Runnable kastResumeTick = new Runnable() {
+        @Override
+        public void run() {
+            if (!kastResuming) {
+                return;
+            }
+            long elapsed = SystemClock.elapsedRealtime() - kastSilenceStartMs;
+            if (!KastReconnectPolicy.withinGrace(elapsed, prefConfig.reconnectGraceSeconds)) {
+                kastGiveUp();
+                return;
+            }
+            notificationOverlayView.setText(getString(R.string.kast_connection_lost_waiting, (int) (elapsed / 1000)));
+            if (!isHidingOverlays) {
+                notificationOverlayView.setVisibility(View.VISIBLE);
+            }
+            timerHandler.postDelayed(this, KAST_RESUME_TICK_MS);
+        }
+    };
+
+    // KAST: one resume attempt — a fresh decoder on the same surface, the same NvConnection started again
+    private final Runnable kastAttempt = new Runnable() {
+        @Override
+        public void run() {
+            if (!kastResuming || kastAttemptInFlight) {
+                return;
+            }
+            Surface surface = streamContainer.getSurface();
+            if (surface == null || !surface.isValid()) {
+                Log.i(KAST_TAG, "attempt impossible: no surface");
+                kastGiveUp();
+                return;
+            }
+            kastResumeAttempt++;
+            kastAttemptInFlight = true;
+            connecting = true; // stopConnection() stops this attempt if the user leaves
+            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " reason=" + kastNextAttemptReason +
+                    " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
+            decoderRenderer = kastCreateDecoderRenderer();
+            decoderRenderer.setRenderTarget(surface);
+            conn.start(new AndroidAudioRenderer(Game.this, prefConfig.playHostAudio), decoderRenderer, Game.this);
+        }
+    };
+
+    // UI thread: the next attempt after the backoff delay
+    private void kastScheduleAttempt() {
+        long delay = KastReconnectPolicy.retryDelayMs(kastResumeAttempt + 1, prefConfig.reconnectRetrySeconds, kastRandom.nextDouble());
+        kastNextAttemptReason = "backoff";
+        timerHandler.removeCallbacks(kastAttempt);
+        timerHandler.postDelayed(kastAttempt, delay);
+        Log.i(KAST_TAG, "next attempt in " + delay + " ms");
+    }
+
+    // UI thread: the phone's network came back — try now instead of waiting for the backoff
+    private void kastOnNetworkAvailable() {
+        if (!kastResuming || kastAttemptInFlight) {
+            return;
+        }
+        timerHandler.removeCallbacks(kastAttempt);
+        kastNextAttemptReason = "network";
+        timerHandler.post(kastAttempt);
+    }
+
+    // UI thread: releases the connection that just ended (off the UI thread, as stopConnection does), then plans the next
+    // attempt. connecting is cleared first, so a user leaving meanwhile never stops the same connection twice.
+    private void kastReleaseAndRetry() {
+        connecting = false;
+        new Thread() {
+            public void run() {
+                conn.stop();
+                runOnUiThread(() -> {
+                    if (kastResuming) {
+                        kastScheduleAttempt();
+                    }
+                });
+            }
+        }.start();
+    }
+
+    // UI thread, first thing in connectionTerminated. Logs the end class (plan 06, step 1) and returns true when the
+    // resume loop takes this end — the caller then keeps the stream screen as it is.
+    private boolean kastOnTermination(int errorCode) {
+        boolean silence = kastSilenceStartMs != 0;
+        long elapsed = silence ? SystemClock.elapsedRealtime() - kastSilenceStartMs : 0;
+        String endClass = KastReconnectPolicy.endClass(errorCode, silence);
+        boolean inGrace = KastReconnectPolicy.withinGrace(elapsed, prefConfig.reconnectGraceSeconds);
+        Log.i(KAST_TAG, "end class=" + endClass + " code=" + errorCode + " withinGrace=" + inGrace +
+                (kastResuming ? " attempt=" + kastResumeAttempt : ""));
+        if (kastResuming) {
+            // the connection of an attempt ended (no video at start, the transport died again): release it, try again
+            kastAttemptInFlight = false;
+            kastReleaseAndRetry();
+            return true;
+        }
+        if (kastGaveUp || displayedFailureDialog || !KastReconnectPolicy.END_TRANSPORT.equals(endClass) || !inGrace) {
+            return false;
+        }
+        kastResuming = true;
+        kastResumeCause = errorCode;
+        kastResumeAttempt = 0;
+        kastAttemptInFlight = false;
+        timerHandler.removeCallbacksAndMessages(null); // the watchdog and the pings of the dead connection
+        connected = false;
+        Log.i(KAST_TAG, "resume start cause=" + errorCode + " elapsed=" + elapsed);
+        timerHandler.post(kastResumeTick);
+        kastReleaseAndRetry();
+        return true;
+    }
+
+    // UI thread: the grace period ran out — the old end (port test, dialog, host list) takes over with the first cause
+    private void kastGiveUp() {
+        Log.i(KAST_TAG, "outcome=gave-up attempts=" + kastResumeAttempt +
+                " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
+        kastResuming = false;
+        kastGaveUp = true;
+        timerHandler.removeCallbacks(kastAttempt);
+        timerHandler.removeCallbacks(kastResumeTick);
+        final int cause = kastResumeCause;
+        new Thread() {
+            public void run() {
+                connectionTerminated(cause); // does network I/O (the port test) — never on the UI thread
+            }
+        }.start();
+    }
+
+    // UI thread, first thing in stopConnection: the user left (or the activity stops) while resuming
+    private void kastCancelResume() {
+        if (!kastResuming) {
+            return;
+        }
+        kastResuming = false;
+        timerHandler.removeCallbacks(kastAttempt);
+        timerHandler.removeCallbacks(kastResumeTick);
+        Log.i(KAST_TAG, "outcome=cancelled attempts=" + kastResumeAttempt);
+    }
+
+    // KAST (plans/06, step 3): the phone's default-network events. "net available" during a resume starts an attempt at
+    // once (kastOnNetworkAvailable); otherwise the lines only show the order of events in a run.
+    // Callbacks arrive on ConnectivityManager's thread; they log and post to the UI thread. [TESTED: 2026-09-26 18:20 · testcases/reports/2026-09-26_F3_instrument.md, run 4: net watch on → net available →
+    // net watch off on leaving the stream] [NOT-TESTED: net lost — needs a network change on the phone itself; the attempt on "net available"]
     private ConnectivityManager.NetworkCallback kastNetworkCallback;
 
     private void kastNetworkWatchStart() {
@@ -262,6 +484,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             @Override
             public void onAvailable(android.net.Network network) {
                 Log.i(KAST_TAG, "net available " + network);
+                timerHandler.post(() -> kastOnNetworkAvailable());
             }
 
             @Override
@@ -725,60 +948,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             }
         }
 
-        decoderRenderer = new MediaCodecDecoderRenderer(
-                this,
-                prefConfig,
-                new CrashListener() {
-                    @Override
-                    public void notifyCrash(Exception e) {
-                        // The MediaCodec instance is going down due to a crash
-                        // let's tell the user something when they open the app again
-
-                        // We must use commit because the app will crash when we return from this function
-                        tombstonePrefs.edit().putInt("CrashCount", tombstonePrefs.getInt("CrashCount", 0) + 1).commit();
-                        reportedCrash = true;
-                    }
-                },
-                tombstonePrefs.getInt("CrashCount", 0),
-                connMgr.isActiveNetworkMetered(),
-                willStreamHdr,
-                shouldInvertDecoderResolution,
-                glPrefs.glRenderer,
-                this);
-
-// --- Force tight thresholds (prefConfig.forceTightThresholds) ---
-        try {
-            boolean forceTight = false;
-            if (prefConfig != null) {
-                try {
-                    java.lang.reflect.Field f = prefConfig.getClass().getDeclaredField("forceTightThresholds");
-                    f.setAccessible(true);
-                    Object v = f.get(prefConfig);
-                    if (v instanceof Boolean) forceTight = (Boolean) v;
-                } catch (Throwable ignored) {}
-            }
-            try { decoderRenderer.setForceTightThresholds(forceTight); } catch (Throwable ignored) {}
-            if (forceTight) {
-                LimeLog.info("ForceTightThresholds enabled: using vsync-based thresholds on all devices");
-            }
-        } catch (Throwable ignored) {}
-
-// --- latency profile selection ---
-        try {
-            if (prefConfig != null && prefConfig.preferLowerDelays) {
-                // Intermediate: more responsive than Balanced but not 0 µs
-                decoderRenderer.setPreferLowerDelays(true);
-                decoderRenderer.setPreferLowerDelaysTimeoutUs(500);  // 0.5 ms
-                prefConfig.framePacing = PreferenceConfiguration.FRAME_PACING_BALANCED;
-                LimeLog.info("PreferLowerDelays: preferLowerDelays=true, timeout=500us, pacing=BALANCED");
-            } else {
-                // Balanced default
-                decoderRenderer.setPreferLowerDelays(false);
-                decoderRenderer.setPreferLowerDelaysTimeoutUs(2000); // 2 ms
-                prefConfig.framePacing = PreferenceConfiguration.FRAME_PACING_BALANCED;
-                LimeLog.info("Balanced: preferLowerDelays=false, timeout=2000us, pacing=BALANCED");
-            }
-        } catch (Throwable ignored) {}
+        // KAST (plans/06, step 4): the decoder is built by kastCreateDecoderRenderer — here and for every resume attempt
+        kastDecoderMetered = connMgr.isActiveNetworkMetered();
+        kastDecoderHdr = willStreamHdr;
+        kastDecoderInvertResolution = shouldInvertDecoderResolution;
+        kastDecoderGlRenderer = glPrefs.glRenderer;
+        decoderRenderer = kastCreateDecoderRenderer();
 
 // Don't stream HDR if the decoder can't support it
         if (willStreamHdr && !decoderRenderer.isHevcMain10Hdr10Supported() && !decoderRenderer.isAv1Main10Supported()) {
@@ -3530,6 +3705,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        kastCancelResume(); // KAST (plans/06, step 4): leaving ends the resume loop too
         timerHandler.removeCallbacks(kastSilenceWatchdog); // KAST: no watchdog without a connection
         kastNetworkWatchStop(); // KAST (plans/06, step 3)
         if (connecting || connected) {
@@ -3565,6 +3741,22 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public boolean stageFailed(final String stage, final int portFlags, final int errorCode) {
+        // KAST (plans/06, step 4): a failed resume attempt (the host refused /resume — Vibepollo #443 —, no answer, RTSP
+        // failed) is not the end while the grace period lasts: log it and plan the next attempt. NvConnection has
+        // released the core by itself on this path, so the connection is not stopped here. [TESTED: 2026-09-26 18:46 ·
+        // testcases/reports/2026-09-26_F3_resume.md, run 2: attempts 1–2, host unreachable, failed stage=Desktop code=0]
+        if (kastResuming) {
+            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode);
+            runOnUiThread(() -> {
+                kastAttemptInFlight = false;
+                connecting = false;
+                if (kastResuming) {
+                    kastScheduleAttempt();
+                }
+            });
+            return false;
+        }
+
         // Perform a connection test if the failure could be due to a blocked port
         // This does network I/O, so don't do it on the main thread.
         final int portTestResult = MoonBridge.testClientConnectivity(ServerHelper.CONNECTION_TEST_SERVER, 443, portFlags);
@@ -3649,6 +3841,15 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // KAST (plans/06, steps 1 and 4): the class of the end by the code AND whether the control stream was silent
+                // before it (KastReconnectPolicy.endClass) is logged; a transport death inside the grace period is resumed
+                // and nothing below runs. [TESTED: 2026-09-26 17:47 · the class log, branch transport (-1, withinGrace=true)
+                // — testcases/reports/2026-09-26_F3_instrument.md; the class table — KastReconnectPolicyTest]
+                // [NOT-TESTED: the resume branch; on the device — branch final (host close)]
+                if (kastOnTermination(errorCode)) {
+                    return;
+                }
+
                 // Let the display go to sleep now
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -3657,14 +3858,6 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 timerHandler.removeCallbacksAndMessages(null);
 
                 // KAST: the reason of every end; "outcome=terminated" when it ended a silence
-                // KAST (plans/06, step 1 — log only, behaviour unchanged): the class of the end by the code AND whether the
-                // control stream was silent before it (the FORK and the code table — KastReconnectPolicy.endClass).
-                // "withinGrace" says whether F3 would still resume. [TESTED: 2026-09-26 17:47 · branch transport (-1,
-                // withinGrace=true) — testcases/reports/2026-09-26_F3_instrument.md; the class table — KastReconnectPolicyTest]
-                // [NOT-TESTED on the device: branch final (host close) — the host admin session had expired, 401]
-                long kastSilenceElapsed = kastSilenceStartMs != 0 ? SystemClock.elapsedRealtime() - kastSilenceStartMs : 0;
-                Log.i(KAST_TAG, "end class=" + KastReconnectPolicy.endClass(errorCode, kastSilenceStartMs != 0) + " code=" + errorCode +
-                        " withinGrace=" + KastReconnectPolicy.withinGrace(kastSilenceElapsed, prefConfig.reconnectGraceSeconds));
                 if (kastSilenceStartMs != 0) {
                     Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
@@ -3811,6 +4004,22 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     spinner = null;
                 }
 
+                // KAST (plans/06, step 4): a resume attempt brought the stream back — the outage label goes, the rest of
+                // the start below (input grab, watchdog, network watch) runs as for any start. [TESTED: 2026-09-26 18:46 ·
+                // testcases/reports/2026-09-26_F3_resume.md, run 2: outcome=resumed attempt=3, then the policy line again]
+                if (kastResuming) {
+                    Log.i(KAST_TAG, "outcome=resumed attempt=" + kastResumeAttempt +
+                            " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
+                    kastResuming = false;
+                    kastAttemptInFlight = false;
+                    timerHandler.removeCallbacks(kastAttempt);
+                    timerHandler.removeCallbacks(kastResumeTick);
+                    notificationOverlayView.setText(kastOverlayTextBeforeSilence);
+                    if (!isHidingOverlays) {
+                        notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+                    }
+                }
+
                 connected = true;
                 connecting = false;
                 updatePipAutoEnter();
@@ -3873,6 +4082,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public void displayMessage(final String message) {
+        if (kastResuming) {
+            // KAST (plans/06, step 4): a failing attempt ("Failed to resume existing session") goes to the log, not a toast
+            Log.i(KAST_TAG, "attempt message: " + message);
+            return;
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
