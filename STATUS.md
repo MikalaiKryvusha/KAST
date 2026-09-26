@@ -14,9 +14,8 @@
 - **Форк:** публичный https://github.com/MikalaiKryvusha/KAST — форк Artemis
   (`ClassicOldSong/moonlight-android`, ветка `moonlight-noir`, база `c5cf27f4` от 2026-09-09). Локально —
   `D:\work\ai_sandbox\KAST`; remote `upstream` = Artemis. Выбор базы и цифры — `researches/01` → «Выбор базы форка».
-- **KAIF:** развёрнут из сборки HEAD `83400e6` проекта `D:\work\ai_sandbox\KAIF` — содержимое 2.8 до выпуска;
-  в `.kaif/kaif.json` стоит `2.7`, потому что штамп версии ставит только ритуал выпуска KAIF. **Когда 2.8 выйдет
-  официально — `/kaif-update`.** Язык `ru`, сфера `programming`, пять агентских систем.
+- **KAIF:** 2.8 (выпуск 2026-09-26), поднята `/kaif-update` 2026-09-26 13:36. Язык `ru`, сфера `programming`, пять
+  агентских систем. Долг по 2.8 (хуки, голос, контур, дом-правила) — `plans/05_kaif28_adoption_debt.md`.
 - **Причины обрыва найдены** — `researches/01_why_session_drops_on_network_loss.md`: таймаут ENet клиента 10 с
   (`ControlStream.c:1802`) → «Error code -1» → `Game.java:3563` закрывает экран; сервер Vibepollo сам отпускает
   клиента по умолчаниям ENet (5–30 с) — `ping_timeout=60000` этого не покрывает. Решение — два слоя: удержание +
@@ -37,8 +36,8 @@
 Ф0 и **Ф1 «Сборочный стенд» закрыты 2026-09-26** (`plans/03_epic02_F1_build_stand.md`, судья — VERIFIED WITH CAVEATS):
 KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит на Титане и стримит с Vibepollo; обрыв воспроизводится
 командой `tools/netdrop.ps1`; эталон — `testcases/reports/2026-09-26_F1_baseline.md`, тест-кейсы — `testcases/TC_reconnect.md`.
-**Следующая — Ф2 «Удержание»** (`plans/04_epic02_F2_hold.md`); правка ядра связи ждёт ответа владельца
-(`interviews/interview_001_core_fork.md`), до ответа — готовится локально. Эпик — `plans/02_EPIC_reconnect.md`.
+**Следующая — Ф2 «Удержание»** (`plans/04_epic02_F2_hold.md`); правка ядра связи живёт в открытой копии ядра
+`MikalaiKryvusha/moonlight-common-c`, ветка `kast/enet-timeout` (интервью #001, Q1: A). Эпик — `plans/02_EPIC_reconnect.md`.
 
 **Тестовое устройство:** планшет HEADWOLF Titan 1 (Android 16, MT8792) по беспроводному `adb` через Tailscale —
 маршрут и грабли NordVPN в `HOUSE_RULES.md`. AVD на этой машине не делаем (правило П1 владельца).
@@ -81,8 +80,8 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 - [ ] Разведка интерфейса → `researches/NN_*` (следующий свободный номер): свежие SDK и библиотеки UI Android, подходы, палитры, радиусы; без Liquid Glass (`ideas/04`).
 - [ ] Разведка тредов сообщества (XDA, Reddit, GitHub) об оптимизациях Moonlight/Artemis под MediaTek Dimensity и
       Snapdragon → `researches/NN_*`: оптимизация · источник · чип · заявленный эффект (`ideas/02`, фаза Ф6).
-- [ ] Свой форк `moonlight-common-c` (нужен для правки `ControlStream.c`) и перенаправление `.gitmodules` — по слову
-      владельца (публичный репозиторий на его GitHub), до кода Ф2.
+- [x] Свой форк `moonlight-common-c` — создан 2026-09-26 (интервью #001, Q1: A), правка в ветке `kast/enet-timeout`;
+      `.gitmodules` KAST на него — вместе со слиянием Ф2.
 - [ ] Иконка KAST в лаунчер Android: adaptive icon (передний план и фон, безопасная зона 66 из 108 dp), `mipmap-*`,
       одноцветный силуэт для тематических иконок Android 13; исходник — `assets/logo/kast-icon-1024.png`.
 - [x] Имя приложения и `applicationId` KAST — `com.limelight.kastdebug` / «KAST Debug» (релиз — `.kast` / «KAST»),
@@ -90,8 +89,8 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 
 ## ❓ Ждёт владельца
 
-- ❓ `interviews/interview_001_core_fork.md` — где держать правку ядра связи (своя открытая копия `moonlight-common-c` на
-  GitHub владельца — рекомендовано); без ответа Ф2 готовится локально, указатель ядра в KAST не отправляется.
+- ❓ Хуки KAIF 2.8 и страж обратных слэшей: запустить `F:\kast-maintenance\kast_wire_hooks.cmd` (кладёт
+  `.claude/settings.json`; агенту писать свои настройки запрещено), затем перезапустить сессию KAST — `plans/05`, шаг 2.
 - 🌐 Проверка «2 минуты без NordVPN» — станет ли путь до Титана/Mac прямым и упадёт ли число повторных кадров.
 
 
@@ -115,7 +114,8 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 ## Открытые баги
 
 Флаги владельца 2026-09-26 (долг владельца — первая очередь после шага 8 плана 03, одним маленьким планом «косяки UI»):
-- `bugs/01` 🔧 — кнопка профилей поднята над панелью навигации (жесты и три кнопки — 16dp над панелью); ждёт взгляда владельца на снимки;
+- `bugs/01` ✅ DONE — кнопка профилей поднята над панелью навигации; владелец принял («посмотрел, да, нормально»);
+- `bugs/04` ✅ DONE — «Поделиться логами производительности» открывает диалог KAST: сохранить файлом, поделиться, адрес issues KAST; адрес Artemis убран; владелец принял («да, видел, суппер, пока хватит такой модалки»);
 - `bugs/02` — разный размер шрифта на плитках приложений: надписи внутри картинок-обложек сервера и клиента;
 - `bugs/03` — английский при русской системе: картинки плиток + неполный перевод Artemis (`ideas/03`).
 - `bugs/KAIF/01` — песочницы самопроверок KAIF забивали диск C (~20 ГБ/сутки) — доставлен, KAIF#110; 2026-09-26 14:33 убрано 58,56 ГБ, дальше — задача Windows раз в час (`HOUSE_RULES.md` → Инструменты).

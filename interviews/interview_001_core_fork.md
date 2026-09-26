@@ -3,7 +3,7 @@
 > Topic: где будет жить правка ядра связи, без которой KAST не сможет ждать сеть дольше 10 секунд
 > Source of the idea: `plans/02_EPIC_reconnect.md` → развилки («Публичный форк `moonlight-common-c` на GitHub владельца — владелец, до кода Ф2»), 2026-09-26
 > Created: 2026-09-26 14:55 +03:00
-> Status: **🟡 awaiting the owner's answers**
+> Status: **✅ ANSWERS RECEIVED 2026-09-26 ≈15:29 +03:00** — внесено 2026-09-26 16:35 (таблица «Решения»)
 
 ## Контекст — что уже известно
 
@@ -47,6 +47,12 @@
 - **D) Ваш вариант**
 
 **Answer:** [OWNER] «можно создать копию, да» · 2026-09-26 ≈15:29 +03:00, чат (by: владелец; at: время ответа в чате) → **A**
+
+## Решения
+
+| Вопрос | Ответ | Кто и когда | Где внесено |
+|---|---|---|---|
+| Q1. Где держать правку ядра связи? | **A** — открытая копия ядра на GitHub владельца | [OWNER] «можно создать копию, да» · 2026-09-26 ≈15:29 +03:00, чат | `MikalaiKryvusha/moonlight-common-c` (форк `ClassicOldSong/moonlight-common-c`, открытый), правка — ветка `kast/enet-timeout`, `25ffe75`; `plans/02_EPIC_reconnect.md` → «Развилки»; `plans/04_epic02_F2_hold.md`; `interviews/decisions/implemented.json` |
 
 ## Proposed implementation plan (after answers)
 
