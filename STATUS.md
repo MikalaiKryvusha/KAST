@@ -47,7 +47,8 @@
 - обновление и подмена `sunshine.exe` — **только по слову владельца**: служба перезапускается и рвёт живую трансляцию.
 
 **README** переписан двуязычно (EN сверху, RU ниже) по публичному ядру голоса; **промпт логотипа** —
-`assets/logo/LOGO_PROMPT.md` (картинку владелец запрашивает у ChatGPT, готовый логотип — в `assets/logo/` и в шапку README).
+`assets/logo/LOGO_PROMPT.md`; **логотип готов** (2026-09-26): шапка README — `assets/logo/kast-logo.png`, иконка
+приложения — `assets/logo/kast-icon-1024.png` и `kast-icon-512.png` (в лаунчер Android ещё не подключена).
 
 | Фаза | Статус | Что там |
 |-------|--------|--------------|
@@ -72,6 +73,8 @@
 - [ ] Поставить Android SDK (cmdline-tools, platform 36, build-tools) и NDK `27.0.12077973` — фоновой задачей;
       прописать `local.properties sdk.dir`; собрать `gradlew.bat :app:assembleNonRoot_gameDebug`.
 - [ ] Свой форк `moonlight-common-c` (нужен для правки `ControlStream.c`) и перенаправление `.gitmodules`.
+- [ ] Иконка KAST в лаунчер Android: adaptive icon (передний план и фон, безопасная зона 66 из 108 dp), `mipmap-*`,
+      одноцветный силуэт для тематических иконок Android 13; исходник — `assets/logo/kast-icon-1024.png`.
 - [ ] Имя приложения и `applicationId` KAST (сейчас debug — «Diana» / `com.limelight.noirdebug`), чтобы KAST
       ставился рядом с Artemis/Artemide.
 
@@ -83,7 +86,7 @@
 - ❓ `ideas/05` — пресеты = профили настроек или другой список.
 - ❓ Окно для обновления Vibepollo до 2.0.0-beta.3 и подмены `sunshine.exe` (служба перезапустится, трансляция
   оборвётся; окно UAC установщика — клик владельца).
-- 🎨 Логотип: владелец запрашивает картинку у ChatGPT по `assets/logo/LOGO_PROMPT.md`.
+
 - ⏳ Запрос автору Vibepollo отправлен 2026-09-26: https://github.com/Nonary/Vibepollo/issues/522 — ждём ответа; параллельно — локальная правка сервера, `plans/01_vibepollo_local_control_timeout_patch.md`.
 
 ---

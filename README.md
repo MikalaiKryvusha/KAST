@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo/kast-logo.png" alt="KAST: Vibepollo on a Windows PC streams game frames through the sky to an Android tablet" width="820">
+</p>
+
 # KAST — KRINIK Artemis Streaming Tool
 
 <p align="center">
