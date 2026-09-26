@@ -3941,7 +3941,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 // before it (KastReconnectPolicy.endClass) is logged; a transport death inside the grace period is resumed
                 // and nothing below runs. [TESTED: 2026-09-26 17:47 · the class log, branch transport (-1, withinGrace=true)
                 // — testcases/reports/2026-09-26_F3_instrument.md; the class table — KastReconnectPolicyTest]
-                // [NOT-TESTED: the resume branch; on the device — branch final (host close)]
+                // [TESTED: 2026-09-26 19:10 · branch final on the device — testcases/reports/2026-09-26_F3_resume.md, run 7 (K4: host
+                // close → end class=final code=0, no attempt); the resume branch — runs 2–6 of the same report]
                 if (kastOnTermination(errorCode)) {
                     return;
                 }
