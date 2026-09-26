@@ -43,6 +43,7 @@ import { join, resolve, dirname } from 'node:path';
 // LOCAL FIX (KAST bugs/KAIF/02, 2026-09-26): the marker lives at the PROJECT ROOT, while the event's `cwd` is the
 // shell's current directory — after a `cd` into a subfolder the hook saw no marker and ordered a refresh every prompt.
 // Root = $CLAUDE_PROJECT_DIR when it holds .kaif/, else the nearest ancestor of cwd with .kaif/kaif.json, else cwd.
+// [TESTED: 2026-09-26 · cwd = assets/logo with a fresh marker → silent; the 2.8 file → order; CLAUDE_PROJECT_DIR set, cwd outside → silent]
 function projectRoot(start) {
   const env = process.env.CLAUDE_PROJECT_DIR;
   if (env && existsSync(join(env, '.kaif'))) return env;

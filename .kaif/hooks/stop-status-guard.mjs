@@ -27,6 +27,7 @@ import { tmpdir } from 'node:os';
 // LOCAL FIX (KAST bugs/KAIF/02, 2026-09-26): STATUS.md and git live at the PROJECT ROOT, while the event's `cwd` is the
 // shell's current directory — after a `cd` into a subfolder the guard found no STATUS.md and went silent for good.
 // Root = $CLAUDE_PROJECT_DIR when it holds .kaif/, else the nearest ancestor of cwd with .kaif/kaif.json, else cwd.
+// [TESTED: 2026-09-26 · throwaway repo, STATUS 5 h old, dirty tree, cwd = sub/dir: fixed → block, the 2.8 file → silent]
 function projectRoot(start) {
   const env = process.env.CLAUDE_PROJECT_DIR;
   if (env && existsSync(join(env, '.kaif'))) return env;
