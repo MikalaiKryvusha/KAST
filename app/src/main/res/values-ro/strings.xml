@@ -193,6 +193,7 @@
     <string name="title_seekbar_reconnect_retry">Interval între încercările de reconectare</string>
     <string name="summary_seekbar_reconnect_retry">Cea mai lungă pauză dintre încercările KAST de a reface fluxul după întreruperea conexiunii.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Setări</string>
     <string name="kast_connection_lost_waiting">Conexiune pierdută — aștept rețeaua… %1$d s</string>
     <string name="kast_resume_failed_title">Nicio conexiune cu PC-ul</string>
     <string name="kast_resume_failed_unreachable">PC-ul gazdă nu răspunde. Verificați internetul pe telefon și că PC-ul este pornit și conectat.</string>

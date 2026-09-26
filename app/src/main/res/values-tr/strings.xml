@@ -286,6 +286,7 @@
     <string name="title_seekbar_reconnect_retry">Yeniden bağlanma deneme aralığı</string>
     <string name="summary_seekbar_reconnect_retry">Bağlantı koptuktan sonra KAST\'ın yayını geri getirme denemeleri arasındaki en uzun bekleme.</string>
     <string name="suffix_seekbar_seconds">sn</string>
+    <string name="kast_desc_settings">Ayarlar</string>
     <string name="kast_connection_lost_waiting">Bağlantı koptu — ağ bekleniyor… %1$d sn</string>
     <string name="kast_resume_failed_title">Bilgisayarla bağlantı yok</string>
     <string name="kast_resume_failed_unreachable">Ana bilgisayar yanıt vermiyor. Telefondaki interneti ve bilgisayarın açık ve çevrimiçi olduğunu kontrol edin.</string>

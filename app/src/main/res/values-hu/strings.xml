@@ -272,6 +272,7 @@
     <string name="title_seekbar_reconnect_retry">Újracsatlakozási próbálkozások közötti idő</string>
     <string name="summary_seekbar_reconnect_retry">A leghosszabb szünet a KAST próbálkozásai között, amelyekkel a kapcsolat megszakadása után visszaállítja a streamet.</string>
     <string name="suffix_seekbar_seconds">mp</string>
+    <string name="kast_desc_settings">Beállítások</string>
     <string name="kast_connection_lost_waiting">A kapcsolat megszakadt — várakozás a hálózatra… %1$d mp</string>
     <string name="kast_resume_failed_title">Nincs kapcsolat a számítógéppel</string>
     <string name="kast_resume_failed_unreachable">A gazdagép nem válaszol. Ellenőrizze az internetet a telefonon, és hogy a számítógép be van-e kapcsolva és hálózaton van-e.</string>

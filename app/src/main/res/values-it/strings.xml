@@ -302,6 +302,7 @@
     <string name="title_seekbar_reconnect_retry">Intervallo tra i tentativi di riconnessione</string>
     <string name="summary_seekbar_reconnect_retry">La pausa più lunga tra i tentativi di KAST di ripristinare lo streaming dopo un\'interruzione della connessione.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Impostazioni</string>
     <string name="kast_connection_lost_waiting">Connessione persa — in attesa della rete… %1$d s</string>
     <string name="kast_resume_failed_title">Nessuna connessione al PC</string>
     <string name="kast_resume_failed_unreachable">Il PC host non risponde. Controlla internet sul telefono e che il PC sia acceso e in rete.</string>

@@ -198,6 +198,7 @@
     <string name="title_seekbar_reconnect_retry">再接続の再試行間隔</string>
     <string name="summary_seekbar_reconnect_retry">接続が切れた後、KASTがストリームの復帰を試みる間隔の最大値です。</string>
     <string name="suffix_seekbar_seconds">秒</string>
+    <string name="kast_desc_settings">設定</string>
     <string name="kast_connection_lost_waiting">接続が切れました — ネットワークを待機中… %1$d 秒</string>
     <string name="kast_resume_failed_title">ホストPCに接続できません</string>
     <string name="kast_resume_failed_unreachable">ホストPCが応答しません。スマートフォンのインターネットと、PCの電源が入ってオンラインか確認してください。</string>

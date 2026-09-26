@@ -650,6 +650,7 @@
     <string name="title_seekbar_reconnect_retry">Khoảng thời gian thử kết nối lại</string>
     <string name="summary_seekbar_reconnect_retry">Khoảng nghỉ dài nhất giữa các lần KAST thử khôi phục luồng sau khi mất kết nối.</string>
     <string name="suffix_seekbar_seconds">giây</string>
+    <string name="kast_desc_settings">Cài đặt</string>
     <string name="kast_connection_lost_waiting">Mất kết nối — đang chờ mạng… %1$d giây</string>
     <string name="kast_resume_failed_title">Không có kết nối với máy tính</string>
     <string name="kast_resume_failed_unreachable">Máy chủ (PC) không phản hồi. Hãy kiểm tra Internet trên điện thoại và máy tính đang bật, có mạng.</string>

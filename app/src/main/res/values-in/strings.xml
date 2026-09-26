@@ -226,6 +226,7 @@
     <string name="title_seekbar_reconnect_retry">Interval percobaan sambung ulang</string>
     <string name="summary_seekbar_reconnect_retry">Jeda terlama antara upaya KAST untuk memulihkan streaming setelah koneksi terputus.</string>
     <string name="suffix_seekbar_seconds">dtk</string>
+    <string name="kast_desc_settings">Pengaturan</string>
     <string name="kast_connection_lost_waiting">Koneksi terputus — menunggu jaringan… %1$d dtk</string>
     <string name="kast_resume_failed_title">Tidak ada koneksi ke PC</string>
     <string name="kast_resume_failed_unreachable">PC host tidak menjawab. Periksa internet di ponsel dan pastikan PC menyala serta terhubung.</string>

@@ -50,6 +50,7 @@
     <string name="title_seekbar_reconnect_retry">Intervalo inter rekonektaj provoj</string>
     <string name="summary_seekbar_reconnect_retry">La plej longa paŭzo inter la provoj de KAST restarigi la fluon post rompiĝo de la konekto.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Agordoj</string>
     <string name="kast_connection_lost_waiting">Konekto perdita — atendas la reton… %1$d s</string>
     <string name="kast_resume_failed_title">Neniu konekto al la komputilo</string>
     <string name="kast_resume_failed_unreachable">La gastiga komputilo ne respondas. Kontrolu la interreton en la telefono kaj ke la komputilo estas ŝaltita kaj enreta.</string>

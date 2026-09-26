@@ -795,6 +795,7 @@
     <string name="title_seekbar_reconnect_retry">重新連線重試間隔</string>
     <string name="summary_seekbar_reconnect_retry">連線中斷後，KAST 嘗試恢復串流的兩次嘗試之間的最長間隔。</string>
     <string name="suffix_seekbar_seconds">秒</string>
+    <string name="kast_desc_settings">設定</string>
     <string name="kast_connection_lost_waiting">連線已中斷 — 正在等待網路… %1$d 秒</string>
     <string name="kast_resume_failed_title">無法連線到電腦</string>
     <string name="kast_resume_failed_unreachable">主機電腦沒有回應。請檢查手機網路，以及電腦是否已開機並連線。</string>

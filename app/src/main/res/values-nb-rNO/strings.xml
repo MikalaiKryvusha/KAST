@@ -223,6 +223,7 @@
     <string name="title_seekbar_reconnect_retry">Intervall mellom nye tilkoblingsforsøk</string>
     <string name="summary_seekbar_reconnect_retry">Den lengste pausen mellom KASTs forsøk på å gjenopprette strømmen etter at forbindelsen falt ut.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Innstillinger</string>
     <string name="kast_connection_lost_waiting">Tilkoblingen er brutt — venter på nettverket… %1$d s</string>
     <string name="kast_resume_failed_title">Ingen forbindelse til PC-en</string>
     <string name="kast_resume_failed_unreachable">Vertsmaskinen svarer ikke. Sjekk internett på telefonen og at PC-en er på og tilkoblet.</string>

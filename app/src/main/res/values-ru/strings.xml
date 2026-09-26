@@ -684,6 +684,7 @@
     <string name="title_seekbar_reconnect_retry">Интервал повторных попыток</string>
     <string name="summary_seekbar_reconnect_retry">Самая долгая пауза между попытками KAST вернуть поток после обрыва связи.</string>
     <string name="suffix_seekbar_seconds">с</string>
+    <string name="kast_desc_settings">Настройки</string>
     <string name="kast_connection_lost_waiting">Связь потеряна — жду сеть… %1$d с</string>
     <string name="kast_resume_failed_title">Нет связи с компьютером</string>
     <string name="kast_resume_failed_unreachable">Компьютер не отвечает. Проверьте интернет на телефоне и что компьютер включён и в сети.</string>

@@ -746,6 +746,7 @@
     <string name="title_seekbar_reconnect_retry">Reconnect retry interval</string>
     <string name="summary_seekbar_reconnect_retry">The longest pause between KAST\'s attempts to bring the stream back after the connection dropped.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Settings</string>
     <string name="kast_connection_lost_waiting">Connection lost — waiting for the network… %1$d s</string>
     <string name="kast_resume_failed_title">No connection to the host PC</string>
     <string name="kast_resume_failed_unreachable">The host PC does not answer. Check the internet on the phone and that the PC is on and online.</string>

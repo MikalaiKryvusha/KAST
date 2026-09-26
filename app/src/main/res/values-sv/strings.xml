@@ -285,6 +285,7 @@
     <string name="title_seekbar_reconnect_retry">Intervall mellan återanslutningsförsök</string>
     <string name="summary_seekbar_reconnect_retry">Den längsta pausen mellan KAST:s försök att återställa strömmen efter att anslutningen brutits.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Inställningar</string>
     <string name="kast_connection_lost_waiting">Anslutningen förlorades — väntar på nätverket… %1$d s</string>
     <string name="kast_resume_failed_title">Ingen anslutning till datorn</string>
     <string name="kast_resume_failed_unreachable">Värddatorn svarar inte. Kontrollera internet på telefonen och att datorn är på och ansluten.</string>

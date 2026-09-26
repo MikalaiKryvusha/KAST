@@ -260,6 +260,7 @@
     <string name="title_seekbar_reconnect_retry">Interval opakovaných pokusů o připojení</string>
     <string name="summary_seekbar_reconnect_retry">Nejdelší pauza mezi pokusy KAST obnovit stream po přerušení spojení.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Nastavení</string>
     <string name="kast_connection_lost_waiting">Spojení ztraceno — čekám na síť… %1$d s</string>
     <string name="kast_resume_failed_title">Žádné spojení s počítačem</string>
     <string name="kast_resume_failed_unreachable">Počítač neodpovídá. Zkontrolujte internet v telefonu a že je počítač zapnutý a připojený.</string>

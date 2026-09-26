@@ -227,6 +227,7 @@
     <string name="title_seekbar_reconnect_retry">Διάστημα επαναλαμβανόμενων προσπαθειών</string>
     <string name="summary_seekbar_reconnect_retry">Η μεγαλύτερη παύση ανάμεσα στις προσπάθειες του KAST να επαναφέρει τη ροή μετά από διακοπή της σύνδεσης.</string>
     <string name="suffix_seekbar_seconds">δ</string>
+    <string name="kast_desc_settings">Ρυθμίσεις</string>
     <string name="kast_connection_lost_waiting">Η σύνδεση χάθηκε — αναμονή για δίκτυο… %1$d δ</string>
     <string name="kast_resume_failed_title">Δεν υπάρχει σύνδεση με τον υπολογιστή</string>
     <string name="kast_resume_failed_unreachable">Ο υπολογιστής-οικοδεσπότης δεν απαντά. Ελέγξτε το ίντερνετ στο τηλέφωνο και ότι ο υπολογιστής είναι ανοιχτός και συνδεδεμένος.</string>

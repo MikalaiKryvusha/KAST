@@ -167,6 +167,7 @@
     <string name="title_seekbar_reconnect_retry">מרווח בין ניסיונות חיבור מחדש</string>
     <string name="summary_seekbar_reconnect_retry">ההפסקה הארוכה ביותר בין הניסיונות של KAST להחזיר את השידור לאחר ניתוק החיבור.</string>
     <string name="suffix_seekbar_seconds">שנ׳</string>
+    <string name="kast_desc_settings">הגדרות</string>
     <string name="kast_connection_lost_waiting">החיבור אבד — ממתין לרשת… %1$d שנ׳</string>
     <string name="kast_resume_failed_title">אין חיבור למחשב</string>
     <string name="kast_resume_failed_unreachable">המחשב המארח לא עונה. בדקו את האינטרנט בטלפון ושהמחשב דולק ומחובר לרשת.</string>

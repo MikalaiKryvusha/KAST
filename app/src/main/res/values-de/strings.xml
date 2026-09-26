@@ -314,6 +314,7 @@
     <string name="title_seekbar_reconnect_retry">Intervall für Wiederverbindungsversuche</string>
     <string name="summary_seekbar_reconnect_retry">Die längste Pause zwischen den Versuchen von KAST, den Stream nach einem Verbindungsabbruch wiederherzustellen.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Einstellungen</string>
     <string name="kast_connection_lost_waiting">Verbindung verloren — warte auf Netzwerk… %1$d s</string>
     <string name="kast_resume_failed_title">Keine Verbindung zum Host-PC</string>
     <string name="kast_resume_failed_unreachable">Der Host-PC antwortet nicht. Prüfen Sie das Internet am Telefon und ob der PC eingeschaltet und online ist.</string>

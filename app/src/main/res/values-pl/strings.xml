@@ -285,6 +285,7 @@
     <string name="title_seekbar_reconnect_retry">Odstęp między próbami ponownego połączenia</string>
     <string name="summary_seekbar_reconnect_retry">Najdłuższa przerwa między próbami przywrócenia strumienia przez KAST po zerwaniu połączenia.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Ustawienia</string>
     <string name="kast_connection_lost_waiting">Utracono połączenie — czekam na sieć… %1$d s</string>
     <string name="kast_resume_failed_title">Brak połączenia z komputerem</string>
     <string name="kast_resume_failed_unreachable">Komputer-host nie odpowiada. Sprawdź internet w telefonie oraz czy komputer jest włączony i w sieci.</string>

@@ -238,6 +238,7 @@
     <string name="title_seekbar_reconnect_retry">Interval tussen verbindingspogingen</string>
     <string name="summary_seekbar_reconnect_retry">De langste pauze tussen de pogingen van KAST om de stream te herstellen nadat de verbinding is weggevallen.</string>
     <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_desc_settings">Instellingen</string>
     <string name="kast_connection_lost_waiting">Verbinding verbroken — wachten op netwerk… %1$d s</string>
     <string name="kast_resume_failed_title">Geen verbinding met de pc</string>
     <string name="kast_resume_failed_unreachable">De host-pc antwoordt niet. Controleer het internet op de telefoon en of de pc aan staat en online is.</string>
