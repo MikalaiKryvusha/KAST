@@ -142,7 +142,7 @@
     <string name="toast_no_logs">Данные о производительности отсутствуют.</string>
     <string name="applist_connect_msg">Подключение к ПК…</string>
     <string name="title_decoding_error">Сбой декодирования видео</string>
-    <string name="message_decoding_error">KAST произошел сбой из-за несовместимости с видеодекодером этого устройства. Попробуйте изменить настройки потоковой передачи, если сбои продолжаются.</string>
+    <string name="message_decoding_error">В KAST произошёл сбой из-за несовместимости с видеодекодером этого устройства. Попробуйте изменить настройки потоковой передачи, если сбои продолжаются.</string>
     <string name="title_decoding_reset">Настройки видео были сброшены</string>
     <string name="message_decoding_reset">Видео декодер Вашего устройства давал сбои с выбранными настройками. Настройки трансляции были сброшены до значений по умолчанию.</string>
     <string name="error_usb_prohibited">USB доступ запрещён администратором устройства. Проверьте настройки Knox или MDM.</string>

@@ -17,7 +17,7 @@
     <string name="pcview_menu_send_wol">Αποστολή αιτήματος Wake-On-LAN</string>
     <string name="nettest_title_waiting">Δοκιμή σύνδεσης δικτύου</string>
     <string name="nettest_title_done">Ολοκληρώθηκε η δοκιμή δικτύου</string>
-    <string name="nettest_text_inconclusive">Η δοκιμή δικτύου δεν μπορούσε να πραγματοποιηθεί επειδή κανένας από τους διακομιστές δοκιμής σύνδεσης της KAST δεν ήταν προσβάσιμος. Ελέγξτε τη σύνδεσή σας στο Internet ή δοκιμάστε ξανά αργότερα.</string>
+    <string name="nettest_text_inconclusive">Η δοκιμή δικτύου δεν μπορούσε να πραγματοποιηθεί επειδή κανένας από τους διακομιστές δοκιμής σύνδεσης του KAST δεν ήταν προσβάσιμος. Ελέγξτε τη σύνδεσή σας στο Internet ή δοκιμάστε ξανά αργότερα.</string>
     <string name="nettest_text_blocked">Η τρέχουσα σύνδεση δικτύου της συσκευής σας εμποδίζει το KAST. Η ροή μέσω του Internet ενδέχεται να μην λειτουργεί ενώ είστε συνδεδεμένοι σε αυτό το δίκτυο.</string>
     <string name="pairing">Σύζευξη…</string>
     <string name="pair_pc_offline">Ο υπολογιστής είναι εκτός σύνδεσης</string>

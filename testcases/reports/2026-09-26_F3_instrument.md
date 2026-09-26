@@ -1,7 +1,8 @@
 # Test run report — F3 instrument: a debug client ENet timeout shorter than the grace period ends the transport inside the grace window
 
 **Created:** 2026-09-26 17:58 +03:00 · **Run by:** the project agent (Claude Opus 5.5) · **Version/build:** KAST Debug
-`com.limelight.kastdebug` 20.2.6, `moonlight-noir` @ `f39c08fd` (F2 merged + F3 steps 6 and 1a); host Vibepollo 2.0.0-beta.3
+`com.limelight.kastdebug` 20.2.6, built 17:44 from the working tree that became commit `f39c08fd` (17:49; F2 merged + F3
+steps 6 and 1a) — the later clamp of `15c3092e` did not run on the device (same behaviour for 10 < 60); host Vibepollo 2.0.0-beta.3
 with our `sunshine.exe` (`control_peer_timeout = 60000`, `ping_timeout = 60000`)
 
 ## 1. Work
@@ -24,7 +25,7 @@ over his Tailscale.
 |---|---|---|---|
 | 1 | 2026-09-26 17:46 +03:00 | `run-as` prefs: `<int name="kast_debug_enet_timeout_seconds" value="10" />` (wait stays at the default 60 s); stream restarted | connect line `KastReconnect: policy grace=60000 enet=10000` |
 | 2 | 2026-09-26 17:47:14 +03:00 | `powershell -NoProfile -ExecutionPolicy Bypass -File tools/droprun.ps1 -Seconds 20` | exit 0 · transport ended at 10.11 s, classified `transport`, within the grace window |
-| 3 | 2026-09-26 17:48 +03:00 | key removed; stream; host «close app» through the admin API (`node D:/Android/tools/cdp.mjs eval "fetch('/api/apps/close',…)"`) | HTTP **401** — the host admin session had expired; the `final` branch was NOT exercised |
+| 3 | 2026-09-26 17:48 +03:00 | key removed; stream; host «close app» through the admin API (`node D:/Android/tools/cdp.mjs eval "fetch('/api/apps/close',…)"`) | HTTP **401** — the host admin session had expired; the `final` branch was NOT exercised. The 401 is in this report only (the `cdp.mjs` output), not in the evidence folder |
 
 ## 4. Checks
 

@@ -36,7 +36,7 @@
     <string name="nettest_title_waiting">Đang kiểm tra kết nối mạng</string>
     <string name="nettest_text_waiting">KAST đang kiểm tra kết nối mạng của bạn để xác định xem có bất kỳ cổng nào bị chặn hay không.\n\nĐiều này có thể mất vài giây…</string>
     <string name="nettest_title_done">Kiểm tra mạng hoàn tất</string>
-    <string name="nettest_text_success">Mạng của bạn dường như không chặn KAST. Nếu bạn vẫn gặp khó khăn khi kết nối, hãy kiểm tra cài đặt tường lửa của PC.\n\nNếu bạn đang cố gắng phát trực tuyến qua Internet, hãy cài đặt Công cụ Lưu trữ Internet KAST trên PC của bạn và chạy Trình kiểm tra Phát trực tuyến Internet đi kèm để kiểm tra kết nối Internet của PC.</string>
+    <string name="nettest_text_success">Mạng của bạn dường như không chặn KAST. Nếu bạn vẫn gặp khó khăn khi kết nối, hãy kiểm tra cài đặt tường lửa của PC.\n\nNếu bạn đang cố gắng phát trực tuyến qua Internet, hãy cài đặt Công cụ Lưu trữ Internet Artemis trên PC của bạn và chạy Trình kiểm tra Phát trực tuyến Internet đi kèm để kiểm tra kết nối Internet của PC.</string>
     <string name="nettest_text_inconclusive">Không thể thực hiện kiểm tra mạng vì không có máy chủ kiểm tra kết nối của KAST nào có thể truy cập được. Kiểm tra kết nối Internet của bạn hoặc thử lại sau.</string>
     <string name="nettest_text_failure">Kết nối mạng hiện tại của thiết bị của bạn dường như đang chặn KAST. Phát trực tuyến qua Internet có thể không hoạt động khi kết nối với mạng này.\n\nCác cổng mạng sau đã bị chặn:\n</string>
     <string name="nettest_text_blocked">Kết nối mạng hiện tại của thiết bị của bạn đang chặn KAST. Phát trực tuyến qua Internet có thể không hoạt động khi kết nối với mạng này.</string>

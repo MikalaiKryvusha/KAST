@@ -37,7 +37,7 @@
     <string name="nettest_text_waiting">KAST teste votre connexion réseau pour déterminer si les ports requis sont bloqués.\n\nCela peut prendre quelques secondes…</string>
     <string name="nettest_title_done">Test du réseau terminé</string>
     <string name="nettest_text_success">Votre réseau ne semble pas bloquer KAST. Si vous avez encore des difficultés à vous connecter, vérifiez les paramètres du pare-feu de votre PC.\n\nSi vous essayez de streamer depuis Internet, installez l\'outil Artemis Internet Hosting Tool sur votre PC et exécutez le testeur de streaming Internet inclus pour vérifier la connexion Internet de votre PC.</string>
-    <string name="nettest_text_inconclusive">Le test réseau n\'a pas pu être effectué car aucun des serveurs de test de connexion d\'KAST n\'était accessible. Vérifiez votre connexion Internet ou réessayez plus tard.</string>
+    <string name="nettest_text_inconclusive">Le test réseau n\'a pas pu être effectué car aucun des serveurs de test de connexion de KAST n\'était accessible. Vérifiez votre connexion Internet ou réessayez plus tard.</string>
     <string name="nettest_text_failure">La connexion réseau actuelle de votre appareil semble bloquer KAST. Le streaming sur Internet peut ne pas fonctionner lorsque vous êtes connecté à ce réseau.\n\nLes ports réseau suivants ont été bloqués :</string>
     <string name="nettest_text_blocked">Votre appareil bloque KAST. Le streaming sur Internet peut ne pas fonctionner lorsque vous êtes connecté à ce réseau.</string>
 
@@ -207,7 +207,7 @@
     <string name="title_checkbox_xb1_driver">Pilote USB pour manette Xbox 360/One/NintendoPro</string>
     <string name="summary_checkbox_xb1_driver">Active un pilote USB intégré pour les appareils sans prise en charge native des manettes Xbox/Nintendo Pro</string>
     <string name="title_checkbox_usb_bind_all">Remplacer le support natif des manettes Xbox</string>
-    <string name="summary_checkbox_usb_bind_all">Utilise le pilote USB d\'KAST pour toutes les manettes prises en charge, même si le support natif des manettes Xbox/Nintendo Pro est présent</string>
+    <string name="summary_checkbox_usb_bind_all">Utilise le pilote USB de KAST pour toutes les manettes prises en charge, même si le support natif des manettes Xbox/Nintendo Pro est présent</string>
     <string name="title_checkbox_mouse_emulation">Émulation de la souris via la manette</string>
     <string name="summary_checkbox_mouse_emulation">Appuyez longuement sur le bouton Start pour basculer la manette en mode souris</string>
     <string name="title_checkbox_flip_face_buttons">Inverser les boutons de façade</string>
@@ -456,7 +456,7 @@
     <string name="title_touchpad_sensitivity_y">Sensibilité du trackpad Y</string>
     <string name="summary_touchpad_sensitivity_y">Pour le mode souris trackpad et le contrôle du bouton tactile spécial du trackpad ;\nLes deux partagent une valeur de sensibilité, mais les performances de sensibilité peuvent être différentes.\nQuelqu\'un utilise-t-il les deux ensemble ?</string>
     <string name="title_device_rumble">Forcer les vibrations sur l\'appareil</string>
-    <string name="summary_device_rumble">Si vous n\'êtes pas satisfait des vibrations de la manette connectée, vous pouvez activer cette option.\nNon valide pour l\'utilisation forcée du pilote USB intégré d\'KAST</string>
+    <string name="summary_device_rumble">Si vous n\'êtes pas satisfait des vibrations de la manette connectée, vous pouvez activer cette option.\nNon valide pour l\'utilisation forcée du pilote USB intégré de KAST</string>
     <string name="title_clear_default_special_button">Désactiver les touches spéciales par défaut</string>
     <string name="summary_clear_default_special_button">Si vous trouvez que les commandes intégrées dans le menu Retour sont inutiles, vous pouvez les désactiver et utiliser celles que vous avez importées.</string>
     <string name="title_trackpad_sensitivity_x">Sensibilité du trackpad X</string>
