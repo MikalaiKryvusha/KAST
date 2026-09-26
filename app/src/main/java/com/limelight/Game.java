@@ -259,9 +259,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // the network came back] [NOT-TESTED: gave-up (K3), cancel by the user, an attempt on a network event; a black frame at the
     // moment of resume — plan 06, step 2]
     private static final int KAST_RESUME_TICK_MS = 500;
-    private boolean kastResuming;         // a transport death is being resumed
+    private volatile boolean kastResuming;         // a transport death is being resumed (read on NvConnection's thread too)
     private boolean kastGaveUp;           // the resume ran out of time: the next termination takes the old path
-    private boolean kastAttemptInFlight;  // conn.start of an attempt runs and has not reported yet
+    private volatile boolean kastAttemptInFlight;  // conn.start of an attempt runs and has not reported yet; true with
+                                                   // kastResuming false = an attempt that outlived its resume (see kastOrphanAttempt)
     private int kastResumeAttempt;        // attempts started in this resume
     private int kastResumeCause;          // the termination code that started the resume
     private String kastNextAttemptReason = "backoff";
@@ -522,12 +523,27 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         kastGaveUp = true;
         timerHandler.removeCallbacks(kastAttempt);
         timerHandler.removeCallbacks(kastResumeTick);
+        kastOrphanAttempt();
         final int cause = kastResumeCause;
         new Thread() {
             public void run() {
                 connectionTerminated(cause); // does network I/O (the port test) — never on the UI thread
             }
         }.start();
+    }
+
+    // UI thread: the resume ended (gave up or cancelled) while an attempt still runs. The attempt is left to finish on its
+    // own and is disposed of where it reports (stageFailed, connectionStarted): stopping it from here would release the
+    // core's start semaphore that an attempt still in /resume has not taken yet. Its late report must not reach Artemis's
+    // start-up handlers either — they expect the start spinner, which a resume never shows: the K3 crash, NPE on
+    // spinner.setMessage in stageFailed (bugs/07, testcases/reports/2026-09-26_F3_resume.md, run 5). [TESTED: 2026-09-26 19:07 ·
+    // the same report, run 6: gave-up → «attempt=7 left to finish on its own» → «failed … (after the resume ended — dropped)», no
+    // crash, the old end dialog] [NOT-TESTED: the orphan that gets through (connectionStarted branch); the user leaving mid-attempt]
+    private void kastOrphanAttempt() {
+        if (kastAttemptInFlight) {
+            connecting = false; // stopConnection must not stop it
+            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " left to finish on its own");
+        }
     }
 
     // UI thread, first thing in stopConnection: the user left (or the activity stops) while resuming
@@ -538,6 +554,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         kastResuming = false;
         timerHandler.removeCallbacks(kastAttempt);
         timerHandler.removeCallbacks(kastResumeTick);
+        kastOrphanAttempt();
         kastHideLastFrame("cancelled");
         Log.i(KAST_TAG, "outcome=cancelled attempts=" + kastResumeAttempt);
     }
@@ -3821,12 +3838,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         // failed) is not the end while the grace period lasts: log it and plan the next attempt. NvConnection has
         // released the core by itself on this path, so the connection is not stopped here. [TESTED: 2026-09-26 18:46 ·
         // testcases/reports/2026-09-26_F3_resume.md, run 2: attempts 1–2, host unreachable, failed stage=Desktop code=0]
-        if (kastResuming) {
-            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode);
+        if (kastResuming || kastAttemptInFlight) {
+            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode +
+                    (kastResuming ? "" : " (after the resume ended — dropped)"));
             runOnUiThread(() -> {
                 kastAttemptInFlight = false;
-                connecting = false;
                 if (kastResuming) {
+                    connecting = false;
                     kastScheduleAttempt();
                 }
             });
@@ -3838,7 +3856,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         final int portTestResult = MoonBridge.testClientConnectivity(ServerHelper.CONNECTION_TEST_SERVER, 443, portFlags);
 
         if (errorCode == 0 && portFlags != 0 && (portTestResult == MoonBridge.ML_TEST_RESULT_INCONCLUSIVE || portTestResult == 0)) {
-            spinner.setMessage(getResources().getString(R.string.unlocking_or_starting));
+            if (spinner != null) { // KAST (bugs/07): the only unguarded use of the start spinner — a resume never shows one
+                spinner.setMessage(getResources().getString(R.string.unlocking_or_starting));
+            }
             return true;
         }
 
@@ -4072,6 +4092,18 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public void connectionStarted() {
+        if (kastAttemptInFlight && !kastResuming) {
+            // KAST (plans/06, step 4): an attempt that outlived its resume got through — the end is already on screen
+            // (or the user left): stop this connection, it holds the core, and start nothing of the stream. [NOT-TESTED]
+            Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " started after the resume ended — stopped");
+            kastAttemptInFlight = false;
+            new Thread() {
+                public void run() {
+                    conn.stop();
+                }
+            }.start();
+            return;
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -4161,7 +4193,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public void displayMessage(final String message) {
-        if (kastResuming) {
+        if (kastResuming || kastAttemptInFlight) {
             // KAST (plans/06, step 4): a failing attempt ("Failed to resume existing session") goes to the log, not a toast
             Log.i(KAST_TAG, "attempt message: " + message);
             return;
