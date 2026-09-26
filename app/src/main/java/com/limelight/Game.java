@@ -243,6 +243,56 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private int kastEnetTimeoutMs() {
         return KastReconnectPolicy.enetTimeoutMs(prefConfig.reconnectGraceSeconds, prefConfig.debugEnetTimeoutSeconds);
     }
+
+    // KAST (plans/06, step 3, first part — log only): the phone's default-network events. F3 will start a resume attempt
+    // on "net available" instead of waiting for the backoff; today the lines only show the order of events in a run.
+    // Callbacks arrive on a binder thread and only log. [TESTED: 2026-09-26 18:20 · testcases/reports/2026-09-26_F3_instrument.md, run 4: net watch on → net available →
+    // net watch off on leaving the stream] [NOT-TESTED: net lost — needs a network change on the phone itself]
+    private ConnectivityManager.NetworkCallback kastNetworkCallback;
+
+    private void kastNetworkWatchStart() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || kastNetworkCallback != null) {
+            return;
+        }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return;
+        }
+        kastNetworkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(android.net.Network network) {
+                Log.i(KAST_TAG, "net available " + network);
+            }
+
+            @Override
+            public void onLost(android.net.Network network) {
+                Log.i(KAST_TAG, "net lost " + network);
+            }
+        };
+        try {
+            cm.registerDefaultNetworkCallback(kastNetworkCallback);
+            Log.i(KAST_TAG, "net watch on");
+        } catch (RuntimeException e) {
+            Log.w(KAST_TAG, "net watch failed: " + e);
+            kastNetworkCallback = null;
+        }
+    }
+
+    private void kastNetworkWatchStop() {
+        if (kastNetworkCallback == null) {
+            return;
+        }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        try {
+            if (cm != null) {
+                cm.unregisterNetworkCallback(kastNetworkCallback);
+            }
+        } catch (RuntimeException ignored) {
+            // already unregistered — nothing to undo
+        }
+        kastNetworkCallback = null;
+        Log.i(KAST_TAG, "net watch off");
+    }
     private final Runnable kastSilenceWatchdog = new Runnable() {
         @Override
         public void run() {
@@ -1731,6 +1781,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
         instance = null;
         timerHandler.removeCallbacksAndMessages(null);
+        kastNetworkWatchStop(); // KAST (plans/06, step 3)
 
         if (prefConfig.enableFullExDisplay) handleDisplayRemoved();
 
@@ -3480,6 +3531,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     private void stopConnection() {
         timerHandler.removeCallbacks(kastSilenceWatchdog); // KAST: no watchdog without a connection
+        kastNetworkWatchStop(); // KAST (plans/06, step 3)
         if (connecting || connected) {
             connecting = connected = false;
             updatePipAutoEnter();
@@ -3797,6 +3849,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000) + " enet=" + kastEnetTimeoutMs());
                 kastSilenceStartMs = 0;
                 timerHandler.postDelayed(kastSilenceWatchdog, KAST_WATCHDOG_PERIOD_MS);
+                kastNetworkWatchStart(); // KAST (plans/06, step 3): log the phone's network events
             }
         });
 

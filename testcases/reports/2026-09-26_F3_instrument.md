@@ -26,6 +26,7 @@ over his Tailscale.
 | 1 | 2026-09-26 17:46 +03:00 | `run-as` prefs: `<int name="kast_debug_enet_timeout_seconds" value="10" />` (wait stays at the default 60 s); stream restarted | connect line `KastReconnect: policy grace=60000 enet=10000` |
 | 2 | 2026-09-26 17:47:14 +03:00 | `powershell -NoProfile -ExecutionPolicy Bypass -File tools/droprun.ps1 -Seconds 20` | exit 0 · transport ended at 10.11 s, classified `transport`, within the grace window |
 | 3 | 2026-09-26 17:48 +03:00 | key removed; stream; host «close app» through the admin API (`node D:/Android/tools/cdp.mjs eval "fetch('/api/apps/close',…)"`) | HTTP **401** — the host admin session had expired; the `final` branch was NOT exercised. The 401 is in this report only (the `cdp.mjs` output), not in the evidence folder |
+| 4 | 2026-09-26 18:20 +03:00 | build with step 3a (the network watch, commit after `1996e061`); stream started, then Home | `net watch on` → `net available 273` at start; `net watch off` 22 s later when the stream screen closed |
 
 ## 4. Checks
 
@@ -40,6 +41,7 @@ evidence folder), the droprun output.
 | Step 6 — the transport dies inside the grace window | **pass** | run 2: cut 17:47:14.833 → `silence start silenceMs=1907` → `end class=transport code=-1 withinGrace=true` → `outcome=terminated code=-1 elapsed=10110`, `LimeLog: Connection terminated: -1` |
 | Step 1a — class `transport` for −1 | **pass** | run 2, line above |
 | Step 1a — class `final` for a host end | **not run** | run 3: 401 from the admin API; the branch stays `[NOT-TESTED]` |
+| Step 3a — the network watch starts and stops with the stream | **pass** | run 4: `18:20:00.124 net watch on`, `18:20:00.128 net available 273` (Android reports the current default network at once), `18:20:22.335 net watch off` after Home. A real network change on the phone (`net lost`) is not exercised: the instrument cuts the host, not the phone |
 | Behaviour unchanged for users | **pass (by reading)** | without the key the ENet value equals the grace (`kastEnetTimeoutMs`), the classifier only logs; the judge of `f39c08fd` confirmed no new dialogs or timers |
 
 ## 5. Found
