@@ -11,7 +11,7 @@
 // and removes the Moonlight rasters it replaces (mipmap-*/ic_launcher.png, mipmap-*/ic_launcher_foreground.png).
 // Placement: the plate centre goes to the centre of the 108-unit canvas, scaled so the farthest glyph point stays
 // inside the 66-unit safe circle of adaptive icons (the glyph then spans ~53 of the 72 visible units).
-// [NOT-TESTED]
+// [TESTED: 2026-09-26 · run from the repo root; the built APK shows the KAST icon in the Titan launcher (bugs/05)]
 import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
