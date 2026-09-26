@@ -268,4 +268,9 @@
     <string name="kast_perf_log_close">Bezárás</string>
     <string name="kast_perf_log_saved">Napló mentve</string>
     <string name="kast_perf_log_share_subject">KAST — teljesítménynapló</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Újracsatlakozási türelmi idő</string>
+    <string name="summary_seekbar_reconnect_grace">Mennyi ideig tartja meg a KAST a játékmenetet hálózatkiesés esetén, mielőtt befejezi. A gazdagépnek is van saját korlátja.</string>
+    <string name="suffix_seekbar_seconds">mp</string>
+    <string name="kast_connection_lost_waiting">A kapcsolat megszakadt — várakozás a hálózatra… %1$d mp</string>
 </resources>

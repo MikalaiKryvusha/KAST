@@ -44,4 +44,9 @@
     <string name="kast_perf_log_close">Fermi</string>
     <string name="kast_perf_log_saved">Protokolo konservita</string>
     <string name="kast_perf_log_share_subject">KAST — protokolo de rendimento</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Atendotempo por rekonekto</string>
+    <string name="summary_seekbar_reconnect_grace">Kiom longe KAST tenas la ludsesion dum perdita reto antaŭ ol fini ĝin. La gastiga komputilo ankaŭ havas propran limon.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Konekto perdita — atendas la reton… %1$d s</string>
 </resources>

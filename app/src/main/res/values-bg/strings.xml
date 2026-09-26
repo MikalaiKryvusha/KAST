@@ -150,4 +150,9 @@
     <string name="kast_perf_log_close">Затвори</string>
     <string name="kast_perf_log_saved">Дневникът е запазен</string>
     <string name="kast_perf_log_share_subject">KAST — дневник на производителността</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Време за изчакване на повторно свързване</string>
+    <string name="summary_seekbar_reconnect_grace">Колко дълго KAST запазва игровата сесия при загубена мрежа, преди да я прекрати. Хост компютърът също има свой лимит.</string>
+    <string name="suffix_seekbar_seconds">с</string>
+    <string name="kast_connection_lost_waiting">Връзката е загубена — изчаквам мрежата… %1$d с</string>
 </resources>

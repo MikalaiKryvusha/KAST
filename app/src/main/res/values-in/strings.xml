@@ -220,4 +220,9 @@
     <string name="kast_perf_log_close">Tutup</string>
     <string name="kast_perf_log_saved">Log disimpan</string>
     <string name="kast_perf_log_share_subject">KAST — log performa</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Masa tunggu sambung ulang</string>
+    <string name="summary_seekbar_reconnect_grace">Berapa lama KAST mempertahankan sesi game saat jaringan hilang sebelum mengakhirinya. PC host juga memiliki batasnya sendiri.</string>
+    <string name="suffix_seekbar_seconds">dtk</string>
+    <string name="kast_connection_lost_waiting">Koneksi terputus — menunggu jaringan… %1$d dtk</string>
 </resources>

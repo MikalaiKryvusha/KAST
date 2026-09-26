@@ -161,4 +161,9 @@
     <string name="kast_perf_log_close">סגירה</string>
     <string name="kast_perf_log_saved">היומן נשמר</string>
     <string name="kast_perf_log_share_subject">KAST — יומן ביצועים</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">זמן המתנה לחיבור מחדש</string>
+    <string name="summary_seekbar_reconnect_grace">כמה זמן KAST שומר על סשן המשחק כשהרשת אובדת, לפני שהוא מסיים אותו. גם למחשב המארח יש מגבלה משלו.</string>
+    <string name="suffix_seekbar_seconds">שנ׳</string>
+    <string name="kast_connection_lost_waiting">החיבור אבד — ממתין לרשת… %1$d שנ׳</string>
 </resources>

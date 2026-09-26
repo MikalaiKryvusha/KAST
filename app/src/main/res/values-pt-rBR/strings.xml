@@ -260,4 +260,9 @@
     <string name="kast_perf_log_close">Fechar</string>
     <string name="kast_perf_log_saved">Log salvo</string>
     <string name="kast_perf_log_share_subject">KAST — log de desempenho</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Tempo de espera para reconexão</string>
+    <string name="summary_seekbar_reconnect_grace">Quanto tempo o KAST mantém a sessão de jogo quando a rede cai, antes de encerrá-la. O PC host também tem seu próprio limite.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Conexão perdida — aguardando a rede… %1$d s</string>
 </resources>

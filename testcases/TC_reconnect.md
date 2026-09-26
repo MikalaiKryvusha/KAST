@@ -38,13 +38,13 @@ the log; the host log for the server half. Each case READS the tablet screen and
 
 | # | Case (steps → expected) | Technique | Status + evidence |
 |---|---|---|---|
-| K1 | stream running → `netdrop -Seconds 20` → game screen stays with the last frame and an outage label; picture moves ≤ 5 s after the return; no host-list | boundary (above the 10 s client timeout) | baseline **fail** 2026-09-26: `Connection terminated: -1` 9.74 s after the cut, dialog «Код ошибки: -1» — `testcases/reports/2026-09-26_F1_baseline.md` |
+| K1 | stream running → `netdrop -Seconds 20` → game screen stays with the last frame and an outage label; picture moves ≤ 5 s after the return; no host-list | boundary (above the 10 s client timeout) | baseline **fail** 2026-09-26: `Connection terminated: -1` 9.74 s after the cut, dialog «Код ошибки: -1» — `testcases/reports/2026-09-26_F1_baseline.md`; **F2 pass** 2026-09-26: `outcome=held elapsed=21339`, host IDR 0.5 s after the return — `testcases/reports/2026-09-26_F2_hold.md` |
 | K2 | stream running → `netdrop -Seconds 45` (host lets the client go) → KAST stays on the game screen and resumes ≤ 10 s after the return; host log `Session resuming` | state transition (hold → resume) | [NOT-TESTED] — baseline would fail as K1 |
 | K3 | stream running → `netdrop -Seconds 70` → the end dialog at 60–62 s, then the host list | boundary (above the grace period) | baseline **fail** 2026-09-26: gave up at 9.77 s, not 60 s — same report |
-| K4 | stream running → host `POST /api/apps/close` → KAST leaves the game screen ≤ 2 s, no outage label | decision (real end vs loss) | baseline **pass** 2026-09-26: ≈0.14 s, `Connection terminated: 0` — same report |
-| K5 | settings screen → both options present with defaults 60 s / <retry default> → changed values show in `KastReconnect policy` at the next connect | use case | baseline **fail**: options absent |
-| K6 | after K1–K4 → `adb logcat -d -s KastReconnect` shows one start and one outcome line per run | error guessing (silent paths) | baseline **fail**: only `LimeLog: Connection terminated: -1` |
-| K7 | stream running → `netdrop -Seconds 5` → no label or a short one, no dialog | boundary (below the client timeout) | [NOT-TESTED] |
+| K4 | stream running → host `POST /api/apps/close` → KAST leaves the game screen ≤ 2 s, no outage label | decision (real end vs loss) | baseline **pass** 2026-09-26: ≈0.14 s, `Connection terminated: 0` — same report; **F2 pass** 2026-09-26: ≈0.13 s, `connection terminated code=0 (no silence before it)` — F2 report |
+| K5 | settings screen → both options present with defaults 60 s / <retry default> → changed values show in `KastReconnect policy` at the next connect | use case | baseline **fail**: options absent; **F2 pass (wait option)** 2026-09-26: «Время ожидания переподключения», default `60с`, `policy grace=60000` → `10000` after the change — F2 report; the retry option — F3 |
+| K6 | after K1–K4 → `adb logcat -d -s KastReconnect` shows one start and one outcome line per run | error guessing (silent paths) | baseline **fail**: only `LimeLog: Connection terminated: -1`; **F2 pass** 2026-09-26: `silence start` + one `outcome=` per loss — F2 report |
+| K7 | stream running → `netdrop -Seconds 5` → no label or a short one, no dialog | boundary (below the client timeout) | **F2 pass** 2026-09-26: `outcome=held elapsed=5956`, label «Связь потеряна — жду сеть… 2 с» on the last frame — F2 report |
 
 ## 5. Control cases
 

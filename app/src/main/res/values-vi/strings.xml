@@ -646,4 +646,9 @@
     <string name="kast_perf_log_close">Đóng</string>
     <string name="kast_perf_log_saved">Đã lưu nhật ký</string>
     <string name="kast_perf_log_share_subject">KAST — nhật ký hiệu năng</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Thời gian chờ kết nối lại</string>
+    <string name="summary_seekbar_reconnect_grace">KAST giữ phiên chơi trong bao lâu khi mất mạng trước khi kết thúc. Máy chủ (PC) cũng có giới hạn riêng.</string>
+    <string name="suffix_seekbar_seconds">giây</string>
+    <string name="kast_connection_lost_waiting">Mất kết nối — đang chờ mạng… %1$d giây</string>
 </resources>

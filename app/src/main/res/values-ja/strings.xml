@@ -192,4 +192,9 @@
     <string name="kast_perf_log_close">閉じる</string>
     <string name="kast_perf_log_saved">ログを保存しました</string>
     <string name="kast_perf_log_share_subject">KAST パフォーマンスログ</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">再接続の待機時間</string>
+    <string name="summary_seekbar_reconnect_grace">ネットワークが切れたとき、KASTがゲームセッションを終了せずに保持する時間です。ホストPCにも独自の上限があります。</string>
+    <string name="suffix_seekbar_seconds">秒</string>
+    <string name="kast_connection_lost_waiting">接続が切れました — ネットワークを待機中… %1$d 秒</string>
 </resources>

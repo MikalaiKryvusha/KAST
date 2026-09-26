@@ -28,6 +28,9 @@ public class StreamConfiguration {
     private int attachedGamepadMask;
     private int encryptionFlags;
     private int colorRange;
+    // KAST (plans/04, step 3): the control-stream silence the client tolerates before the core ends
+    // the connection with -1; 0 = the core's historical 10 s. Fed from the reconnect grace period option.
+    private int controlPeerTimeoutMs;
     private int colorSpace;
     private boolean persistGamepadsAfterDisconnect;
     private boolean enableUltraLowLatency;
@@ -133,6 +136,11 @@ public class StreamConfiguration {
 
         public StreamConfiguration.Builder setColorRange(int colorRange) {
             config.colorRange = colorRange;
+            return this;
+        }
+
+        public StreamConfiguration.Builder setControlPeerTimeoutMs(int controlPeerTimeoutMs) {
+            config.controlPeerTimeoutMs = controlPeerTimeoutMs;
             return this;
         }
 
@@ -249,6 +257,10 @@ public class StreamConfiguration {
 
     public int getColorRange() {
         return colorRange;
+    }
+
+    public int getControlPeerTimeoutMs() {
+        return controlPeerTimeoutMs;
     }
 
     public int getColorSpace() {

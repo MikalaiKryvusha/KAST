@@ -281,4 +281,9 @@
     <string name="kast_perf_log_close">Zamknij</string>
     <string name="kast_perf_log_saved">Dziennik zapisany</string>
     <string name="kast_perf_log_share_subject">KAST — dziennik wydajności</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Czas oczekiwania na ponowne połączenie</string>
+    <string name="summary_seekbar_reconnect_grace">Jak długo KAST utrzymuje sesję gry po utracie sieci, zanim ją zakończy. Komputer-host ma też własny limit.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Utracono połączenie — czekam na sieć… %1$d s</string>
 </resources>

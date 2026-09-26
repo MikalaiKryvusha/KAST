@@ -120,7 +120,8 @@ public class SeekBarPreference extends Preference
                 else {
                     t = String.valueOf(value);
                 }
-                valueText.setText(suffix == null ? t : t.concat(suffix.length() > 1 ? " "+suffix : suffix));
+                // KAST (F2 report): a one-letter unit ("с", "s") also gets a no-break space — «60 с»; "%" stays glued
+                valueText.setText(suffix == null ? t : t.concat(suffix.length() > 1 || Character.isLetter(suffix.charAt(0)) ? "\u00A0" + suffix : suffix));
             }
 
             @Override

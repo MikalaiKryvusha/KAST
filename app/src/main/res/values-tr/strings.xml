@@ -282,4 +282,9 @@
     <string name="kast_perf_log_close">Kapat</string>
     <string name="kast_perf_log_saved">Günlük kaydedildi</string>
     <string name="kast_perf_log_share_subject">KAST performans günlüğü</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Yeniden bağlanma bekleme süresi</string>
+    <string name="summary_seekbar_reconnect_grace">Ağ kesildiğinde KAST\'ın oyun oturumunu sonlandırmadan önce ne kadar süre tuttuğu. Ana bilgisayarın da kendi sınırı vardır.</string>
+    <string name="suffix_seekbar_seconds">sn</string>
+    <string name="kast_connection_lost_waiting">Bağlantı koptu — ağ bekleniyor… %1$d sn</string>
 </resources>

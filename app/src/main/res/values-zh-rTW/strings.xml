@@ -791,4 +791,9 @@
     <string name="kast_perf_log_close">關閉</string>
     <string name="kast_perf_log_saved">日誌已儲存</string>
     <string name="kast_perf_log_share_subject">KAST 效能日誌</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">重新連線等待時間</string>
+    <string name="summary_seekbar_reconnect_grace">網路中斷時，KAST 在結束遊戲工作階段前保持工作階段的時間。主機電腦也有自己的上限。</string>
+    <string name="suffix_seekbar_seconds">秒</string>
+    <string name="kast_connection_lost_waiting">連線已中斷 — 正在等待網路… %1$d 秒</string>
 </resources>
