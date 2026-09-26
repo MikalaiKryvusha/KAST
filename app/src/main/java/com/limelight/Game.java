@@ -255,9 +255,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // the grace clock runs from the start of the silence, and past it the old end dialog shows (outcome=gave-up). The
     // controller handler is NOT stopped on this path: its stop() is final. Log tag KastReconnect: "resume start",
     // "attempt=N reason=", "outcome=resumed|gave-up|cancelled". [TESTED: 2026-09-26 18:46 · testcases/reports/2026-09-26_F3_resume.md,
-    // run 2: K2 — the transport died at 10 s, attempts 1–2 failed while the host was unreachable, attempt 3 resumed 2.7 s after
-    // the network came back] [NOT-TESTED: gave-up (K3), cancel by the user, an attempt on a network event; a black frame at the
-    // moment of resume — plan 06, step 2]
+    // runs 2–4: K2 — the transport died at 10 s, attempts failed while the host was unreachable, the stream came back 3.7 / 3.8 /
+    // 10.8 s after the network did; run 6: K3 — gave up at 60 s, the old end dialog] [NOT-TESTED: cancel by the user, an attempt
+    // on a network event]
     private static final int KAST_RESUME_TICK_MS = 500;
     private volatile boolean kastResuming;         // a transport death is being resumed (read on NvConnection's thread too)
     private boolean kastGaveUp;           // the resume ran out of time: the next termination takes the old path
@@ -334,6 +334,38 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         return renderer;
     }
 
+    // KAST (ideas/14; the owner, 2026-09-26 ≈19:30: «плашки … показывать и скрывать медленно, анимацией фейда за 0.5 секунды»,
+    // «да и прочие плашки тоже»): the status label (notificationOverlay — «connection lost…» and Artemis's «poor connection»)
+    // fades in and out over 0.5 s. kastLabelShown is where the label is going, so repeated calls from the 500 ms ticks do not
+    // restart the fade. Picture-in-picture keeps Artemis's instant switch. [NOT-TESTED]
+    private static final int KAST_LABEL_FADE_MS = 500;
+    private boolean kastLabelShown;
+
+    private void kastFadeLabel(int visibility) {
+        final View label = notificationOverlayView;
+        boolean show = visibility == View.VISIBLE;
+        if (show == kastLabelShown && (!show || label.getVisibility() == View.VISIBLE)) {
+            return; // already there or on its way
+        }
+        kastLabelShown = show;
+        label.animate().cancel();
+        if (show) {
+            if (label.getVisibility() != View.VISIBLE) {
+                label.setAlpha(0f);
+                label.setVisibility(View.VISIBLE);
+            }
+            label.animate().alpha(1f).setDuration(KAST_LABEL_FADE_MS).start();
+        }
+        else {
+            label.animate().alpha(0f).setDuration(KAST_LABEL_FADE_MS).withEndAction(() -> {
+                if (!kastLabelShown) {
+                    label.setVisibility(visibility);
+                    label.setAlpha(1f);
+                }
+            }).start();
+        }
+    }
+
     // KAST: the grace clock and the label while resuming; past the grace period — the old end
     private final Runnable kastResumeTick = new Runnable() {
         @Override
@@ -348,7 +380,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             }
             notificationOverlayView.setText(getString(R.string.kast_connection_lost_waiting, (int) (elapsed / 1000)));
             if (!isHidingOverlays) {
-                notificationOverlayView.setVisibility(View.VISIBLE);
+                kastFadeLabel(View.VISIBLE);
             }
             timerHandler.postDelayed(this, KAST_RESUME_TICK_MS);
         }
@@ -374,6 +406,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
             decoderRenderer = kastCreateDecoderRenderer();
             decoderRenderer.setRenderTarget(surface);
+            conn.setKastResumeAttempt(true);
             conn.start(new AndroidAudioRenderer(Game.this, prefConfig.playHostAudio), decoderRenderer, Game.this);
         }
     };
@@ -386,26 +419,48 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // 3–4: last frame shown 2560x1440 at the resume start, hidden 0.5 s after outcome=resumed] [NOT-TESTED: the owner's eye on
     // the black flash; API < 24 (no PixelCopy — the old flash stays)]
     private static final int KAST_LAST_FRAME_POLL_MS = 50;
+    private static final int KAST_LAST_FRAME_SETTLE_MS = 50; // the picture on screen before the old decoder goes
     private static final int KAST_LAST_FRAME_MAX_WAIT_MS = 10000; // no new frame by then — show the stream anyway
     private ImageView kastLastFrameView;
     private long kastLastFrameHideDeadlineMs;
 
-    private void kastShowLastFrame() {
+    // `then` runs once, after the picture is on screen — or at once when there is nothing to copy: the old decoder is
+    // released only after that (the owner saw a change at the 10th second while the release ran 90 ms ahead of the
+    // picture). [TESTED: 2026-09-26 19:49 · the same report, run 12, by the log: resume start → last frame shown → the first
+    // attempt planned after the release] [NOT-TESTED: the owner's eye on the 10th second]
+    private void kastShowLastFrame(final Runnable then) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            then.run();
             return;
         }
         SurfaceView surfaceView = streamContainer.getSurfaceView();
         if (surfaceView == null || surfaceView.getWidth() <= 0 || surfaceView.getHeight() <= 0
                 || !surfaceView.getHolder().getSurface().isValid()) {
             Log.i(KAST_TAG, "last frame: no surface to copy");
+            then.run();
             return;
         }
-        final Bitmap frame = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
+        // bugs/08: PixelCopy converts the video's transfer (BT.709) into the bitmap's colour space, while the screen shows SDR
+        // video as is — an sRGB copy came out washed out (the owner: «на 10-й секунде выцветает»; live 12 / 77 / 133 → copy
+        // 24 / 93 / 143, the BT.709 → sRGB transfer to within 2 levels). So an SDR stream is copied into a BT.709 bitmap —
+        // no transfer change — and then relabelled sRGB without conversion, which is how the screen treats the video. An HDR
+        // stream and API < 29 keep the sRGB copy. [TESTED: 2026-09-26 19:42 · testcases/reports/2026-09-26_F3_resume.md, run 11:
+        // snapshot = 1.000 × live + 0.00 in R, G and B; the owner: «выцветение ушло, да»] [NOT-TESTED: HDR, API < 29]
+        final boolean sameAsScreen = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                && (decoderRenderer.getActiveVideoFormat() & MoonBridge.VIDEO_FORMAT_MASK_10BIT) == 0;
+        final Bitmap frame = sameAsScreen
+                ? Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888, true,
+                        android.graphics.ColorSpace.get(android.graphics.ColorSpace.Named.BT709))
+                : Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
         try {
             PixelCopy.request(surfaceView, frame, result -> {
                 if (result != PixelCopy.SUCCESS || !kastResuming) {
                     Log.i(KAST_TAG, "last frame: copy result=" + result + " resuming=" + kastResuming);
+                    then.run();
                     return;
+                }
+                if (sameAsScreen) {
+                    frame.setColorSpace(android.graphics.ColorSpace.get(android.graphics.ColorSpace.Named.SRGB));
                 }
                 if (kastLastFrameView == null) {
                     kastLastFrameView = new ImageView(this);
@@ -414,12 +469,17 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     streamContainer.addView(kastLastFrameView, new FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
                 }
+                kastLastFrameView.animate().cancel();
+                kastLastFrameView.setAlpha(1f);
                 kastLastFrameView.setImageBitmap(frame);
                 kastLastFrameView.setVisibility(View.VISIBLE);
-                Log.i(KAST_TAG, "last frame shown " + frame.getWidth() + "x" + frame.getHeight());
+                Log.i(KAST_TAG, "last frame shown " + frame.getWidth() + "x" + frame.getHeight() + (sameAsScreen ? " bt709" : " srgb"));
+                // the picture reaches the screen on the next window frame; the release waits three frames (60 Hz) for it
+                timerHandler.postDelayed(then, KAST_LAST_FRAME_SETTLE_MS);
             }, timerHandler);
         } catch (IllegalArgumentException e) {
             Log.i(KAST_TAG, "last frame: copy refused " + e);
+            then.run();
         }
     }
 
@@ -444,8 +504,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (kastLastFrameView == null || kastLastFrameView.getVisibility() != View.VISIBLE) {
             return;
         }
-        kastLastFrameView.setVisibility(View.GONE);
-        kastLastFrameView.setImageBitmap(null);
+        final ImageView view = kastLastFrameView;
+        view.animate().alpha(0f).setDuration(KAST_LABEL_FADE_MS).withEndAction(() -> {
+            view.setVisibility(View.GONE);
+            view.setImageBitmap(null);
+            view.setAlpha(1f);
+        }).start();
         Log.i(KAST_TAG, "last frame hidden: " + why);
     }
 
@@ -510,8 +574,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         connected = false;
         Log.i(KAST_TAG, "resume start cause=" + errorCode + " elapsed=" + elapsed);
         timerHandler.post(kastResumeTick);
-        kastShowLastFrame(); // step 2: before any new decoder takes the surface
-        kastReleaseAndRetry();
+        // step 2: the picture of the last frame first, the release of the dead connection after it
+        kastShowLastFrame(() -> {
+            if (kastResuming) {
+                kastReleaseAndRetry();
+            }
+        });
         return true;
     }
 
@@ -524,6 +592,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         timerHandler.removeCallbacks(kastAttempt);
         timerHandler.removeCallbacks(kastResumeTick);
         kastOrphanAttempt();
+        UiHelper.notifyStreamEnded(this); // judge S4
         final int cause = kastResumeCause;
         new Thread() {
             public void run() {
@@ -547,9 +616,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     // UI thread, first thing in stopConnection: the user left (or the activity stops) while resuming
-    private void kastCancelResume() {
+    private boolean kastCancelResume() {
         if (!kastResuming) {
-            return;
+            return false;
         }
         kastResuming = false;
         timerHandler.removeCallbacks(kastAttempt);
@@ -557,6 +626,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         kastOrphanAttempt();
         kastHideLastFrame("cancelled");
         Log.i(KAST_TAG, "outcome=cancelled attempts=" + kastResumeAttempt);
+        return true;
     }
 
     // KAST (plans/06, step 3): the phone's default-network events. "net available" during a resume starts an attempt at
@@ -1582,6 +1652,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
                 performanceOverlayView.setVisibility(View.GONE);
                 notificationOverlayView.setVisibility(View.GONE);
+                kastLabelShown = false; // KAST (ideas/14): picture-in-picture switches the label instantly
 
                 // Disable sensors while in PiP mode
                 controllerHandler.disableSensors();
@@ -1619,6 +1690,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 }
 
                 notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+                kastLabelShown = requestedNotificationOverlayVisibility == View.VISIBLE; // KAST (ideas/14)
 
                 // Enable sensors again after exiting PiP
                 controllerHandler.enableSensors();
@@ -3798,10 +3870,14 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
-        kastCancelResume(); // KAST (plans/06, step 4): leaving ends the resume loop too
+        // KAST (plans/06, step 4): leaving ends the resume loop too. During a resume the core may hold no connection (between
+        // attempts, or an attempt left to finish on its own) — then only the stream-ended notice and the «Quit» of the app on
+        // the host run; before, both were skipped (judge S4). [NOT-TESTED]
+        final boolean kastWasResuming = kastCancelResume();
         timerHandler.removeCallbacks(kastSilenceWatchdog); // KAST: no watchdog without a connection
         kastNetworkWatchStop(); // KAST (plans/06, step 3)
-        if (connecting || connected) {
+        if (connecting || connected || kastWasResuming) {
+            final boolean holdsConnection = connecting || connected; // KAST
             connecting = connected = false;
             updatePipAutoEnter();
 
@@ -3817,7 +3893,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             // during the process of stopping this one.
             new Thread() {
                 public void run() {
-                    conn.stop();
+                    if (holdsConnection) { // KAST: no stop for a connection the core does not hold
+                        conn.stop();
+                    }
                     if (httpConn != null && quitOnStop) {
                         try {
                             sleep(1000);
@@ -3942,7 +4020,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 // and nothing below runs. [TESTED: 2026-09-26 17:47 · the class log, branch transport (-1, withinGrace=true)
                 // — testcases/reports/2026-09-26_F3_instrument.md; the class table — KastReconnectPolicyTest]
                 // [TESTED: 2026-09-26 19:10 · branch final on the device — testcases/reports/2026-09-26_F3_resume.md, run 7 (K4: host
-                // close → end class=final code=0, no attempt); the resume branch — runs 2–6 of the same report]
+                // close → end class=final code=0, no attempt); the resume branch — runs 2–6 of the same report (K2, K3)]
                 if (kastOnTermination(errorCode)) {
                     return;
                 }
@@ -3960,7 +4038,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
                     kastSilenceStartMs = 0;
                     // KAST (F2 judge S2): the outage label must not stay frozen behind the end dialog
-                    notificationOverlayView.setVisibility(View.GONE);
+                    kastFadeLabel(View.GONE);
                 }
                 else {
                     Log.i(KAST_TAG, "connection terminated code=" + errorCode + " (no silence before it)");
@@ -4048,7 +4126,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             int seconds = (int) ((now - kastSilenceStartMs) / 1000);
             notificationOverlayView.setText(getString(R.string.kast_connection_lost_waiting, seconds));
             if (!isHidingOverlays) {
-                notificationOverlayView.setVisibility(View.VISIBLE);
+                kastFadeLabel(View.VISIBLE);
             }
         }
         else if (silenceMs >= 0 && kastSilenceStartMs != 0) {
@@ -4056,7 +4134,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             kastSilenceStartMs = 0;
             notificationOverlayView.setText(kastOverlayTextBeforeSilence);
             if (!isHidingOverlays) {
-                notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+                kastFadeLabel(requestedNotificationOverlayVisibility);
             }
         }
     }
@@ -4085,7 +4163,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 }
 
                 if (!isHidingOverlays) {
-                    notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+                    kastFadeLabel(requestedNotificationOverlayVisibility); // KAST (ideas/14): a fade, not a switch
                 }
             }
         });
@@ -4125,8 +4203,10 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     timerHandler.removeCallbacks(kastResumeTick);
                     notificationOverlayView.setText(kastOverlayTextBeforeSilence);
                     if (!isHidingOverlays) {
-                        notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+                        kastFadeLabel(requestedNotificationOverlayVisibility);
                     }
+                    // judge S5: the host of the new session learns the controllers again (type, motion, touchpad, LED)
+                    controllerHandler.kastReannounceControllers();
                     // step 2: the snapshot of the last frame goes once the new decoder has drawn
                     kastLastFrameHideDeadlineMs = SystemClock.elapsedRealtime() + KAST_LAST_FRAME_MAX_WAIT_MS;
                     timerHandler.post(kastHideLastFrameWhenDrawn);
@@ -4167,7 +4247,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 }
 
                 // KAST: the reconnect policy of this connection, then the silence watchdog
-                Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000) + " enet=" + kastEnetTimeoutMs());
+                Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000) + " enet=" + kastEnetTimeoutMs() +
+                        " retry=" + (prefConfig.reconnectRetrySeconds * 1000));
                 kastSilenceStartMs = 0;
                 timerHandler.postDelayed(kastSilenceWatchdog, KAST_WATCHDOG_PERIOD_MS);
                 kastNetworkWatchStart(); // KAST (plans/06, step 3): log the phone's network events
