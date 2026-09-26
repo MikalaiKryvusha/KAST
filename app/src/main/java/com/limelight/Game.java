@@ -269,7 +269,6 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private boolean kastStartedAndDied;    // an attempt's stream started and broke off again
     private volatile boolean kastPhoneOffline; // the phone's default network was lost and none came back
     private boolean kastAutoReconnectOff;  // step 12: the setting is off — no attempts at all
-    private int kastGaveUpSeconds;         // how long KAST waited, for the dialog
     private final java.util.Random kastRandom = new java.util.Random();
     // the decoder's inputs, kept from onCreate for kastCreateDecoderRenderer
     private boolean kastDecoderMetered;
@@ -518,7 +517,6 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private void kastGiveUp() {
         Log.i(KAST_TAG, "outcome=gave-up attempts=" + kastResumeAttempt +
                 " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
-        kastGaveUpSeconds = (int) ((SystemClock.elapsedRealtime() - kastSilenceStartMs) / 1000);
         kastResuming = false;
         kastGaveUp = true;
         timerHandler.removeCallbacks(kastAttempt);
@@ -556,13 +554,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             case "off":
                 return getString(R.string.kast_resume_failed_off);
             case "no_network":
-                return getString(R.string.kast_resume_failed_no_network, kastGaveUpSeconds);
+                return getString(R.string.kast_resume_failed_no_network);
             case "refused":
                 return getString(R.string.kast_resume_failed_refused, kastRefusedCode);
             case "dropped":
                 return getString(R.string.kast_resume_failed_dropped);
             default:
-                return getString(R.string.kast_resume_failed_unreachable, kastGaveUpSeconds, kastResumeAttempt);
+                return getString(R.string.kast_resume_failed_unreachable);
         }
     }
 
@@ -4079,7 +4077,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
                         // KAST (plans/06, step 11; the owner: «Диалог - с адекватным пояснением причины - да, тоже нужен, после
                         // попыток переподключения»): after the resume gave up, or with automatic reconnection off, the
-                        // dialog says what happened in words; the code stays one line for support. [TESTED: 2026-09-26 20:34 ·
+                        // dialog says what is wrong and what to do — no «KAST waited», no «attempts»: the owner, ≈20:42, «текст
+                        // ошибки тупорылый, опять оправдания. Ждал, сделал попыток»; the code stays one line for support. [TESTED: 2026-09-26 20:34 ·
                         // testcases/reports/2026-09-26_F3_resume.md, run 16: «unreachable», the text on the Titan] [NOT-TESTED: the
                         // reasons no_network, refused, dropped, off]
                         String title = getResources().getString(R.string.conn_terminated_title);

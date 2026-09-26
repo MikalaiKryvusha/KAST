@@ -268,13 +268,13 @@
     <string name="summary_seekbar_reconnect_retry">A pausa mais longa entre as tentativas do KAST de repor a transmissão depois de a ligação cair.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Ligação perdida — a aguardar a rede… %1$d s</string>
-    <string name="kast_resume_failed_title">A ligação ao PC não voltou</string>
-    <string name="kast_resume_failed_unreachable">O KAST esperou %1$d s e fez %2$d tentativas, mas o PC anfitrião não respondeu. Verifique se o telefone tem internet e se o PC está ligado e em rede.</string>
-    <string name="kast_resume_failed_no_network">O KAST esperou %1$d s, mas o telefone não voltou a ter rede. Verifique o Wi-Fi ou os dados móveis e volte a ligar.</string>
-    <string name="kast_resume_failed_refused">O PC anfitrião respondeu, mas não deixou o KAST voltar ao jogo (código %1$d). Feche o jogo no PC ou inicie-o de novo a partir da lista de aplicações.</string>
-    <string name="kast_resume_failed_dropped">A transmissão voltava, mas caía outra vez: a rede parece instável. Volte a ligar quando estabilizar.</string>
+    <string name="kast_resume_failed_title">Sem ligação ao PC</string>
+    <string name="kast_resume_failed_unreachable">O PC anfitrião não responde. Verifique a internet no telefone e se o PC está ligado e em rede.</string>
+    <string name="kast_resume_failed_no_network">O telefone está sem rede. Ligue o Wi-Fi ou os dados móveis.</string>
+    <string name="kast_resume_failed_refused">O PC anfitrião não deixa o KAST voltar ao jogo (código %1$d). Feche o jogo no PC ou inicie-o de novo a partir da lista de aplicações.</string>
+    <string name="kast_resume_failed_dropped">A rede está instável: a transmissão cai vezes sem conta. Volte a ligar quando estabilizar.</string>
     <string name="kast_resume_failed_off">A ligação ao PC caiu. A religação automática está desligada nas definições do KAST.</string>
-    <string name="kast_resume_failed_support_code">Para o suporte: código %1$d.</string>
+    <string name="kast_resume_failed_support_code">Código para o suporte: %1$d.</string>
     <string name="kast_title_auto_reconnect">Religar automaticamente</string>
     <string name="kast_summary_auto_reconnect">Quando a ligação ao PC cai, o KAST tenta por si recuperar a transmissão dentro do tempo de espera para reconexão.</string>
 </resources>

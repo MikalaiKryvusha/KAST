@@ -286,13 +286,13 @@
     <string name="summary_seekbar_reconnect_retry">Najdłuższa przerwa między próbami przywrócenia strumienia przez KAST po zerwaniu połączenia.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Utracono połączenie — czekam na sieć… %1$d s</string>
-    <string name="kast_resume_failed_title">Połączenie z komputerem nie wróciło</string>
-    <string name="kast_resume_failed_unreachable">KAST czekał %1$d s i wykonał prób: %2$d, ale komputer-host nie odpowiedział. Sprawdź, czy telefon ma internet, a komputer jest włączony i w sieci.</string>
-    <string name="kast_resume_failed_no_network">KAST czekał %1$d s, ale telefon nie odzyskał sieci. Sprawdź Wi-Fi lub dane komórkowe i połącz się ponownie.</string>
-    <string name="kast_resume_failed_refused">Komputer-host odpowiedział, ale nie wpuścił KAST z powrotem do gry (kod %1$d). Zamknij grę na komputerze lub uruchom ją ponownie z listy aplikacji.</string>
-    <string name="kast_resume_failed_dropped">Strumień wracał, ale znów się urywał: sieć wydaje się niestabilna. Połącz się ponownie, gdy się ustabilizuje.</string>
+    <string name="kast_resume_failed_title">Brak połączenia z komputerem</string>
+    <string name="kast_resume_failed_unreachable">Komputer-host nie odpowiada. Sprawdź internet w telefonie oraz czy komputer jest włączony i w sieci.</string>
+    <string name="kast_resume_failed_no_network">Telefon nie ma sieci. Włącz Wi-Fi lub dane komórkowe.</string>
+    <string name="kast_resume_failed_refused">Komputer-host nie wpuszcza KAST z powrotem do gry (kod %1$d). Zamknij grę na komputerze lub uruchom ją ponownie z listy aplikacji.</string>
+    <string name="kast_resume_failed_dropped">Sieć jest niestabilna: strumień wciąż się urywa. Połącz się ponownie, gdy się ustabilizuje.</string>
     <string name="kast_resume_failed_off">Połączenie z komputerem zostało zerwane. Automatyczne ponowne łączenie jest wyłączone w ustawieniach KAST.</string>
-    <string name="kast_resume_failed_support_code">Dla pomocy technicznej: kod %1$d.</string>
+    <string name="kast_resume_failed_support_code">Kod dla pomocy technicznej: %1$d.</string>
     <string name="kast_title_auto_reconnect">Łącz ponownie automatycznie</string>
     <string name="kast_summary_auto_reconnect">Gdy połączenie z komputerem się zerwie, KAST sam próbuje przywrócić strumień w czasie oczekiwania na ponowne połączenie.</string>
 </resources>

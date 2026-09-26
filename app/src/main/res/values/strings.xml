@@ -747,13 +747,13 @@
     <string name="summary_seekbar_reconnect_retry">The longest pause between KAST\'s attempts to bring the stream back after the connection dropped.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Connection lost — waiting for the network… %1$d s</string>
-    <string name="kast_resume_failed_title">The connection to the host did not come back</string>
-    <string name="kast_resume_failed_unreachable">KAST waited %1$d s and made %2$d attempts, but the host PC did not answer. Check that the phone has internet and that the PC is on and online.</string>
-    <string name="kast_resume_failed_no_network">KAST waited %1$d s, but the phone never got a network back. Check Wi-Fi or mobile data and connect again.</string>
-    <string name="kast_resume_failed_refused">The host PC answered but did not let KAST back into the game (code %1$d). Close the game on the PC or start it again from the app list.</string>
-    <string name="kast_resume_failed_dropped">The stream came back but broke off again: the network seems unstable. Connect again when it settles.</string>
-    <string name="kast_resume_failed_off">The connection to the host broke off. Automatic reconnection is turned off in the KAST settings.</string>
-    <string name="kast_resume_failed_support_code">For support: code %1$d.</string>
+    <string name="kast_resume_failed_title">No connection to the host PC</string>
+    <string name="kast_resume_failed_unreachable">The host PC does not answer. Check the internet on the phone and that the PC is on and online.</string>
+    <string name="kast_resume_failed_no_network">The phone has no network. Turn on Wi-Fi or mobile data.</string>
+    <string name="kast_resume_failed_refused">The host PC does not let KAST back into the game (code %1$d). Close the game on the PC or start it again from the app list.</string>
+    <string name="kast_resume_failed_dropped">The network is unstable: the stream keeps dropping. Connect again when the connection settles.</string>
+    <string name="kast_resume_failed_off">The connection to the host PC broke off. Automatic reconnection is off in the KAST settings.</string>
+    <string name="kast_resume_failed_support_code">Code for support: %1$d.</string>
     <string name="kast_title_auto_reconnect">Reconnect automatically</string>
     <string name="kast_summary_auto_reconnect">When the connection to the host breaks off, KAST tries to bring the stream back by itself within the reconnect grace period.</string>
 </resources>

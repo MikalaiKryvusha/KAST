@@ -224,13 +224,13 @@
     <string name="summary_seekbar_reconnect_retry">Den lengste pausen mellom KASTs forsøk på å gjenopprette strømmen etter at forbindelsen falt ut.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Tilkoblingen er brutt — venter på nettverket… %1$d s</string>
-    <string name="kast_resume_failed_title">Forbindelsen til PC-en kom ikke tilbake</string>
-    <string name="kast_resume_failed_unreachable">KAST ventet %1$d s og gjorde %2$d forsøk, men vertsmaskinen svarte ikke. Sjekk at telefonen har internett, og at PC-en er på og tilkoblet.</string>
-    <string name="kast_resume_failed_no_network">KAST ventet %1$d s, men telefonen fikk aldri nettverk igjen. Sjekk Wi-Fi eller mobildata og koble til på nytt.</string>
-    <string name="kast_resume_failed_refused">Vertsmaskinen svarte, men slapp ikke KAST tilbake i spillet (kode %1$d). Lukk spillet på PC-en eller start det på nytt fra applisten.</string>
-    <string name="kast_resume_failed_dropped">Strømmen kom tilbake, men falt ut igjen: nettverket virker ustabilt. Koble til på nytt når det har roet seg.</string>
+    <string name="kast_resume_failed_title">Ingen forbindelse til PC-en</string>
+    <string name="kast_resume_failed_unreachable">Vertsmaskinen svarer ikke. Sjekk internett på telefonen og at PC-en er på og tilkoblet.</string>
+    <string name="kast_resume_failed_no_network">Telefonen har ikke nettverk. Slå på Wi-Fi eller mobildata.</string>
+    <string name="kast_resume_failed_refused">Vertsmaskinen slipper ikke KAST tilbake i spillet (kode %1$d). Lukk spillet på PC-en eller start det på nytt fra applisten.</string>
+    <string name="kast_resume_failed_dropped">Nettverket er ustabilt: strømmen faller ut igjen og igjen. Koble til på nytt når det har roet seg.</string>
     <string name="kast_resume_failed_off">Forbindelsen til PC-en falt ut. Automatisk gjentilkobling er slått av i KAST-innstillingene.</string>
-    <string name="kast_resume_failed_support_code">For brukerstøtte: kode %1$d.</string>
+    <string name="kast_resume_failed_support_code">Kode for brukerstøtte: %1$d.</string>
     <string name="kast_title_auto_reconnect">Koble til igjen automatisk</string>
     <string name="kast_summary_auto_reconnect">Når forbindelsen til PC-en faller ut, prøver KAST selv å hente strømmen tilbake innenfor ventetiden for gjentilkobling.</string>
 </resources>

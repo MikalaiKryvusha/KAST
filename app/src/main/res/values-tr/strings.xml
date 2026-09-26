@@ -287,13 +287,13 @@
     <string name="summary_seekbar_reconnect_retry">Bağlantı koptuktan sonra KAST\'ın yayını geri getirme denemeleri arasındaki en uzun bekleme.</string>
     <string name="suffix_seekbar_seconds">sn</string>
     <string name="kast_connection_lost_waiting">Bağlantı koptu — ağ bekleniyor… %1$d sn</string>
-    <string name="kast_resume_failed_title">Bilgisayarla bağlantı geri gelmedi</string>
-    <string name="kast_resume_failed_unreachable">KAST %1$d sn bekledi ve %2$d deneme yaptı, ancak ana bilgisayar yanıt vermedi. Telefonun internete bağlı olduğunu ve bilgisayarın açık ve çevrimiçi olduğunu kontrol edin.</string>
-    <string name="kast_resume_failed_no_network">KAST %1$d sn bekledi, ancak telefonun ağı geri gelmedi. Wi-Fi\'ı veya mobil veriyi kontrol edip yeniden bağlanın.</string>
-    <string name="kast_resume_failed_refused">Ana bilgisayar yanıt verdi, ancak KAST\'ın oyuna geri dönmesine izin vermedi (kod %1$d). Oyunu bilgisayarda kapatın veya uygulama listesinden yeniden başlatın.</string>
-    <string name="kast_resume_failed_dropped">Yayın geri geldi ancak yeniden koptu: ağ kararsız görünüyor. Düzeldiğinde yeniden bağlanın.</string>
+    <string name="kast_resume_failed_title">Bilgisayarla bağlantı yok</string>
+    <string name="kast_resume_failed_unreachable">Ana bilgisayar yanıt vermiyor. Telefondaki interneti ve bilgisayarın açık ve çevrimiçi olduğunu kontrol edin.</string>
+    <string name="kast_resume_failed_no_network">Telefonda ağ yok. Wi-Fi\'ı veya mobil veriyi açın.</string>
+    <string name="kast_resume_failed_refused">Ana bilgisayar KAST\'ın oyuna geri dönmesine izin vermiyor (kod %1$d). Oyunu bilgisayarda kapatın veya uygulama listesinden yeniden başlatın.</string>
+    <string name="kast_resume_failed_dropped">Ağ kararsız: yayın tekrar tekrar kopuyor. Düzeldiğinde yeniden bağlanın.</string>
     <string name="kast_resume_failed_off">Bilgisayarla bağlantı koptu. Otomatik yeniden bağlanma KAST ayarlarında kapalı.</string>
-    <string name="kast_resume_failed_support_code">Destek için: kod %1$d.</string>
+    <string name="kast_resume_failed_support_code">Destek için kod: %1$d.</string>
     <string name="kast_title_auto_reconnect">Otomatik olarak yeniden bağlan</string>
     <string name="kast_summary_auto_reconnect">Bilgisayarla bağlantı koptuğunda KAST, yeniden bağlanma bekleme süresi içinde yayını kendisi geri getirmeye çalışır.</string>
 </resources>

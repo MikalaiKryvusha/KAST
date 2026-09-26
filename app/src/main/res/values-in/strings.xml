@@ -227,13 +227,13 @@
     <string name="summary_seekbar_reconnect_retry">Jeda terlama antara upaya KAST untuk memulihkan streaming setelah koneksi terputus.</string>
     <string name="suffix_seekbar_seconds">dtk</string>
     <string name="kast_connection_lost_waiting">Koneksi terputus — menunggu jaringan… %1$d dtk</string>
-    <string name="kast_resume_failed_title">Koneksi ke PC tidak pulih</string>
-    <string name="kast_resume_failed_unreachable">KAST menunggu %1$d dtk dan mencoba %2$d kali, tetapi PC host tidak menjawab. Pastikan ponsel punya internet dan PC menyala serta terhubung.</string>
-    <string name="kast_resume_failed_no_network">KAST menunggu %1$d dtk, tetapi ponsel tidak mendapat jaringan lagi. Periksa Wi-Fi atau data seluler lalu sambungkan lagi.</string>
-    <string name="kast_resume_failed_refused">PC host menjawab, tetapi tidak mengizinkan KAST kembali ke game (kode %1$d). Tutup game di PC atau jalankan lagi dari daftar aplikasi.</string>
-    <string name="kast_resume_failed_dropped">Streaming sempat kembali, tetapi terputus lagi: jaringan tampaknya tidak stabil. Sambungkan lagi setelah stabil.</string>
+    <string name="kast_resume_failed_title">Tidak ada koneksi ke PC</string>
+    <string name="kast_resume_failed_unreachable">PC host tidak menjawab. Periksa internet di ponsel dan pastikan PC menyala serta terhubung.</string>
+    <string name="kast_resume_failed_no_network">Ponsel tidak punya jaringan. Nyalakan Wi-Fi atau data seluler.</string>
+    <string name="kast_resume_failed_refused">PC host tidak mengizinkan KAST kembali ke game (kode %1$d). Tutup game di PC atau jalankan lagi dari daftar aplikasi.</string>
+    <string name="kast_resume_failed_dropped">Jaringan tidak stabil: streaming terus terputus. Sambungkan lagi setelah stabil.</string>
     <string name="kast_resume_failed_off">Koneksi ke PC terputus. Sambung ulang otomatis dimatikan di pengaturan KAST.</string>
-    <string name="kast_resume_failed_support_code">Untuk dukungan: kode %1$d.</string>
+    <string name="kast_resume_failed_support_code">Kode untuk dukungan: %1$d.</string>
     <string name="kast_title_auto_reconnect">Sambung ulang otomatis</string>
     <string name="kast_summary_auto_reconnect">Saat koneksi ke PC terputus, KAST berusaha sendiri memulihkan streaming dalam masa tunggu sambung ulang.</string>
 </resources>
