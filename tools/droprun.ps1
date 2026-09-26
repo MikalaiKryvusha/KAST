@@ -13,7 +13,7 @@
 # The evidence folder is OUTSIDE the repository on purpose: screenshots and host logs are private.
 #
 # Usage:  powershell -NoProfile -ExecutionPolicy Bypass -File tools/droprun.ps1 -Seconds 20
-# [NOT-TESTED]
+# [TESTED: 2026-09-26 - runs 3 and 5 of testcases/reports/2026-09-26_F2_hold.md: evidence saved, adb back on the first reconnect]
 
 param(
     [int]$Seconds = 20,

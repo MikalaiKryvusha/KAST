@@ -56,7 +56,7 @@ public class PreferenceConfiguration {
     private static final String HOST_AUDIO_PREF_STRING = "checkbox_host_audio";
     private static final String DEADZONE_PREF_STRING = "seekbar_deadzone";
     // KAST (plans/04, step 4): the reconnect grace period in seconds — how long a lost network may stay
-    // silent before the session ends. Range 10–300 s in the settings screen, default 60 s. [NOT-TESTED]
+    // silent before the session ends. Range 10–300 s in the settings screen, default 60 s. [TESTED: 2026-09-26 · testcases/reports/2026-09-26_F2_hold.md — K1 20 s and K7 5 s held, control 10 s → −1 at 10.05 s]
     private static final String RECONNECT_GRACE_PREF_STRING = "seekbar_reconnect_grace_seconds";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";

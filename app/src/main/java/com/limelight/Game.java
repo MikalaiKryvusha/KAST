@@ -231,7 +231,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     // silent it shows "connection lost — waiting for the network… N s" over the last decoded frame (the
     // surface keeps it by itself) and logs every drop and recovery under the logcat tag KastReconnect.
     // It polls the core (MoonBridge.getControlStreamSilenceMs) instead of counting frames: a still
-    // desktop produces no frames, so a frame watchdog would lie. [NOT-TESTED]
+    // desktop produces no frames, so a frame watchdog would lie. [TESTED: 2026-09-26 · testcases/reports/2026-09-26_F2_hold.md — K1 20 s and K7 5 s held, control 10 s → −1 at 10.05 s]
     private static final String KAST_TAG = "KastReconnect";
     private static final int KAST_WATCHDOG_PERIOD_MS = 500;
     private static final int KAST_SILENCE_SHOW_MS = 1500;
