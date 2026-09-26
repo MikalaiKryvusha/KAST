@@ -236,6 +236,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private static final int KAST_WATCHDOG_PERIOD_MS = 500;
     private static final int KAST_SILENCE_SHOW_MS = 1500;
     private long kastSilenceStartMs; // elapsedRealtime() when the current silence began; 0 = no silence
+    private CharSequence kastOverlayTextBeforeSilence; // the "poor connection" text the outage label covered
     private final Runnable kastSilenceWatchdog = new Runnable() {
         @Override
         public void run() {
@@ -3602,6 +3603,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
                     kastSilenceStartMs = 0;
+                    // KAST (F2 judge S2): the outage label must not stay frozen behind the end dialog
+                    notificationOverlayView.setVisibility(View.GONE);
                 }
                 else {
                     Log.i(KAST_TAG, "connection terminated code=" + errorCode + " (no silence before it)");
@@ -3682,6 +3685,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (silenceMs >= KAST_SILENCE_SHOW_MS) {
             if (kastSilenceStartMs == 0) {
                 kastSilenceStartMs = now - silenceMs;
+                // KAST (F2 judge M1): the label borrows the "poor connection" view; keep its text to give it back
+                kastOverlayTextBeforeSilence = notificationOverlayView.getText();
                 Log.i(KAST_TAG, "silence start silenceMs=" + silenceMs);
             }
             int seconds = (int) ((now - kastSilenceStartMs) / 1000);
@@ -3693,6 +3698,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         else if (silenceMs >= 0 && kastSilenceStartMs != 0) {
             Log.i(KAST_TAG, "outcome=held elapsed=" + (now - kastSilenceStartMs));
             kastSilenceStartMs = 0;
+            notificationOverlayView.setText(kastOverlayTextBeforeSilence);
             if (!isHidingOverlays) {
                 notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
             }
