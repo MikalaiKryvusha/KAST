@@ -36,6 +36,13 @@
 | `summary_privacy_policy` | «View Artemis's privacy policy», ссылка ведёт на политику Artemis | вопрос владельцу: у KAST своей политики нет — убрать пункт, оставить ссылку на Artemis с честной подписью или написать свою |
 | `summary_performance_link` | панель производительности сообщества Artemis | вопрос владельцу вместе с идеей 03/07 (см. баг 04 → «За рамками») |
 
+Ключи с упоминанием в переводах (`git grep -h -i -E "moonlight|artemis"`, число файлов): `message_decoding_error` 25,
+`summary_language_list` 24, пять `nettest_text_*` по 24, `summary_checkbox_usb_bind_all` 23, `summary_privacy_policy` 18,
+`summary_seekbar_deadzone` 13, `summary_software_update` 6, `summary_device_rumble` 6, `keyboard_service_label` 6,
+`accessibility_description_text` 6, `summary_performance_link` 3, `error_manager_not_running` 1. **Не менять:** «Moonlight
+Internet Hosting Tool» во второй строке `nettest_text_*` у 18 языков — имя отдельного инструмента для хоста, а не KAST.
+Поэтому замена идёт построчно по ключам, а не по слову.
+
 ## Fix plan
 1. Механическая часть: заменить «Artemis» на «KAST» в строках колонки «Artemis → KAST» во всех языковых файлах, где ключ
    есть; сверка по ключу (EXP-0004); сборка; снимки настроек и теста сети на русском и английском — владельцу.
