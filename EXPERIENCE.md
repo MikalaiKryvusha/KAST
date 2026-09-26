@@ -91,6 +91,7 @@ platforms/android-36 ndk/27.0.12077973 build-tools/35.0.0` — package names use
 **Repro:** `D:\Android\Sdk\cmdline-tools\latest\bin\android.exe --sdk=D:\Android\Sdk sdk list` — lists installed packages in the `/` form.
 **Trigger:** installing or updating any Android SDK package → `android.exe sdk install <name/version>`.
 **Not for:** an old cmdline-tools (before the Android CLI), where `sdkmanager` with `;`-names still works if called from cmd itself.
+subject-lesson
 
 ### EXP-0002 · 2026-09-26 · ❌→✅ · #build #properties #shell
 class: escaping-layer
@@ -105,6 +106,7 @@ Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
 **Recurred:** 2026-09-26, minutes after this entry — `sed -i "s#...C:\\\\Program Files...#"` on a build script produced
 `C:Program FilesMicrosoft...`; caught by reading the file back. Two strikes → candidate guard: a PreToolUse hook that
 refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` (proposal pending, not wired).
+none-cheap: the guard is a PreToolUse hook in the Claude Code settings, and the agent may not change its own settings (auto-mode classifier: Self-Modification, 2026-09-26) — wiring it is the owner's call; until then the Trigger line + read-back is the defence
 
 ### EXP-0001 · 2026-01-01 · ✅ · #example #meta
 **Context:** first task after KAIF was deployed into this project (example entry — replace with real ones).

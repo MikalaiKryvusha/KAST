@@ -86,8 +86,8 @@ relies entirely on this document to get to work.
 8. Read the relevant plan         # plans/<feature>.md, if the task touches a specific feature. Code by citing the plan: before implementing a step, QUOTE the anchor line you are doing right now — if you can't name the line, that's scope drift caught BEFORE the diff. A HEAVY task with no plan yet → build the ladder first (Planning discipline below; /plan-task for ordinary work, /plan-epic for epics). Filing a plan/bug/idea → goal vector + acceptance criteria FIRST, per REQUIREMENTS_FRAMEWORK.md
 9. Recon before code (external truth)  # the task rests on an external truth (an old/reference system, a foreign API, prod behavior, a vendor doc)? The FIRST artifact is a recon doc in researches/ — code is forbidden until it exists; then code by the document, not from recall. Recon docs are reused by every future session. The same door opens for an ENGINEERING FORK with a price of error (the fourth door, PHILOSOPHY.md): recon of the domain's authorities BEFORE the choice, never the agent's own reasoning alone
 10. Check the map & blast radius   # before editing code: PROJECT_ARCHITECTURE_INTERNAL_MAP.md — who is affected; update the map if relations change
-11. Run the build (if touching code)   # gradlew.bat :app:assembleNonRoot_gameDebug (needs Android SDK + NDK 27.0.12077973 — see STATUS)
-12. Use the test harness          # gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the phone over adb (C:/adb/adb.exe, logcat) — drive/observe the software without a human
+11. Run the build (if touching code)   # gradlew.bat :app:assembleNonRoot_gameDebug — the full line with JDK/SDK/cache: HOUSE_RULES.md → "Tools of this project"
+12. Use the test harness          # gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (D:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands) — drive/observe the software without a human
 13. Comment the code              # comment blocks, classes, modules, important lines — with a test-status marker: fresh raw content gets [NOT-TESTED]; verified-by-observation flips to [TESTED: date · how] (TESTING_FRAMEWORK.md)
 14. Reflect on bugs in bugs/      # one md per bug; follow BUG_FIXING_FRAMEWORK.md
 15. Capture experience            # after a meaningful success/failure, append a lesson to EXPERIENCE.md (skill: /experience)
@@ -517,24 +517,21 @@ decides "tear down vs. reconnect" — never both, never scattered.
 
 ```bash
 git submodule update --init --recursive        # moonlight-common-c (+ its enet, nanors) must be present
-gradlew.bat :app:assembleNonRoot_gameDebug      # debug APK → app/build/outputs/apk/ (id com.limelight.noirdebug, label "Diana")
+gradlew.bat :app:assembleNonRoot_gameDebug      # debug APK → app/build/outputs/apk/ (id com.limelight.kastdebug, label "KAST Debug")
 gradlew.bat :app:testNonRoot_gameDebugUnitTest  # Robolectric JVM tests (android_test_setup.md)
 ```
 
-Environment (2026-09-26, the owner's PC): **Android SDK and NDK are NOT installed yet** — the build needs the SDK
-(`compileSdk 36`) + NDK `27.0.12077973` (`app/build.gradle`) and `ANDROID_HOME`/`local.properties sdk.dir`;
-JDK 21 is present (`C:\Program Files\Microsoft\jdk-21…`), Gradle comes from the wrapper (8.13). `adb` is at
-`C:\adb\adb.exe`; the phone reaches the host over Tailscale. The native part is `ndkBuild`
-(`app/src/main/jni/Android.mk`) — a C change in moonlight-common-c needs a full rebuild of the flavor.
+The environment of this machine (SDK/NDK/JDK paths, the Gradle cache on drive D, the exact build line) lives in
+`HOUSE_RULES.md` → "Tools of this project". The native part is `ndkBuild` (`app/src/main/jni/Android.mk`) — a C
+change in moonlight-common-c needs a full rebuild of the flavor.
 
 ---
 
 ## Test harness (how the agent observes & drives the software)
 
-`<Describe the tooling the agent uses to run, observe, and drive the software WITHOUT a human — the
-single most important investment for autonomous work. For a GUI app: a UI-automation/inspection tool.
-For a server: a request runner + log tail. For a CLI: scripted invocations + golden outputs. Always
-prefer deterministic reproduction and objective verification over eyeballing.>` Grow this tooling
+The agent drives KAST on the owner's REAL Android devices over wireless `adb` (no emulator — `HOUSE_RULES.md` П1):
+install, launch, UI dump, taps, WebP screenshots, logcat; the server half of every run is the Vibepollo log. Prefer
+deterministic reproduction and objective verification (a log line, a count) over eyeballing. Grow this tooling
 over time; each command, stand and device gets its row in the house-rules file — `HOUSE_RULES.md` →
 "Stands, environments and devices" — the day it is born.
 
@@ -811,7 +808,7 @@ header: "tossed by the owner mid-task, <date>"), confirm in one chat line ("reco
 continuing the current task") and return to the interrupted work. Do not drop the current task for the
 note, and do not hold it in your head until the session ends — a session's head is the worst storage
 there is. Classify first: the note CONCERNS the current task → it is a clarification, apply it; it is
-vision-level → `/fix-vision`; it is an explicit "switch to this" → switch. **A recorded note is ranked by
+vision-level → `/fix-vision`; an explicit "switch to this" → the `PARKED:` line first, then switch. **A recorded note is ranked by
 the metric, not by its date**: until `/fix-vision` puts it into GOAL/MASTER_PLAN it
 sits in `/what-next` on the shelf "fresh owner words — not ranked by the metric", never in the step table;
 row 1 is what moves the main phase's acceptance metric or closes a bug/plan — the form is guarded by `kaif-ranking-lint`, and the

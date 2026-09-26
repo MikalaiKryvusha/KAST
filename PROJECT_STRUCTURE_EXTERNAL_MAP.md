@@ -11,7 +11,7 @@
 ```
 KAST/
 ├── app/
-│   ├── build.gradle                  # flavors root / nonRoot_game; build types debug (".noirdebug", "Diana") / release (".noir", "Artemis"); NDK 27.0.12077973
+│   ├── build.gradle                  # flavors root / nonRoot_game; build types debug (".kastdebug", "KAST Debug") / release (".kast", "KAST"); NDK 27.0.12077973
 │   └── src/
 │       ├── main/java/com/limelight/  # the Android app (Java)
 │       │   ├── Game.java             # the stream screen: starts/stops the connection, owns the surface, shows termination dialogs

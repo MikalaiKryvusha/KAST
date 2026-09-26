@@ -83,8 +83,8 @@
       владельца (публичный репозиторий на его GitHub), до кода Ф2.
 - [ ] Иконка KAST в лаунчер Android: adaptive icon (передний план и фон, безопасная зона 66 из 108 dp), `mipmap-*`,
       одноцветный силуэт для тематических иконок Android 13; исходник — `assets/logo/kast-icon-1024.png`.
-- [ ] Имя приложения и `applicationId` KAST (сейчас debug — «Diana» / `com.limelight.noirdebug`), чтобы KAST
-      ставился рядом с Artemis/Artemide.
+- [x] Имя приложения и `applicationId` KAST — `com.limelight.kastdebug` / «KAST Debug» (релиз — `.kast` / «KAST»),
+      стоит на Титане рядом с Artemis/Artemide (2026-09-26, план 03, шаг 4).
 
 ## ❓ Ждёт владельца
 

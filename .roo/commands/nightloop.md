@@ -44,7 +44,7 @@ Until one fires — don't stop, don't wait for confirmations, work.
    - Make technical/implementation decisions yourself.
    - ONLY brand/UX/architecture-defining decisions — file an `/interview` + mark `STATUS.md`, take another task.
    - Tasks needing human actions (real hardware, external accounts) — file homework in `homeworks/`.
-3. **Do it**: code → build (`gradlew.bat :app:assembleNonRoot_gameDebug`) → deploy → test on the harness (`gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the phone over adb (C:/adb/adb.exe, logcat)`),
+3. **Do it**: code → build (`gradlew.bat :app:assembleNonRoot_gameDebug`) → deploy → test on the harness (`gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (D:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands)`),
    verify objectively. High-level harness commands first; if missing, do it low-level then ADD the command.
    Execute the item by the fable loop (`/fable-method`; `/fable-loop` for substantive items) — its gates
    and forced artifacts (`INTENT`/`AUTH`/`TWINS`/`PENDING`) apply inside the cycle too. A HEAVY item

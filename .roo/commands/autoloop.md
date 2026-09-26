@@ -60,7 +60,7 @@ without those resources.
    build the ladder first (`/plan-epic`: research → meta-plan), then execute phase by phase.
 4. **Build** (`gradlew.bat :app:assembleNonRoot_gameDebug`). If errors — fix them, don't commit broken state.
 5. **Deploy/run** as your project requires.
-6. **Verify autonomously** on the harness (`gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the phone over adb (C:/adb/adb.exe, logcat)`). Look at the result carefully — don't
+6. **Verify autonomously** on the harness (`gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (D:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands)`). Look at the result carefully — don't
    wishful-think; verify objectively.
 7. **Fix cycle** on a bug: fix → build → test → logs (fresh by timestamp). The **3-attempts** rule →
    `/bug-research` (no code) → then fix.

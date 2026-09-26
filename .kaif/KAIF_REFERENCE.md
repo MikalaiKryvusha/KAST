@@ -58,7 +58,8 @@ the origin's wrapper.
 
 ## 4. Distribution artifacts
 
-Each release attaches five artifacts (their roles are machine-readable in `kaif-manifest.json`):
+Each release attaches six artifacts (their roles are machine-readable in `kaif-manifest.json`; the loader fetches and pins by sha256
+exactly the two it executes — the core and the bundle):
 
 | Artifact | Role |
 |---|---|
@@ -67,6 +68,7 @@ Each release attaches five artifacts (their roles are machine-readable in `kaif-
 | `KAIF-CORE-BUNDLE.md` | The COMPLETE deployable set: documents, skills, spheres, optional tool modules, the optional refresh-hooks module, language packs. |
 | `kaif-manifest.json` | Version, codename, sha256 pins of the fetched pair, asset roles. |
 | `KAIF-FULL.md` | The offline fallback core — a SUBSET (no language packs/spheres/references); not an authoritative diff baseline (only a last-resort candidate for a synthetic one, §10.4). |
+| `kaif-module-map.json` | The generated module inventory (§9.1) — informative: the machinery splits modules itself, so it is neither fetched nor pinned. |
 
 ## 5. The document system
 
@@ -254,7 +256,8 @@ the block's destination path is exact.
 `released`, `templateNotes` (current release), `templateNotesByVersion` (per-release news, printed
 as the UNION of the update interval), `deprecations` (artifacts retired by this release, §10.5),
 `moduleClasses` (manual class overrides), `policyChanges` (§10.6), `renamesByVersion` (headings
-renamed by a release — §9.3).
+renamed by a release — §9.3), `build` (2.8: `sourceTree` — the fingerprint of the sources the bundle was built from; `prerelease` —
+the newer version whose notes a build between releases already carries, else null; the marker records both, §12.1).
 
 ## 9. The module map
 
@@ -302,7 +305,7 @@ changed owner TEMPLATE surfaces as an "owner-conventions" task item); a missing 
 file whose disk sha equals its TEMPLATE sha is replaced (or kept if upstream did not change it);
 a diverged markdown file undergoes the MODULAR merge. Equality is judged MODULO the hand-filled
 slots (2.6, origin issue #48): a file that differs from its template only by the values the
-adaptation task filled into slots the machinery could not fill (`<BUILD_COMMAND>`, `<TEST_HARNESS>`,
+adaptation task filled into slots the machinery could not fill (`gradlew.bat :app:assembleNonRoot_gameDebug (needs Android SDK + NDK 27.0.12077973 — see STATUS)`, `gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the phone over adb (C:/adb/adb.exe, logcat)`,
 the co-author line) is untouched — the replacement carries those fills into the new template, and
 a deprecated file of that shape retires mechanically. The fills are DERIVED from the disk (the
 template matched as a pattern with one capture per slot; the proof is the exact sha of the disk
@@ -503,6 +506,7 @@ the owner's name is not a leak.
 |---|---|
 | `framework` | Always `"KAIF"`. |
 | `version`, `released` | Deployed version and its release date. |
+| `build`, `prerelease` | Written by `install` and both update routes (2.8, origin #107): `build` — the first 12 hex digits of the source-tree fingerprint of the bundle; `prerelease` — present only when the bundle is a build between releases that already carries the notes of that newer version (a release build clears it); the update that reaches that version names it in the task item `prerelease-origin`. |
 | `tracking` | `"origin"` (the default, §11.3) or `"anonymous"`. |
 | `origin` | The origin URL (absent on anonymous). |
 | `sphere` | The project's sphere; its library shall exist at `.kaif/spheres/<sphere>.md`. |

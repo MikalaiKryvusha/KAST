@@ -260,20 +260,20 @@
     "CLAUDE.md"
   ],
   "shas": {
-    "AGENT_GUIDE.md": "71cd1120c8f364cf47408f60408de692fbba343e58d2ed79f35d79ce809c612e",
+    "AGENT_GUIDE.md": "cd51d2c1c41741cdc50ad0bc99054cf40ae293f2e17856a9f64ed7b397c454c0",
     "PHILOSOPHY.md": "e4e6be997c8dd9bb38a33e6d145d8d73b4a36fb570e2789d8958c7db204e9550",
     "BUG_FIXING_FRAMEWORK.md": "1a1f5cb05490565acf8e0b44e2de668285a97105bfe0c58a9612dccb8dc7a21a",
     "TESTING_FRAMEWORK.md": "50f7c98cd4b9c1bf532ba3f8220672b0a0b9954c3a6f5d57562bd845595954a0",
     "REQUIREMENTS_FRAMEWORK.md": "d504c819657dbda045fe5c58f7398dfd2f831d4a3725c9e4a21326b4f713ee0a",
-    "STATUS.md": "8a6c4aa375adb59cda871c318861ca88325466aa150576b8682605855df3e0b4",
+    "STATUS.md": "06a6533e26f93b6820e30109219da3cf655b635c6223e9571e246a8af7335c02",
     "PROJECT_HISTORY.md": "12cb198714458e659171e38973b8f0e4adf10a4a1492153c039fdf872beaae52",
-    "EXPERIENCE.md": "0d978257ab4316c47c68300662c477f36105a737f69fc0f365b21ffc613ae387",
-    "GOAL.md": "eb46360de4ab73159b01e3e143a65a7fba3e198509dcdf1160f57fce2f5662b3",
-    "MASTER_PLAN.md": "ee9eebcae621de03d5d935d8abc2f0feb4d85e588df36ac22131d0a298a10362",
+    "EXPERIENCE.md": "eaab930adeadb2f209bae42958fd9c41b4f14b9b3928642405966d09bd30af0e",
+    "GOAL.md": "fb2dc4c7a3a812a25136b3756e0e2fa130ad637f2499dcd36c2225b154478f43",
+    "MASTER_PLAN.md": "467bf63e8222601bda01e1a9c08edf7306fe68f97aeb8e35b5df5a9f1dfbf8cc",
     "PROJECT_STRUCTURE_EXTERNAL_MAP.md": "46345d93bf1a8a33f3ece24b8cbd11fc4ef5f29c54534434a18ba1addb68d579",
     "PROJECT_ARCHITECTURE_INTERNAL_MAP.md": "e22f64b1bc4630afa1ce3e4ea22d7c87d09302edc3ed91a2b97a89d69264eb70",
     "KAIF_FRAMEWORK.md": "34b0e2c406c3e369e0428144f8bbe5a0da58bcfbc0c7240ebb1ce6e1480ee772",
-    ".kaif/KAIF_REFERENCE.md": "b9c612340b0ac358f68e097efa9e0fb3e61a6c09b9d6980cf9bcdd21f8b899c9",
+    ".kaif/KAIF_REFERENCE.md": "9ca4f020a8b8cc9e6d34227c126fc5427dd9aae1d720f7e33f462ad7c3f5d4b7",
     "plans/README.md": "3762a91299483bab753477a78c3a1b06858a15ad59a416195dd33d4157b33093",
     "ideas/README.md": "3b347bdae725aa12b8c6b7583a098a3f17086d09ad79575d6105eb72387d6298",
     "bugs/README.md": "5ab0d5535b1821cbdb3e9151dc5d76ae2baad9fda6f31f1a81ed9ee7904e1759",
@@ -289,7 +289,7 @@
     ".claude/skills/dayloop/SKILL.md": "4014f45bf7a2037706606f56443ec4175eca025c5a35929b8c53596629544fe2",
     ".claude/skills/derive-styleguide/SKILL.md": "53abfdea26673258e5845d9479bbfe631a67416aa437c1946dfa5e757680b27f",
     ".claude/skills/end-chat-force/SKILL.md": "47f31d1ab90c493292092d2292c29e3f96b0c76731385a447524cd1596c58665",
-    ".claude/skills/end-chat-soft/SKILL.md": "55b2b1102d95fbf97dacb64142716504e4b0ed15e2e4515cbb19f5bb8bef96e5",
+    ".claude/skills/end-chat-soft/SKILL.md": "9636491510a84601219df98d62a39d630f5eb965c6522e014e9c03eee2c7b7e1",
     ".claude/skills/experience/SKILL.md": "d4fef2aa8482824da443213e4aac560c752a3529198d33d5d345d01b2faf6b9d",
     ".claude/skills/fable-domain/SKILL.md": "2e91bd86140fc039fdd536b057bcb24e87827e50372d6de2a0952ca038d221bc",
     ".claude/skills/fable-judge/SKILL.md": "66605cf8dbef1605d8a3f7402fbef28eeda98ace044408a554d4533e3b3cce52",
@@ -317,7 +317,7 @@
     ".claude/skills/propose-idea/SKILL.md": "53f0cdc91dd05d96516cc52a65c10d015eb336d75adc490a6762634d5d45c055",
     ".claude/skills/refresh-context/SKILL.md": "c8468c0626e70c0339de7a15b444d13afbbe9f534da8230ac9d68fb779c8c9ca",
     ".claude/skills/release/SKILL.md": "9f3b7dcaa6329b812251ad08ab5f87e0204c7c024dbf2c00e90bb223fadc4173",
-    ".claude/skills/report-bug/SKILL.md": "1ae0625d57cfbad184337d6042154fa371dbcc190abd4889cb323dde9b586a47",
+    ".claude/skills/report-bug/SKILL.md": "1b7b552264a2405c97d7bb7eec90bcdd0d7534d542ddb50e8d4271dd083f7d9c",
     ".claude/skills/resume/SKILL.md": "803cba094480aa4486f1774f893f3fe8c11ff19d1224391f40ef0a5c3fa9edff",
     ".claude/skills/revision/SKILL.md": "7b1a378e823786c31c52d2e8f62ebdc7314e9d0981639c923729e3b1705b1913",
     ".claude/skills/team-deployment/SKILL.md": "38ad57c8a82b608d19eced4804b31ffa642e66b207b8557bbc33431b544bbb48",
@@ -334,7 +334,7 @@
     ".kaif/spheres/_index.md": "4e4a43e793ef10b10512a8670784eab1df25c3c421b357d175d3bd7efd46a32f",
     ".kaif/spheres/_template.md": "5368ed07270c639803ec025ab9161ee5509cd73271f5c2b2e1c382143bd3556c",
     ".kaif/tools/contour/core.mjs": "2443158932a4c754a46bff5c6386f7917e63226f8fb035bc431f73752e1b3ad8",
-    ".kaif/tools/contour/review.mjs": "f032b79738124e6bf786109189158602c8ae9537b7d0472ff2e17ff4b440fd20",
+    ".kaif/tools/contour/review.mjs": "0c2ddf2fb35c10dd6a56d97541173a0412585412a3f17fdb48c8052b4fb4c829",
     ".kaif/tools/contour/texts.mjs": "d50503946d5136ca40c2fdf594cfba1537c806705d975cc893ac29dc140ed65b",
     ".kaif/tools/kaif-attribution-lint.mjs": "0809ecf695601fe03725f95a9197ef1f193601326c5aef2d2c16d807e9c3e067",
     ".kaif/tools/kaif-canon-lint.mjs": "1c6dbb1b022885f6247a67a5006d88f138eae9ebbe971649647595d812dade4b",
@@ -344,9 +344,9 @@
     ".kaif/tools/kaif-ranking-lint.mjs": "b2a64aa624e9ef65e88c72b4d816c31200a8cd46b3616c627b37b069ad95bb73",
     ".kaif/tools/kaif-requirements-lint.mjs": "22ec413b623d0fa0923ee5051c9c293adb8243d06cf24fdc76b8ce1965ab05a4",
     ".kaif/tools/kaif-scenario-lint.mjs": "efb0ea3cb35b89ab56d98738ae4ea79509dc64a65d1295cfa23548f052b43fa4",
-    ".kaif/tools/kaif-testrun-lint.mjs": "3202ef88ac07eae7e09c8071c8d7217add99bffe3f48cf69db6e6d2c0aa674f6",
-    ".kaif/tools/kaif-voice-lint.mjs": "5a557b071bb38eb9891b4e72ac8091b5c62d9c203253c086efe4cf539e294cf7",
-    ".kaif/hooks/pretool-owner-word.mjs": "ce95a6d342a913056fbbcc40cd956a432be21aceba2eb53a46cf0498c9f132ff",
+    ".kaif/tools/kaif-testrun-lint.mjs": "97779db8af6064364bc0f0e567a829901ce6b95b640ea9bf0765f9628775b199",
+    ".kaif/tools/kaif-voice-lint.mjs": "55a0d979fea7d7ccc6e77616949037dc1bc73ec8c3021d959d578d147bc4a502",
+    ".kaif/hooks/pretool-owner-word.mjs": "fdceea9ea8efc9ec43435d9bd76e1ac9f1ede7712e9383d15e977ba456a17e65",
     ".kaif/hooks/prompt-refresh-timer.mjs": "3dc910f14fe1bc72baa522a2dd3caa3428d985bb6b883109a32cd6c882c20169",
     ".kaif/hooks/prompt-resume-word.mjs": "bd8c8f183e5c4273794f2a014f982894c9e7691f6650c3dec63bd4e5c695dadb",
     ".kaif/hooks/README.md": "1a78e070c780ec09132d593e11408cce9d3d89b327716f70570fcf5dfd8a2050",
@@ -517,7 +517,7 @@
     "CLAUDE.md": "3018e3139b96d01fe8dda24513b48f4f0347628b60cea5f013776f3a94870e35"
   },
   "templateShas": {
-    "AGENT_GUIDE.md": "b9324eeea555c5a79be1ce774f0f096d058f2d6cf8346917e5f0875152176a17",
+    "AGENT_GUIDE.md": "ee71e447b9c9452374405af76768ef5876dc74a8978a37bf5e21a0471a2edd59",
     "PHILOSOPHY.md": "e4e6be997c8dd9bb38a33e6d145d8d73b4a36fb570e2789d8958c7db204e9550",
     "BUG_FIXING_FRAMEWORK.md": "1a1f5cb05490565acf8e0b44e2de668285a97105bfe0c58a9612dccb8dc7a21a",
     "TESTING_FRAMEWORK.md": "50f7c98cd4b9c1bf532ba3f8220672b0a0b9954c3a6f5d57562bd845595954a0",
@@ -530,7 +530,7 @@
     "PROJECT_STRUCTURE_EXTERNAL_MAP.md": "07784f77704a7b7d93fd7ef3c866d4daa57040bf54e4b03f1d7979773c528640",
     "PROJECT_ARCHITECTURE_INTERNAL_MAP.md": "04df2c2fb94d502be595677815b156c1931cf85d1c9ae5c75f3ec92829099406",
     "KAIF_FRAMEWORK.md": "2f1f0caf25fa8c701e7f76511fccf426410bee3401f9f486263a697c9986ce67",
-    ".kaif/KAIF_REFERENCE.md": "b9c612340b0ac358f68e097efa9e0fb3e61a6c09b9d6980cf9bcdd21f8b899c9",
+    ".kaif/KAIF_REFERENCE.md": "102b4b35bbe13f42f75a989e5b001856c239b050d903d1baa783a5339cd3b104",
     "plans/README.md": "3762a91299483bab753477a78c3a1b06858a15ad59a416195dd33d4157b33093",
     "ideas/README.md": "3b347bdae725aa12b8c6b7583a098a3f17086d09ad79575d6105eb72387d6298",
     "bugs/README.md": "5ab0d5535b1821cbdb3e9151dc5d76ae2baad9fda6f31f1a81ed9ee7904e1759",
@@ -546,7 +546,7 @@
     ".claude/skills/dayloop/SKILL.md": "81e06d148e1627353fef37a533b9abef0ae2eb99920f75b10d4c7d3c972b328c",
     ".claude/skills/derive-styleguide/SKILL.md": "53abfdea26673258e5845d9479bbfe631a67416aa437c1946dfa5e757680b27f",
     ".claude/skills/end-chat-force/SKILL.md": "47f31d1ab90c493292092d2292c29e3f96b0c76731385a447524cd1596c58665",
-    ".claude/skills/end-chat-soft/SKILL.md": "9d60e659f8363ca9ef8705e1632092e183e08cacff0406cfefbb8a8b0c60d019",
+    ".claude/skills/end-chat-soft/SKILL.md": "93888ee87fde5b76476e2cd745dc498961846d24e1241eaa5585eebebeacefea",
     ".claude/skills/experience/SKILL.md": "d4fef2aa8482824da443213e4aac560c752a3529198d33d5d345d01b2faf6b9d",
     ".claude/skills/fable-domain/SKILL.md": "2e91bd86140fc039fdd536b057bcb24e87827e50372d6de2a0952ca038d221bc",
     ".claude/skills/fable-judge/SKILL.md": "66605cf8dbef1605d8a3f7402fbef28eeda98ace044408a554d4533e3b3cce52",
@@ -574,7 +574,7 @@
     ".claude/skills/propose-idea/SKILL.md": "53f0cdc91dd05d96516cc52a65c10d015eb336d75adc490a6762634d5d45c055",
     ".claude/skills/refresh-context/SKILL.md": "c8468c0626e70c0339de7a15b444d13afbbe9f534da8230ac9d68fb779c8c9ca",
     ".claude/skills/release/SKILL.md": "9f3b7dcaa6329b812251ad08ab5f87e0204c7c024dbf2c00e90bb223fadc4173",
-    ".claude/skills/report-bug/SKILL.md": "1ae0625d57cfbad184337d6042154fa371dbcc190abd4889cb323dde9b586a47",
+    ".claude/skills/report-bug/SKILL.md": "1b7b552264a2405c97d7bb7eec90bcdd0d7534d542ddb50e8d4271dd083f7d9c",
     ".claude/skills/resume/SKILL.md": "803cba094480aa4486f1774f893f3fe8c11ff19d1224391f40ef0a5c3fa9edff",
     ".claude/skills/revision/SKILL.md": "7b1a378e823786c31c52d2e8f62ebdc7314e9d0981639c923729e3b1705b1913",
     ".claude/skills/team-deployment/SKILL.md": "38ad57c8a82b608d19eced4804b31ffa642e66b207b8557bbc33431b544bbb48",
@@ -591,7 +591,7 @@
     ".kaif/spheres/_index.md": "4e4a43e793ef10b10512a8670784eab1df25c3c421b357d175d3bd7efd46a32f",
     ".kaif/spheres/_template.md": "5368ed07270c639803ec025ab9161ee5509cd73271f5c2b2e1c382143bd3556c",
     ".kaif/tools/contour/core.mjs": "2443158932a4c754a46bff5c6386f7917e63226f8fb035bc431f73752e1b3ad8",
-    ".kaif/tools/contour/review.mjs": "f032b79738124e6bf786109189158602c8ae9537b7d0472ff2e17ff4b440fd20",
+    ".kaif/tools/contour/review.mjs": "0c2ddf2fb35c10dd6a56d97541173a0412585412a3f17fdb48c8052b4fb4c829",
     ".kaif/tools/contour/texts.mjs": "d50503946d5136ca40c2fdf594cfba1537c806705d975cc893ac29dc140ed65b",
     ".kaif/tools/kaif-attribution-lint.mjs": "0809ecf695601fe03725f95a9197ef1f193601326c5aef2d2c16d807e9c3e067",
     ".kaif/tools/kaif-canon-lint.mjs": "1c6dbb1b022885f6247a67a5006d88f138eae9ebbe971649647595d812dade4b",
@@ -601,9 +601,9 @@
     ".kaif/tools/kaif-ranking-lint.mjs": "b2a64aa624e9ef65e88c72b4d816c31200a8cd46b3616c627b37b069ad95bb73",
     ".kaif/tools/kaif-requirements-lint.mjs": "22ec413b623d0fa0923ee5051c9c293adb8243d06cf24fdc76b8ce1965ab05a4",
     ".kaif/tools/kaif-scenario-lint.mjs": "efb0ea3cb35b89ab56d98738ae4ea79509dc64a65d1295cfa23548f052b43fa4",
-    ".kaif/tools/kaif-testrun-lint.mjs": "3202ef88ac07eae7e09c8071c8d7217add99bffe3f48cf69db6e6d2c0aa674f6",
-    ".kaif/tools/kaif-voice-lint.mjs": "5a557b071bb38eb9891b4e72ac8091b5c62d9c203253c086efe4cf539e294cf7",
-    ".kaif/hooks/pretool-owner-word.mjs": "ce95a6d342a913056fbbcc40cd956a432be21aceba2eb53a46cf0498c9f132ff",
+    ".kaif/tools/kaif-testrun-lint.mjs": "97779db8af6064364bc0f0e567a829901ce6b95b640ea9bf0765f9628775b199",
+    ".kaif/tools/kaif-voice-lint.mjs": "55a0d979fea7d7ccc6e77616949037dc1bc73ec8c3021d959d578d147bc4a502",
+    ".kaif/hooks/pretool-owner-word.mjs": "fdceea9ea8efc9ec43435d9bd76e1ac9f1ede7712e9383d15e977ba456a17e65",
     ".kaif/hooks/prompt-refresh-timer.mjs": "3dc910f14fe1bc72baa522a2dd3caa3428d985bb6b883109a32cd6c882c20169",
     ".kaif/hooks/prompt-resume-word.mjs": "bd8c8f183e5c4273794f2a014f982894c9e7691f6650c3dec63bd4e5c695dadb",
     ".kaif/hooks/README.md": "1a78e070c780ec09132d593e11408cce9d3d89b327716f70570fcf5dfd8a2050",
@@ -766,7 +766,7 @@
       {
         "signature": "## Backlog & the DONE tag",
         "class": "static",
-        "sha256": "7ce7d088fbaab08cf3dc229798fe326a8bd00b585db564d1d3f21b5c8f771f99"
+        "sha256": "6d409baa0cebe3cabca3d4ecc3d1f5e1dce630aaa59141a93bcbc8753122b322"
       },
       {
         "signature": "## Decisions the agent must NOT make alone — interviews",
@@ -1317,7 +1317,7 @@
       {
         "signature": "## 4. Distribution artifacts",
         "class": "static",
-        "sha256": "27be1d43dee833578a8d2ea6b2b979000cc2515700c21b70ad6a555485556131"
+        "sha256": "1413c26deacea44c2542a0da8e48a7c4c5eac8b96230b452d9a411f8cd6288d6"
       },
       {
         "signature": "## 5. The document system",
@@ -1372,7 +1372,7 @@
       {
         "signature": "### 8.2 The meta block",
         "class": "static",
-        "sha256": "19de524fadf452b1f7be3d8ba98b6a0f3380d194ff8bfbc27acf5bd339c8a529"
+        "sha256": "cbb1e9867a2fb3b95407ac19beb935798834b8c8f531c6d1bf01be72f442032c"
       },
       {
         "signature": "## 9. The module map",
@@ -1467,7 +1467,7 @@
       {
         "signature": "### 12.1 The marker (`.kaif/kaif.json`)",
         "class": "static",
-        "sha256": "38ed47dec028e3ebb9683dfd397978b75eb89b6ea1d227d8fb04c762137045ad"
+        "sha256": "d794fa00dc204dfff5f06fc9d7222b13f88c90eff8819ee14c0fd22e341de0d3"
       },
       {
         "signature": "### 12.2 The deploy manifest (`.kaif/deploy-manifest.json`)",
@@ -2049,7 +2049,7 @@
       {
         "signature": "### Step 5. The farewell report",
         "class": "static",
-        "sha256": "95590516557c3dbdf728e4ed9695ac68598036e1ef6e3e2eb70efb18a19c310d"
+        "sha256": "943f7ab63a9afcef7c3e5e15fe619275a1051a24e4619e5fb8a80e89b155b309"
       },
       {
         "signature": "## Notes",
@@ -3110,7 +3110,7 @@
       {
         "signature": "### Template C — tester's bug report (a defect of THE PRODUCT, for its developer)",
         "class": "static",
-        "sha256": "334b33b1d0d39c4f7e5f97fa2ba420b9adfbe1d1f68488989bad03f7558158eb"
+        "sha256": "1658558ee2916c9dec1312df3f83b4ff8ad24b5e1e67672156a6215c2d93eafa"
       },
       {
         "signature": "## What to do",
@@ -4117,7 +4117,12 @@
     "MASTER_PLAN.md": 53,
     "PROJECT_STRUCTURE_EXTERNAL_MAP.md": 44
   },
-  "kept": [],
+  "kept": [
+    ".claude/skills/autoloop/SKILL.md",
+    ".claude/skills/dayloop/SKILL.md",
+    ".claude/skills/nightloop/SKILL.md",
+    ".kaif/spheres/programming.md"
+  ],
   "values": {
     "<PROJECT_NAME>": "KAST",
     "<SHORT_NAME>": "KAST",
@@ -4127,14 +4132,19 @@
     "<COMMIT_COMMAND>": "git add -A && git commit -m \"<msg>\" && git push",
     "<OWNER_LANGUAGE>": "ru"
   },
-  "fills": {},
+  "fills": {
+    "<BUILD_COMMAND>": "gradlew.bat :app:assembleNonRoot_gameDebug — the full line with JDK/SDK/cache: HOUSE_RULES.md → \"Tools of this project\"",
+    "<TEST_HARNESS>": "gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (D:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands)",
+    "<YOUR AGENT/MODEL>": "Claude Opus 5.5 (1M context)",
+    "<YOUR AGENT'S noreply EMAIL>": "Opus 5.5 (1M context) <noreply@anthropic.com>"
+  },
   "marker": {
     "framework": "KAIF",
-    "version": "2.7",
-    "released": "2026-09-18",
+    "version": "2.8",
+    "released": "2026-09-26",
     "origin": "https://github.com/MikalaiKryvusha/KAIF",
     "tracking": "origin",
-    "sphere": "TODO",
+    "sphere": "programming",
     "agents": [
       "claude-code",
       "codex",
