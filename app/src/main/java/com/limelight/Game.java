@@ -3605,11 +3605,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 timerHandler.removeCallbacksAndMessages(null);
 
                 // KAST: the reason of every end; "outcome=terminated" when it ended a silence
-                // KAST (plans/06, step 1, first half — log only, behaviour unchanged): the class of the end. 0 = the host
-                // ended it on purpose; -1 = the ENet control peer timed out (observed in F1/F2). Every other code stays
-                // "unknown" until the step's recon closes its FORK. "withinGrace" says whether F3 would still resume. [TESTED: 2026-09-26 17:47 · branch transport (-1, withinGrace=true) — testcases/reports/2026-09-26_F3_instrument.md] [NOT-TESTED: branch final (host close) — the host admin session had expired, 401]. Note for step 1's second half: withinGrace is true when there was no silence (elapsed 0)
+                // KAST (plans/06, step 1 — log only, behaviour unchanged): the class of the end by the code AND whether the
+                // control stream was silent before it (the FORK and the code table — KastReconnectPolicy.endClass).
+                // "withinGrace" says whether F3 would still resume. [TESTED: 2026-09-26 17:47 · branch transport (-1,
+                // withinGrace=true) — testcases/reports/2026-09-26_F3_instrument.md; the class table — KastReconnectPolicyTest]
+                // [NOT-TESTED on the device: branch final (host close) — the host admin session had expired, 401]
                 long kastSilenceElapsed = kastSilenceStartMs != 0 ? SystemClock.elapsedRealtime() - kastSilenceStartMs : 0;
-                Log.i(KAST_TAG, "end class=" + KastReconnectPolicy.endClass(errorCode) + " code=" + errorCode +
+                Log.i(KAST_TAG, "end class=" + KastReconnectPolicy.endClass(errorCode, kastSilenceStartMs != 0) + " code=" + errorCode +
                         " withinGrace=" + KastReconnectPolicy.withinGrace(kastSilenceElapsed, prefConfig.reconnectGraceSeconds));
                 if (kastSilenceStartMs != 0) {
                     Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +

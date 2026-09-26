@@ -26,14 +26,35 @@ public final class KastReconnectPolicy {
     }
 
     /**
-     * The class of a connectionTerminated code. 0 — the host ended it on purpose; -1 — the ENet control peer died
-     * (observed in F1/F2). Every other code stays unknown until the recon table of plan 06, step 1 closes its FORK.
+     * The class of a connectionTerminated code (plan 06, step 1 — the recon table of the core's termination codes).
+     * FORK: options code only | code + "was the control stream silent before the end" | code + a network event · price of
+     * error: resuming after a real host end keeps the user on a dead screen; not resuming after a network change shows
+     * the old dialog (the pre-F3 behaviour) · consulted: moonlight-common-c sources (ControlStream.c, VideoStream.c,
+     * AudioStream.c, InputStream.c, Limelight.h — the table in plan 06), research 02 finding 4. Chosen: code + silence —
+     * resume only when sure; the network event (step 3) may widen it later.
+     * <ul>
+     * <li>0 — the host closed the app on purpose → final.</li>
+     * <li>-102 / -103 / -104 — the host ended the stream (early end, protected content, frame conversion) → final.</li>
+     * <li>-1 — the ENet control peer died or a stream receive failed → transport.</li>
+     * <li>-101 (no full frame) and positive codes (a socket errno, OR a host reason passed as-is — the two overlap) →
+     * transport only after a silence; without one → unknown.</li>
+     * <li>-100 (no video ever: a closed UDP port at start) and anything else → unknown.</li>
+     * </ul>
      */
-    public static String endClass(int errorCode) {
-        if (errorCode == MoonBridge.ML_ERROR_GRACEFUL_TERMINATION) {
-            return END_FINAL;
+    public static String endClass(int errorCode, boolean silenceBefore) {
+        switch (errorCode) {
+            case MoonBridge.ML_ERROR_GRACEFUL_TERMINATION:
+            case MoonBridge.ML_ERROR_UNEXPECTED_EARLY_TERMINATION:
+            case MoonBridge.ML_ERROR_PROTECTED_CONTENT:
+            case MoonBridge.ML_ERROR_FRAME_CONVERSION:
+                return END_FINAL;
+            case -1:
+                return END_TRANSPORT;
+            case MoonBridge.ML_ERROR_NO_VIDEO_FRAME:
+                return silenceBefore ? END_TRANSPORT : END_UNKNOWN;
+            default:
+                return errorCode > 0 && silenceBefore ? END_TRANSPORT : END_UNKNOWN;
         }
-        return errorCode == -1 ? END_TRANSPORT : END_UNKNOWN;
     }
 
     /** Whether an end after {@code silenceElapsedMs} of silence still falls inside the grace period. */

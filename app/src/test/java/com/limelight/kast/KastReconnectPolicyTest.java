@@ -33,10 +33,27 @@ public class KastReconnectPolicyTest {
 
     @Test
     public void endClassesOfTheObservedCodes() {
-        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(0));        // host closed the app (K4)
-        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-1));   // ENet peer died (K1 baseline, control)
-        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(-100));   // no video traffic — not decided yet
-        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(104));    // errno or a host reason — ambiguous
+        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(0, false));      // host closed the app (K4)
+        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-1, true));  // ENet peer died after a silence (F2 control)
+        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-1, false)); // a stream receive failure without a silence
+    }
+
+    @Test
+    public void hostEndsAreFinalEvenAfterASilence() {
+        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(0, true));
+        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(-102, true));   // early termination
+        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(-103, false));  // protected content
+        assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(-104, false));  // frame conversion
+    }
+
+    @Test
+    public void ambiguousCodesNeedASilenceToCountAsTransport() {
+        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(104, true));  // errno after a silence
+        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(104, false));   // errno or a host reason — cannot tell
+        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-101, true)); // no full frame during a silence
+        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(-101, false));
+        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(-100, true));   // no video ever — a closed port
+        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(-7, true));     // anything unlisted
     }
 
     @Test
