@@ -39,6 +39,7 @@ import com.limelight.nvstream.input.MouseButtonPacket;
 import com.limelight.nvstream.jni.MoonBridge;
 import com.limelight.preferences.GlPreferences;
 import com.limelight.preferences.PreferenceConfiguration;
+import com.limelight.kast.KastReconnectPolicy;
 import com.limelight.profiles.ProfilesManager;
 import com.limelight.ui.ExternalControllerView;
 import com.limelight.ui.GameGestures;
@@ -238,13 +239,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private long kastSilenceStartMs; // elapsedRealtime() when the current silence began; 0 = no silence
     private CharSequence kastOverlayTextBeforeSilence; // the "poor connection" text the outage label covered
 
-    // KAST (plans/06, step 6): the client ENet timeout — the grace period, or the debug-only instrument when it is set.
-    // The instrument is honoured only when it is SHORTER than the grace period (its purpose; this also bounds it to 300 s,
-    // so seconds * 1000 cannot overflow).
+    // KAST (plans/06, step 6): the client ENet timeout — the rule lives in KastReconnectPolicy (unit-tested)
     private int kastEnetTimeoutMs() {
-        int debugSeconds = prefConfig.debugEnetTimeoutSeconds;
-        int seconds = debugSeconds > 0 && debugSeconds < prefConfig.reconnectGraceSeconds ? debugSeconds : prefConfig.reconnectGraceSeconds;
-        return seconds * 1000;
+        return KastReconnectPolicy.enetTimeoutMs(prefConfig.reconnectGraceSeconds, prefConfig.debugEnetTimeoutSeconds);
     }
     private final Runnable kastSilenceWatchdog = new Runnable() {
         @Override
@@ -3611,10 +3608,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 // KAST (plans/06, step 1, first half — log only, behaviour unchanged): the class of the end. 0 = the host
                 // ended it on purpose; -1 = the ENet control peer timed out (observed in F1/F2). Every other code stays
                 // "unknown" until the step's recon closes its FORK. "withinGrace" says whether F3 would still resume. [TESTED: 2026-09-26 17:47 · branch transport (-1, withinGrace=true) — testcases/reports/2026-09-26_F3_instrument.md] [NOT-TESTED: branch final (host close) — the host admin session had expired, 401]. Note for step 1's second half: withinGrace is true when there was no silence (elapsed 0)
-                String kastEndClass = errorCode == MoonBridge.ML_ERROR_GRACEFUL_TERMINATION ? "final" : (errorCode == -1 ? "transport" : "unknown");
                 long kastSilenceElapsed = kastSilenceStartMs != 0 ? SystemClock.elapsedRealtime() - kastSilenceStartMs : 0;
-                Log.i(KAST_TAG, "end class=" + kastEndClass + " code=" + errorCode +
-                        " withinGrace=" + (kastSilenceElapsed < prefConfig.reconnectGraceSeconds * 1000L));
+                Log.i(KAST_TAG, "end class=" + KastReconnectPolicy.endClass(errorCode) + " code=" + errorCode +
+                        " withinGrace=" + KastReconnectPolicy.withinGrace(kastSilenceElapsed, prefConfig.reconnectGraceSeconds));
                 if (kastSilenceStartMs != 0) {
                     Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));

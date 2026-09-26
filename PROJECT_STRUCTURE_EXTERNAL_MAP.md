@@ -43,6 +43,8 @@ KAST/
 | `…/nvstream/jni/MoonBridge.java` | JNI facade + callback sink; error-code constants (`ML_ERROR_*`) | `moonlight-core/simplejni.c`, `callbacks.c` |
 | `app/src/main/jni/moonlight-core/moonlight-common-c/src/` | the protocol core: `ControlStream.c` (ENet control, peer timeout `:1802`), `VideoStream.c`, `AudioStream.c`, `InputStream.c`, `Connection.c` (termination funnel `:158`) | `enet/`, platform sockets |
 | `…/preferences/PreferenceConfiguration.java` + `res/xml/preferences.xml` | every user setting (a new "reconnect grace period" goes here) | read by `Game` at start |
+| `…/kast/KastReconnectPolicy.java` | KAST reconnect rules as pure functions: client ENet timeout (grace or the debug instrument), end class of a termination code, «within grace»; unit-tested in `app/src/test/java/com/limelight/kast/KastReconnectPolicyTest.java` | used by `Game` (policy log line, `setControlPeerTimeoutMs`, `connectionTerminated`); plan 06 |
+| `…/Game.java` KAST watchdog (`kastSilenceWatchdog`, `kastCheckSilence`) | F2 hold: polls `MoonBridge.getControlStreamSilenceMs` every 500 ms, the «connection lost» label over the last frame, log tag `KastReconnect` | core `LiGetControlStreamSilenceMs` (fork `MikalaiKryvusha/moonlight-common-c`), plan 04 |
 | `researches/01_why_session_drops_on_network_loss.md` | the cause map with file:line and server-log evidence | `ideas/01` |
 
 ## Cross-references & dependency rules
