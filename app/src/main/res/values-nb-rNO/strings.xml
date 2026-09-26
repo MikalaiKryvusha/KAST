@@ -217,4 +217,9 @@
     <string name="kast_perf_log_close">Lukk</string>
     <string name="kast_perf_log_saved">Loggen er lagret</string>
     <string name="kast_perf_log_share_subject">KAST – ytelseslogg</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Ventetid for gjentilkobling</string>
+    <string name="summary_seekbar_reconnect_grace">Hvor lenge KAST beholder spilløkten når nettverket forsvinner, før den avsluttes. Vertsmaskinen har også sin egen grense.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Tilkoblingen er brutt — venter på nettverket… %1$d s</string>
 </resources>

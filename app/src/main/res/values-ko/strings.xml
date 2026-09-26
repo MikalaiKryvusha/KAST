@@ -297,4 +297,9 @@
     <string name="kast_perf_log_close">닫기</string>
     <string name="kast_perf_log_saved">로그가 저장되었습니다</string>
     <string name="kast_perf_log_share_subject">KAST 성능 로그</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">재연결 대기 시간</string>
+    <string name="summary_seekbar_reconnect_grace">네트워크가 끊겼을 때 KAST가 게임 세션을 종료하지 않고 유지하는 시간입니다. 호스트 PC에도 자체 제한이 있습니다.</string>
+    <string name="suffix_seekbar_seconds">초</string>
+    <string name="kast_connection_lost_waiting">연결 끊김 — 네트워크 대기 중… %1$d초</string>
 </resources>

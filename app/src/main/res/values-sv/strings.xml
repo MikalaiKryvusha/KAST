@@ -281,4 +281,9 @@
     <string name="kast_perf_log_close">Stäng</string>
     <string name="kast_perf_log_saved">Loggen sparades</string>
     <string name="kast_perf_log_share_subject">KAST – prestandalogg</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Väntetid för återanslutning</string>
+    <string name="summary_seekbar_reconnect_grace">Hur länge KAST behåller spelsessionen när nätverket försvinner innan den avslutas. Värddatorn har också en egen gräns.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Anslutningen förlorades — väntar på nätverket… %1$d s</string>
 </resources>

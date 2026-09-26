@@ -55,6 +55,9 @@ public class PreferenceConfiguration {
     private static final String DISABLE_TOASTS_PREF_STRING = "checkbox_disable_warnings";
     private static final String HOST_AUDIO_PREF_STRING = "checkbox_host_audio";
     private static final String DEADZONE_PREF_STRING = "seekbar_deadzone";
+    // KAST (plans/04, step 4): the reconnect grace period in seconds — how long a lost network may stay
+    // silent before the session ends. Range 10–300 s in the settings screen, default 60 s. [NOT-TESTED]
+    private static final String RECONNECT_GRACE_PREF_STRING = "seekbar_reconnect_grace_seconds";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";
     private static final String SMALL_ICONS_PREF_STRING = "checkbox_small_icon_mode";
@@ -152,6 +155,7 @@ public class PreferenceConfiguration {
     private static final boolean DEFAULT_DISABLE_TOASTS = false;
     private static final boolean DEFAULT_HOST_AUDIO = false;
     private static final int DEFAULT_DEADZONE = 5;
+    public static final int DEFAULT_RECONNECT_GRACE_SECONDS = 60; // KAST: the owner's 60 s (GOAL.md)
     private static final int DEFAULT_OPACITY = 90;
     public static final String DEFAULT_LANGUAGE = "default";
     private static final boolean DEFAULT_MULTI_CONTROLLER = true;
@@ -240,6 +244,7 @@ public class PreferenceConfiguration {
     public FormatOption videoFormat;
     public int framePacingWarpFactor = 0;
     public int deadzonePercentage;
+    public int reconnectGraceSeconds; // KAST
     public int oscOpacity;
     public int oscKeyboardOpacity;
     public int onscreenKeyboardHeight;
@@ -873,6 +878,8 @@ private static int getFramePacingValue(Context context) {
         config.analogStickForScrolling = getAnalogStickForScrollingValue(context);
 
         config.deadzonePercentage = prefs.getInt(DEADZONE_PREF_STRING, DEFAULT_DEADZONE);
+
+        config.reconnectGraceSeconds = prefs.getInt(RECONNECT_GRACE_PREF_STRING, DEFAULT_RECONNECT_GRACE_SECONDS);
 
         config.oscOpacity = prefs.getInt(OSC_OPACITY_PREF_STRING, DEFAULT_OPACITY);
 

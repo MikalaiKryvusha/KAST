@@ -742,4 +742,9 @@
     <string name="kast_perf_log_close">Close</string>
     <string name="kast_perf_log_saved">Log saved</string>
     <string name="kast_perf_log_share_subject">KAST performance log</string>
+    <!-- KAST (plans/04): reconnect grace period and the outage label -->
+    <string name="title_seekbar_reconnect_grace">Reconnect grace period</string>
+    <string name="summary_seekbar_reconnect_grace">How long KAST keeps the game session through a lost network before ending it. The host PC has its own limit too.</string>
+    <string name="suffix_seekbar_seconds">s</string>
+    <string name="kast_connection_lost_waiting">Connection lost — waiting for the network… %1$d s</string>
 </resources>

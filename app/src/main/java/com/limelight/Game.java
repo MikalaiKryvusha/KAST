@@ -112,6 +112,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
 
 import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Log;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
@@ -224,6 +226,23 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private boolean overlayToggleZoomButtonShown;
     private TextView notificationOverlayView;
     private int requestedNotificationOverlayVisibility = View.GONE;
+
+    // KAST (plans/04_epic02_F2_hold.md, step 5): the control-stream silence watchdog. While the host is
+    // silent it shows "connection lost — waiting for the network… N s" over the last decoded frame (the
+    // surface keeps it by itself) and logs every drop and recovery under the logcat tag KastReconnect.
+    // It polls the core (MoonBridge.getControlStreamSilenceMs) instead of counting frames: a still
+    // desktop produces no frames, so a frame watchdog would lie. [NOT-TESTED]
+    private static final String KAST_TAG = "KastReconnect";
+    private static final int KAST_WATCHDOG_PERIOD_MS = 500;
+    private static final int KAST_SILENCE_SHOW_MS = 1500;
+    private long kastSilenceStartMs; // elapsedRealtime() when the current silence began; 0 = no silence
+    private final Runnable kastSilenceWatchdog = new Runnable() {
+        @Override
+        public void run() {
+            kastCheckSilence();
+            timerHandler.postDelayed(this, KAST_WATCHDOG_PERIOD_MS);
+        }
+    };
     private View performanceOverlayView;
 
     private TextView performanceOverlayLite;
@@ -799,6 +818,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 .setColorSpace(decoderRenderer.getPreferredColorSpace())
                 .setColorRange(decoderRenderer.getPreferredColorRange())
                 .setPersistGamepadsAfterDisconnect(!prefConfig.multiController)
+                .setControlPeerTimeoutMs(prefConfig.reconnectGraceSeconds * 1000) // KAST: the grace period
                 .build();
 
         // Initialize the connection
@@ -3452,6 +3472,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     }
 
     private void stopConnection() {
+        timerHandler.removeCallbacks(kastSilenceWatchdog); // KAST: no watchdog without a connection
         if (connecting || connected) {
             connecting = connected = false;
             updatePipAutoEnter();
@@ -3576,6 +3597,16 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 controllerHandler.stop();
                 timerHandler.removeCallbacksAndMessages(null);
 
+                // KAST: the reason of every end; "outcome=terminated" when it ended a silence
+                if (kastSilenceStartMs != 0) {
+                    Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +
+                            " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
+                    kastSilenceStartMs = 0;
+                }
+                else {
+                    Log.i(KAST_TAG, "connection terminated code=" + errorCode + " (no silence before it)");
+                }
+
                 // Ungrab input
                 setInputGrabState(false);
 
@@ -3641,6 +3672,31 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 }
             }
         });
+    }
+
+    // KAST: one watchdog tick — see kastSilenceWatchdog. Runs on the UI thread (timerHandler).
+    private void kastCheckSilence() {
+        int silenceMs = MoonBridge.getControlStreamSilenceMs();
+        long now = SystemClock.elapsedRealtime();
+
+        if (silenceMs >= KAST_SILENCE_SHOW_MS) {
+            if (kastSilenceStartMs == 0) {
+                kastSilenceStartMs = now - silenceMs;
+                Log.i(KAST_TAG, "silence start silenceMs=" + silenceMs);
+            }
+            int seconds = (int) ((now - kastSilenceStartMs) / 1000);
+            notificationOverlayView.setText(getString(R.string.kast_connection_lost_waiting, seconds));
+            if (!isHidingOverlays) {
+                notificationOverlayView.setVisibility(View.VISIBLE);
+            }
+        }
+        else if (silenceMs >= 0 && kastSilenceStartMs != 0) {
+            Log.i(KAST_TAG, "outcome=held elapsed=" + (now - kastSilenceStartMs));
+            kastSilenceStartMs = 0;
+            if (!isHidingOverlays) {
+                notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
+            }
+        }
     }
 
     @Override
@@ -3716,6 +3772,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 if (prefConfig.preventPacketLoss) {
                     timerHandler.postDelayed(backgroundPing, 1000);
                 }
+
+                // KAST: the reconnect policy of this connection, then the silence watchdog
+                Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000));
+                kastSilenceStartMs = 0;
+                timerHandler.postDelayed(kastSilenceWatchdog, KAST_WATCHDOG_PERIOD_MS);
             }
         });
 

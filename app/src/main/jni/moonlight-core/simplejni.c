@@ -223,6 +223,12 @@ Java_com_limelight_nvstream_jni_MoonBridge_getEstimatedRttInfo(JNIEnv *env, jcla
     return ((uint64_t)rtt << 32U) | variance;
 }
 
+// KAST (plans/04, step 3): see LiGetControlStreamSilenceMs() in Limelight.h.
+JNIEXPORT jint JNICALL
+Java_com_limelight_nvstream_jni_MoonBridge_getControlStreamSilenceMs(JNIEnv *env, jclass clazz) {
+    return LiGetControlStreamSilenceMs();
+}
+
 JNIEXPORT jstring JNICALL
 Java_com_limelight_nvstream_jni_MoonBridge_getLaunchUrlQueryParameters(JNIEnv *env, jclass clazz) {
     return (*env)->NewStringUTF(env, LiGetLaunchUrlQueryParameters());
