@@ -15,6 +15,12 @@
   "language": "ru",
   "canonArtifacts": [],
   "projectName": "KAST",
+  "contour": {
+    "callName": "Николай",
+    "spokenProjectName": "КАСТ",
+    "quietFrom": "00:00",
+    "quietTo": "08:00"
+  },
   "history": [
     {
       "from": "2.7",
