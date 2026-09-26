@@ -44,5 +44,14 @@ hookCase('gate piped for reading, no commit', ev('node .kaif/tools/kaif-voice-li
 hookCase('commit alone', ev('git add a.md && git commit -m "x | y"'), 0);
 hookCase('logical OR is not a pipe', ev('node .kaif/tools/kaif-experience-lint.mjs check || echo red && git status'), 0);
 
+// Part C — backtick-in-inline-script (EXP-0007): the 19:53 form that ran tools/make-launcher-icon.mjs
+console.log('C. backtick-in-inline-script');
+const BT = String.fromCharCode(96);
+hookCase('node -e "…" with markdown code (EXP-0007)', ev('node -e "const t=' + "'" + 'генератор ' + BT + 'tools/make-launcher-icon.mjs' + BT + "'" + '; console.log(t)"'), 2);
+hookCase('python -c "…" with a backtick', ev('python -c "print(' + "'" + BT + 'x' + BT + "'" + ')"'), 2);
+hookCase('node -e in single quotes with a backtick', ev("node -e 'const t = " + BT + 'x' + BT + "; console.log(t)'"), 0);
+hookCase('node -e "…" without a backtick', ev('node -e "console.log(1 + 1)"'), 0);
+hookCase('a backtick outside the inline script', ev('node -e "console.log(1)"; echo ' + BT + 'date' + BT), 0);
+
 console.log(`${total - bad}/${total} as expected`);
 process.exit(bad ? 1 : 0);

@@ -69,11 +69,50 @@ export function gatePipedIntoCommit(command) {
   return null;
 }
 
+// Third check of the same Bash hook (EXPERIENCE.md EXP-0007, class shell-lied, 2026-09-26): an inline script in
+// DOUBLE quotes (`node -e "\u2026"`, `python -c "\u2026"`) that carries a backtick \u2014 bash runs the backticked text as a command
+// before the script starts (19:53: markdown `code` in a node -e string ran tools/make-launcher-icon.mjs and the script
+// died). One line of the command is judged at a time; single-quoted scripts pass.
+// @guard backtick-in-inline-script
+// THREAT:         a node -e / python -c script in double quotes with a backtick: bash substitutes it \u2014 a command runs,
+//                 the text gets a hole, exit may be 0 (EXP-0007; AGENT_GUIDE \u2192 text hygiene, face 2)
+// PROVED-AGAINST: `node tools/test-hook-guards.mjs` part C \u2014 the 19:53 form refused, single quotes and a backtick-free
+//                 script passed; the version without this check lets the 19:53 form through (mutant)
+// GAP:            a script split over lines with the backtick on a later line; perl/ruby one-liners; `$(\u2026)` inside
+//                 the double quotes (the same class, not judged)
+// ON-REAL-PATH:   KAST .claude/settings.json (the same PreToolUse entry), 2026-09-26 ≈19:58: a live
+//                 node -e "const t = 'a `echo hi` b'; …" was refused by the harness before it ran
+const INLINE = /\b(node|python3?|py)\s+(-e|--eval|-c)\s+"/g;
+export function backtickInInlineScript(command) {
+  for (const line of command.split(/\r?\n/)) {
+    INLINE.lastIndex = 0;
+    let m;
+    while ((m = INLINE.exec(line))) {
+      let i = m.index + m[0].length;
+      for (; i < line.length; i++) {
+        if (line[i] === '\\') { i++; continue; }
+        if (line[i] === '"') break;
+        if (line[i] === '`') return line.trim();
+      }
+    }
+  }
+  return null;
+}
+
 try {
   const raw = readFileSync(0, 'utf8').replace(/^\uFEFF/, '');
   const event = JSON.parse(raw || '{}');
   if (event.tool_name !== 'Bash') process.exit(0);
   const command = (event.tool_input && event.tool_input.command) || '';
+  const ticked = backtickInInlineScript(command);
+  if (ticked) {
+    process.stderr.write(
+      'KAST guard (tools/hooks/no-backslash-heredoc.mjs, backtick-in-inline-script): an inline script in double quotes ' +
+      'carries a backtick — bash runs the backticked text as a command before the script starts (EXPERIENCE.md ' +
+      'EXP-0007). Line: ' + ticked.slice(0, 140) + '\n' +
+      'Do this instead: write the script to a file with the Write tool and run `node <file>`.\n');
+    process.exit(2);
+  }
   const piped = gatePipedIntoCommit(command);
   if (piped) {
     process.stderr.write(

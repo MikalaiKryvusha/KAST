@@ -156,3 +156,17 @@ finding (bug 06, «Поэтому») was pushed and needed a follow-up commit. �
 **Trigger:** writing `<gate> | … && git commit` → split it: `<gate> > /dev/null 2>&1; rc=$?; [ $rc -eq 0 ] && git commit …`.
 **Not for:** display-only commands whose output is read, not obeyed.
 mechanized: tools/hooks/no-backslash-heredoc.mjs, check gate-piped-into-commit — refuses a KAIF lint / review --check / gradlew / self-test piped and then chained into git commit|push (tests: node tools/test-hook-guards.mjs part B; live refusal 2026-09-26)
+
+### EXP-0007 · 2026-09-26 · ❌→✅ · #shell #text #windows
+class: shell-lied
+**Context:** closing bug 05 — a `node -e "…"` edit whose text carried markdown code spans (`13164aa3`, `tools/make-launcher-icon.mjs`).
+**Tried / did:** the script in double quotes, from Git Bash.
+**Result:** ❌ bash ran each backticked span as a command before node started: the icon generator ran (it rewrote
+`values/ic_launcher_background.xml` with LF — no content change, restored by `git checkout`), `13164aa3` was "command not found",
+and the script died on the holes. ✅ the same edit from a file written by the Write tool.
+**Lesson:** a script that carries document text goes through a file, never through `node -e "…"`: double quotes let bash
+substitute backticks and `$(…)`.
+**Repro:** in Git Bash, `node -e "console.log('a X b')"` with X = echo hi between two backticks prints `a hi b` (now refused by the hook).
+**Trigger:** an inline script with markdown, backticks or `$` in its text → Write the script to the scratchpad, run `node <file>`.
+**Not for:** single-quoted one-liners with no document text.
+mechanized: tools/hooks/no-backslash-heredoc.mjs, check backtick-in-inline-script — refuses node -e / python -c in double quotes with a backtick (tests: node tools/test-hook-guards.mjs part C; live refusal 2026-09-26 ≈19:58)
