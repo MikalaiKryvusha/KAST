@@ -4,8 +4,43 @@
 > которая шлёт сигналы в небо; справа антенна и Android-устройство с KAST, которое принимает радиоволны с неба; KAST
 > дружит с Vibepollo; Windows передаётся на Android-клиент по беспроводным сетям почти бесшовно) · **Родитель:** слово
 > владельца в чате · **Статус:** версия 1 — картинка получена 2026-09-26, сцена принята с правками, иконка отклонена
-> владельцем («нужна сильная абстракция про стрим»); версия 2 — промпты ниже · **Вовне:** готовый логотип — в эту
+> владельцем («нужна сильная абстракция про стрим»); версия 3 — иконка по разбору GPT, версия 2 — правка сцены · **Вовне:** готовый логотип — в эту
 > папку (`assets/logo/`), затем в шапку `README.md`
+
+## Версия 3 (2026-09-26) — иконка по разбору GPT
+
+Владелец принёс разбор GPT: иконка — «фрагмент ДНК» большой сцены; треугольник Play — общее место видеоплееров;
+короткий список A1 · B1 · C2 · A3. Агент согласен с разбором; фаворит агента — A3 (одна фигура читается и при 48 px),
+знак бренда — C2. Разбор GPT не учёл требование Android: лаунчер обрезает иконку маской (круг или скруглённый
+квадрат), и ключевая фигура должна помещаться в центральный круг (безопасная зона 66 dp из 108 dp); с Android 13
+нужен одноцветный силуэт для тематических иконок. Выбор направления — за владельцем.
+
+Промпт 3 — иконка приложения (вставляется в ChatGPT целиком):
+
+```text
+Design an Android app icon for KAST — a client that streams games from a PC to a phone or tablet over weak
+mobile internet. The icon has one idea: fragments of a game frame fly in and assemble into one picture.
+No antennas, no Wi-Fi symbol, and no play triangle unless a direction asks for it.
+
+Render these four directions, 3 variants each:
+A3 "screen assembled from the stream": one rounded rectangle screen; its left part is made of separate
+square blocks with gaps that drift in from the left; toward the right the blocks close into one solid surface.
+A1 "frame flies into the screen": a rounded landscape screen; 3 large square fragments fly into it from the
+left in a loose stream, the closest one already merging into the picture; the fragments shift from cyan to
+teal to white as they approach.
+C2 "fragments assemble into K": 3 square fragments fly in from the left and assemble into a bold geometric
+letter K.
+B1 "K with a hidden play": a bold geometric K whose two diagonals leave a play-triangle-shaped negative
+space between them; 2 small squares trail behind.
+
+Rules for all: flat vector; three colors at most — deep navy background, bright cyan-teal for the stream,
+warm amber as one small accent; thick shapes, no thin lines, no text; no glassmorphism, no Liquid Glass,
+one soft glow at most; a solid navy background, no painted checkerboard.
+Android adaptive icon: keep the key shape inside the central circle (the 66 dp safe zone of a 108 dp icon)
+so it survives circle and squircle masks. For each variant show the full icon, the same icon in a circle
+mask, and the icon at 48 x 48 px. Also give a single-color silhouette of the best variant for Android 13
+themed icons.
+```
 
 ## Версия 2 (2026-09-26) — после первой картинки
 
