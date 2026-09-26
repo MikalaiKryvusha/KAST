@@ -47,3 +47,21 @@ app/.externalNativeBuild/
 
 # agent files
 AGENTS.md
+.kaif/install/
+KAIF.md
+KAIF-LOADER.mjs
+KAIF_ADAPTATION_TASK.md
+KAIF_UPDATE_TASK.md
+KAIF_UPDATE_TASK.superseded.md
+KAIF_ADAPTATION_TASK.superseded.md
+.kaif/backup-*/
+.kaif/update-journal.json
+.kaif/heartbeat.log
+.kaif/guarded-loop.json
+.kaif/refresh-marker.json
+.kaif/voice-marker.json
+.kaif/contour-window/
+.kaif/update-rehearsal.json
+
+# owner voice portrait — may quote private writing; never publish (KAIF adaptation: owner-voice)
+AUTHOR_STYLOMETRY.md
