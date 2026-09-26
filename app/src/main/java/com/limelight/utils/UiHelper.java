@@ -187,22 +187,31 @@ public class UiHelper {
      * KAST (bugs/01): keeps a view pinned to the bottom edge ABOVE the navigation bar.
      * The list screens draw under the system bars and pad only by the TAPPABLE insets (notifyNewRootView above),
      * which are 0 in gesture navigation — so a bottom-pinned button (the profiles FAB) slid under the bar and looked
-     * cut off. This adds the navigation-bar inset to the view's own bottom margin from the layout; the list itself
-     * still scrolls under the bar as before.
+     * cut off. This adds to the view's own bottom margin from the layout ONLY the part of the navigation bar that the
+     * content padding does not already cover: navigationBars − tappableElement. Gesture navigation: the whole bar
+     * (the root is not padded); 3-button navigation: 0 (the root is already padded by the tappable bar — judge
+     * finding F1, 2026-09-26). Below Android Q the screen is not drawn under the bar at all, so nothing is added.
+     * The list itself still scrolls under the bar as before.
      * [TESTED: 2026-09-26 · Titan 1, Android 16, gesture navigation: uiautomator bounds — host list profilesButton
      *  before [1384,2344][1552,2512], after [1384,2272][1552,2440]; app list profilesButton and profiles addProfileFab
-     *  after [..][1552,2440] (their "before" not measured separately); navigationBarBackground [0,2488]; WebP seen — bugs/01]
+     *  after [..][1552,2440] (their "before" not measured separately); navigationBarBackground [0,2488] — bugs/01]
+     * [TESTED: 2026-09-26 · the navigationBars − tappableElement form on Titan 1: gesture navigation — host list button
+     *  [1384,2272][1552,2440], bar from 2488; 3-button navigation (switched with `cmd overlay enable-exclusive`, then
+     *  restored) — button [1384,2200][1552,2368], bar from 2416; 48 px (16dp) above the bar in both modes, no double lift]
      */
     public static void keepAboveNavigationBar(View view) {
-        if (view == null || !(view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+                view == null || !(view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams)) {
             return;
         }
         final int layoutBottomMargin = ((ViewGroup.MarginLayoutParams) view.getLayoutParams()).bottomMargin;
         ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             int navigationBarBottom = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+            int alreadyPaddedBottom = insets.getInsets(WindowInsetsCompat.Type.tappableElement()).bottom;
+            int lift = Math.max(0, navigationBarBottom - alreadyPaddedBottom);
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            if (params.bottomMargin != layoutBottomMargin + navigationBarBottom) {
-                params.bottomMargin = layoutBottomMargin + navigationBarBottom;
+            if (params.bottomMargin != layoutBottomMargin + lift) {
+                params.bottomMargin = layoutBottomMargin + lift;
                 v.setLayoutParams(params);
             }
             return insets;
