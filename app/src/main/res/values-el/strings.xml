@@ -224,6 +224,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Χρόνος αναμονής επανασύνδεσης</string>
     <string name="summary_seekbar_reconnect_grace">Πόσο διατηρεί το KAST τη συνεδρία παιχνιδιού όταν χαθεί το δίκτυο, πριν τη τερματίσει. Ο υπολογιστής-οικοδεσπότης έχει επίσης δικό του όριο.</string>
+    <string name="title_seekbar_reconnect_retry">Διάστημα επαναλαμβανόμενων προσπαθειών</string>
+    <string name="summary_seekbar_reconnect_retry">Η μεγαλύτερη παύση ανάμεσα στις προσπάθειες του KAST να επαναφέρει τη ροή μετά από διακοπή της σύνδεσης.</string>
     <string name="suffix_seekbar_seconds">δ</string>
     <string name="kast_connection_lost_waiting">Η σύνδεση χάθηκε — αναμονή για δίκτυο… %1$d δ</string>
 </resources>

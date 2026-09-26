@@ -792,6 +792,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">重新連線等待時間</string>
     <string name="summary_seekbar_reconnect_grace">網路中斷時，KAST 在結束遊戲工作階段前保持工作階段的時間。主機電腦也有自己的上限。</string>
+    <string name="title_seekbar_reconnect_retry">重新連線重試間隔</string>
+    <string name="summary_seekbar_reconnect_retry">連線中斷後，KAST 嘗試恢復串流的兩次嘗試之間的最長間隔。</string>
     <string name="suffix_seekbar_seconds">秒</string>
     <string name="kast_connection_lost_waiting">連線已中斷 — 正在等待網路… %1$d 秒</string>
 </resources>

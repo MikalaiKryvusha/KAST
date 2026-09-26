@@ -945,9 +945,10 @@
     <PreferenceCategory
         android:key="category_advanced_settings"
         android:title="@string/category_advanced_settings"
-        app:initialExpandedChildrenCount="1"
+        app:initialExpandedChildrenCount="2"
         app:iconSpaceReserved="false">
-        <!-- KAST (plans/04, step 4): the reconnect grace period; first in the category so it shows without "more" -->
+        <!-- KAST (plans/04, step 4): the reconnect grace period; first in the category so it shows without "more"
+             (plans/06, step 5: the count is 2 — the retry interval shows beside it) -->
         <com.limelight.preferences.SeekBarPreference
             android:key="seekbar_reconnect_grace_seconds"
             android:dialogMessage=""
@@ -958,6 +959,18 @@
             android:max="300"
             seekbar:min="10"
             seekbar:step="5"
+            app:iconSpaceReserved="false" />
+        <!-- KAST (plans/06, step 5): the longest pause between resume attempts; second, so it shows next to the grace period -->
+        <com.limelight.preferences.SeekBarPreference
+            android:key="seekbar_reconnect_retry_seconds"
+            android:dialogMessage=""
+            android:text="@string/suffix_seekbar_seconds"
+            android:title="@string/title_seekbar_reconnect_retry"
+            android:summary="@string/summary_seekbar_reconnect_retry"
+            android:defaultValue="3"
+            android:max="30"
+            seekbar:min="1"
+            seekbar:step="1"
             app:iconSpaceReserved="false" />
         <ListPreference
             android:defaultValue="auto"

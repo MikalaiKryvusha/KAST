@@ -190,6 +190,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Timp de așteptare pentru reconectare</string>
     <string name="summary_seekbar_reconnect_grace">Cât timp păstrează KAST sesiunea de joc la pierderea rețelei înainte de a o încheia. PC-ul gazdă are și el propria limită.</string>
+    <string name="title_seekbar_reconnect_retry">Interval între încercările de reconectare</string>
+    <string name="summary_seekbar_reconnect_retry">Cea mai lungă pauză dintre încercările KAST de a reface fluxul după întreruperea conexiunii.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Conexiune pierdută — aștept rețeaua… %1$d s</string>
 </resources>

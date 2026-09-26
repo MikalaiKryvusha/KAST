@@ -283,6 +283,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Yeniden bağlanma bekleme süresi</string>
     <string name="summary_seekbar_reconnect_grace">Ağ kesildiğinde KAST\'ın oyun oturumunu sonlandırmadan önce ne kadar süre tuttuğu. Ana bilgisayarın da kendi sınırı vardır.</string>
+    <string name="title_seekbar_reconnect_retry">Yeniden bağlanma deneme aralığı</string>
+    <string name="summary_seekbar_reconnect_retry">Bağlantı koptuktan sonra KAST\'ın yayını geri getirme denemeleri arasındaki en uzun bekleme.</string>
     <string name="suffix_seekbar_seconds">sn</string>
     <string name="kast_connection_lost_waiting">Bağlantı koptu — ağ bekleniyor… %1$d sn</string>
 </resources>

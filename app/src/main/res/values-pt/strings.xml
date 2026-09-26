@@ -264,6 +264,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Tempo de espera para reconexão</string>
     <string name="summary_seekbar_reconnect_grace">Quanto tempo o KAST mantém a sessão de jogo quando a rede se perde, antes de a terminar. O PC anfitrião também tem o seu próprio limite.</string>
+    <string name="title_seekbar_reconnect_retry">Intervalo entre tentativas de reconexão</string>
+    <string name="summary_seekbar_reconnect_retry">A pausa mais longa entre as tentativas do KAST de repor a transmissão depois de a ligação cair.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Ligação perdida — a aguardar a rede… %1$d s</string>
 </resources>

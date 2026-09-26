@@ -257,6 +257,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Doba čekání na opětovné připojení</string>
     <string name="summary_seekbar_reconnect_grace">Jak dlouho KAST udrží herní relaci při výpadku sítě, než ji ukončí. Hostitelský počítač má také vlastní limit.</string>
+    <string name="title_seekbar_reconnect_retry">Interval opakovaných pokusů o připojení</string>
+    <string name="summary_seekbar_reconnect_retry">Nejdelší pauza mezi pokusy KAST obnovit stream po přerušení spojení.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Spojení ztraceno — čekám na síť… %1$d s</string>
 </resources>

@@ -195,6 +195,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">再接続の待機時間</string>
     <string name="summary_seekbar_reconnect_grace">ネットワークが切れたとき、KASTがゲームセッションを終了せずに保持する時間です。ホストPCにも独自の上限があります。</string>
+    <string name="title_seekbar_reconnect_retry">再接続の再試行間隔</string>
+    <string name="summary_seekbar_reconnect_retry">接続が切れた後、KASTがストリームの復帰を試みる間隔の最大値です。</string>
     <string name="suffix_seekbar_seconds">秒</string>
     <string name="kast_connection_lost_waiting">接続が切れました — ネットワークを待機中… %1$d 秒</string>
 </resources>

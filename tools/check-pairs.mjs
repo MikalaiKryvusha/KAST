@@ -42,10 +42,11 @@ pair('hooks: .kaif/hooks/settings-fragment.json → .claude/settings.json', () =
   return missing.length ? 'not wired: ' + missing.join(', ') : null;
 });
 
-// 3. The KAST strings: every kast_* key of values/strings.xml exists in every translated values-*/strings.xml that has
+// 3. The KAST strings: every kast_* key and every *_seekbar_reconnect_* key (the reconnect options of plans 04 and 06) of
+//    values/strings.xml exists in every translated values-*/strings.xml that has
 //    strings at all (EXPERIENCE.md EXP-0004 — twins are found by key, never by text). Empty locales stay empty (Artemis).
-pair('strings: values/strings.xml kast_* keys → every non-empty values-*/strings.xml', () => {
-  const keysOf = (f) => new Set([...readFileSync(f, 'utf8').matchAll(/<string name="(kast_[^"]+)"/g)].map((m) => m[1]));
+pair('strings: values/strings.xml kast_* and *_seekbar_reconnect_* keys → every non-empty values-*/strings.xml', () => {
+  const keysOf = (f) => new Set([...readFileSync(f, 'utf8').matchAll(/<string name="(kast_[^"]+|[a-z]+_seekbar_reconnect_[^"]+)"/g)].map((m) => m[1]));
   const base = keysOf(`${RES}/values/strings.xml`);
   const gaps = [];
   for (const d of readdirSync(RES).filter((x) => x.startsWith('values-'))) {

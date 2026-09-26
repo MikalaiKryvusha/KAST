@@ -282,6 +282,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Väntetid för återanslutning</string>
     <string name="summary_seekbar_reconnect_grace">Hur länge KAST behåller spelsessionen när nätverket försvinner innan den avslutas. Värddatorn har också en egen gräns.</string>
+    <string name="title_seekbar_reconnect_retry">Intervall mellan återanslutningsförsök</string>
+    <string name="summary_seekbar_reconnect_retry">Den längsta pausen mellan KAST:s försök att återställa strömmen efter att anslutningen brutits.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Anslutningen förlorades — väntar på nätverket… %1$d s</string>
 </resources>

@@ -681,6 +681,8 @@
     <!-- KAST (plans/04): reconnect grace period and the outage label -->
     <string name="title_seekbar_reconnect_grace">Время ожидания переподключения</string>
     <string name="summary_seekbar_reconnect_grace">Сколько KAST держит игровую сессию при пропаже сети, прежде чем завершить её. У компьютера-хоста есть и свой предел.</string>
+    <string name="title_seekbar_reconnect_retry">Интервал повторных попыток</string>
+    <string name="summary_seekbar_reconnect_retry">Самая долгая пауза между попытками KAST вернуть поток после обрыва связи.</string>
     <string name="suffix_seekbar_seconds">с</string>
     <string name="kast_connection_lost_waiting">Связь потеряна — жду сеть… %1$d с</string>
 </resources>
