@@ -43,7 +43,7 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 `.gitmodules` на копию ядра `MikalaiKryvusha/moonlight-common-c`). **Ф3 «Авто-возобновление» начата**
 (`plans/06_epic02_F3_resume.md`): готовы отладочный таймаут ENet для прогонов K2 (шаг 6) и классификатор исхода «код +
 тишина» с JVM-тестами (шаг 1, `KastReconnectPolicy`; пока только журнал; отчёт `testcases/reports/2026-09-26_F3_instrument.md`). Эпик — `plans/02_EPIC_reconnect.md`.
-Рабочая копия `D:\work\ai_sandbox\KAST-f2` (ветка `kast/f2-hold`, слита) больше не нужна.
+Рабочая копия Ф2 удалена 2026-09-26 18:21; ветка `kast/f2-hold` осталась на GitHub.
 
 **Тестовое устройство:** планшет HEADWOLF Titan 1 (Android 16, MT8792) по беспроводному `adb` через Tailscale —
 маршрут и грабли NordVPN в `HOUSE_RULES.md`. AVD на этой машине не делаем (правило П1 владельца).
