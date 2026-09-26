@@ -541,8 +541,8 @@ over time; each command, stand and device gets its row in the house-rules file �
 
 Work on `moonlight-noir` — the default branch, pushed to origin `MikalaiKryvusha/KAST`. A phase whose change spans
 the C-core submodule (`app/src/main/jni/moonlight-core/moonlight-common-c`) lives on a branch `kast/<phase>` until its
-gate passes — today `kast/f2-hold`, with the core branch `kast/enet-timeout` in the fork
-`MikalaiKryvusha/moonlight-common-c` — and then merges into `moonlight-noir` together with the `.gitmodules` repoint.
+gate passes, and then merges into `moonlight-noir` together with the `.gitmodules` repoint — F2 went this way:
+`kast/f2-hold` with the core branch `kast/enet-timeout` in the fork `MikalaiKryvusha/moonlight-common-c`, merged 2026-09-26 (`b2283048`).
 The submodule pointer never lands on `moonlight-noir` ahead of that merge. Commit small and often, and push after
 each judged step. To undo, use git history (`git revert` / `git checkout <hash> -- <file>`).
 

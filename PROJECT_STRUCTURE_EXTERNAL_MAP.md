@@ -50,7 +50,7 @@ KAST/
 - Java never calls the C core except through `MoonBridge`; C never calls Java except through `callbacks.c`.
 - `moonlight-common-c` is a submodule: a change there is a commit IN the submodule repo plus a pointer bump
   here. KAST's fork is `MikalaiKryvusha/moonlight-common-c` (interview #001, Q1: A); the F2 change lives on its branch
-  `kast/enet-timeout`, and `.gitmodules` is repointed to the fork in the same commit that merges F2.
+  `kast/enet-timeout`; `.gitmodules` points to the fork since the F2 merge `b2283048` (2026-09-26).
 - KAIF files (`.kaif/`, root `*.md`, skill dirs) never touch product code, and product code never reads them.
 
 ## Entry points
