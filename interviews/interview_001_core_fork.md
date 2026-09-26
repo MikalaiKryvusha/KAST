@@ -46,7 +46,7 @@
   - Check. `git apply --check patches/moonlight-common-c/*.patch` проходит на текущем ядре.
 - **D) Ваш вариант**
 
-**Answer:**
+**Answer:** [OWNER] «можно создать копию, да» · 2026-09-26 ≈15:29 +03:00, чат (by: владелец; at: время ответа в чате) → **A**
 
 ## Proposed implementation plan (after answers)
 
