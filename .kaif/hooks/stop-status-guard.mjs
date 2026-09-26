@@ -21,8 +21,23 @@
 // [TESTED: 2026-08-07 · polygon s14: dirty tree + old STATUS → block JSON once; same session again → silent (cooldown); fresh STATUS → silent; no git → silent]
 import { readFileSync, writeFileSync, statSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { join } from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
+
+// LOCAL FIX (KAST bugs/KAIF/02, 2026-09-26): STATUS.md and git live at the PROJECT ROOT, while the event's `cwd` is the
+// shell's current directory — after a `cd` into a subfolder the guard found no STATUS.md and went silent for good.
+// Root = $CLAUDE_PROJECT_DIR when it holds .kaif/, else the nearest ancestor of cwd with .kaif/kaif.json, else cwd.
+function projectRoot(start) {
+  const env = process.env.CLAUDE_PROJECT_DIR;
+  if (env && existsSync(join(env, '.kaif'))) return env;
+  let dir = resolve(start);
+  for (;;) {
+    if (existsSync(join(dir, '.kaif', 'kaif.json'))) return dir;
+    const up = dirname(dir);
+    if (up === dir) return start;
+    dir = up;
+  }
+}
 
 const STALE_HOURS = 3;        // STATUS older than this while work happened → remind
 const STATUS_FILE = 'STATUS.md';
@@ -37,6 +52,7 @@ try {
     if (input.cwd) cwd = String(input.cwd);
     if (input.session_id) sessionId = String(input.session_id);
   } catch { /* unreadable stdin — defaults keep the guard functional */ }
+  cwd = projectRoot(cwd);
 
   // Cooldown: one reminder per session. The state file lives in the OS temp dir — session
   // state never pollutes the project tree (the refresh marker earned its .gitignore line;

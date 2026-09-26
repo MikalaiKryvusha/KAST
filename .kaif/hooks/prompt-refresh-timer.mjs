@@ -37,8 +37,23 @@
 // Cursor (`beforeSubmitPrompt` → only `continue`/`user_message`) and GitHub Copilot
 // (`additionalContext` is not permitted on `userPromptSubmitted`) cannot carry this hook at
 // all — they ship the session-start hook only, and .kaif/hooks/README.md says so per system.
-import { readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, statSync, existsSync } from 'node:fs';
+import { join, resolve, dirname } from 'node:path';
+
+// LOCAL FIX (KAST bugs/KAIF/02, 2026-09-26): the marker lives at the PROJECT ROOT, while the event's `cwd` is the
+// shell's current directory — after a `cd` into a subfolder the hook saw no marker and ordered a refresh every prompt.
+// Root = $CLAUDE_PROJECT_DIR when it holds .kaif/, else the nearest ancestor of cwd with .kaif/kaif.json, else cwd.
+function projectRoot(start) {
+  const env = process.env.CLAUDE_PROJECT_DIR;
+  if (env && existsSync(join(env, '.kaif'))) return env;
+  let dir = resolve(start);
+  for (;;) {
+    if (existsSync(join(dir, '.kaif', 'kaif.json'))) return dir;
+    const up = dirname(dir);
+    if (up === dir) return start;
+    dir = up;
+  }
+}
 
 const OUTPUT_CAP = 10000;           // Claude Code caps hook output strings at 10 000 characters
 const DEFAULT_INTERVAL_MIN = 60;    // the canon's "refresh at least once an hour"
@@ -65,7 +80,7 @@ try {
     if (input.cwd) cwd = String(input.cwd);
   } catch { /* unreadable stdin — fall back to process.cwd() */ }
 
-  const markerPath = join(cwd, MARKER);
+  const markerPath = join(projectRoot(cwd), MARKER);
   // Age of the last refresh: the marker's own `at` field is the truth; a malformed field falls
   // back to the file mtime; a missing file means "never refreshed" → infinitely stale.
   let ageMin = Infinity;
