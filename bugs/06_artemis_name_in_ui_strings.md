@@ -40,8 +40,8 @@
 `summary_language_list` 24, пять `nettest_text_*` по 24, `summary_checkbox_usb_bind_all` 23, `summary_privacy_policy` 18,
 `summary_seekbar_deadzone` 13, `summary_software_update` 6, `summary_device_rumble` 6, `keyboard_service_label` 6,
 `accessibility_description_text` 6, `summary_performance_link` 3, `error_manager_not_running` 1. **Не менять:** «Moonlight
-Internet Hosting Tool» во второй строке `nettest_text_*` у 18 языков — имя отдельного инструмента для хоста, а не KAST.
-Поэтому замена идёт построчно по ключам, а не по слову.
+Internet Hosting Tool» во второй строке `nettest_text_*` у 18 языков — имя отдельного инструмента для хоста. Замена идёт
+построчно по ключам, так как слово «Moonlight» встречается и в имени этого инструмента.
 
 ## Fix plan
 1. Механическая часть: заменить «Artemis» на «KAST» в строках колонки «Artemis → KAST» во всех языковых файлах, где ключ
