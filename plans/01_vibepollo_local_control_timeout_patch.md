@@ -3,7 +3,7 @@
 > **Создан:** 2026-09-26 (агент, по слову владельца: «локально обновляем вайбполо и делаем локальные правки, как
 > нам нужно под реконект» · «минимальные правки делаем, ждем от автора вайбполо отклика на нашу просьбу»)
 > · **Родитель:** `ideas/01_reconnect_grace_period.md`, `researches/01_why_session_drops_on_network_loss.md`
-> · **Статус:** 🔲 план написан 2026-09-26; шаги не начаты · **Вовне:** запрос автору Vibepollo отправлен 2026-09-26 —
+> · **Статус:** 🔧 шаги 1–3 ✅ 2026-09-26 (MSYS2, клон, правка `9ad4e7e`); шаг 4 — сборка идёт · **Вовне:** запрос автору Vibepollo отправлен 2026-09-26 —
 > https://github.com/Nonary/Vibepollo/issues/522; готовая правка — автору как PR, если он захочет
 
 ## Вектор цели
@@ -57,11 +57,22 @@ flowchart TD
 
 ## Шаги
 
-- [ ] 1. Поставить MSYS2 (`winget install MSYS2.MSYS2`) и пакеты UCRT64 из `docs/building.md` — фоновой задачей.
-- [ ] 2. Клонировать `Nonary/Vibepollo` с сабмодулями в `D:\work\ai_sandbox\Vibepollo`, тег `2.0.0-beta.3`,
+- [x] 1. MSYS2 — распаковкой базового архива в `D:\msys64` (без прав администратора), пакеты UCRT64 из `docs/building.md` + `ninja`; cmake 4.4.3, ninja 1.13.2, gcc 16.2.0 (2026-09-26 10:27).
+- [x] 2. Клонировать `Nonary/Vibepollo` с сабмодулями в `D:\work\ai_sandbox\Vibepollo`, тег `2.0.0-beta.3`,
       ветка `kast/control-peer-timeout`.
-- [ ] 3. Внести правку; `git diff --stat` — 3 файла, около 15 строк.
-- [ ] 4. Собрать: `cmake -B build -G Ninja -S . -DSUNSHINE_ENABLE_WEBRTC=OFF` → `ninja -C build` — фоновой задачей.
+- [x] 3. Правка внесена скриптом с проверкой якорей: 3 файла, 15 строк; локальный коммит `9ad4e7e` в ветке `kast/control-peer-timeout` (2026-09-26).
+- [ ] 4. Собрать `sunshine` — фоновой задачей; настройка пройдена 2026-09-26 10:32 в `build-kast2`. Грабли настройки
+      (для пересборки на следующий выпуск):
+      - пакеты брать из `.github/workflows/ci-windows.yml` (install-список), а не из `docs/building.md` — в инструкции нет
+        `libjpeg-turbo`, `libpng`, `libwebp`, `nlohmann-json`, `sqlite3`, `tools`;
+      - оболочку MSYS2 звать так: `env.exe MSYSTEM=UCRT64 PROCESSOR_ARCHITECTURE=AMD64 bash -lc 'cd <папка>; export
+        PATH="$PATH:/c/Program Files/nodejs"; …'` — без `PROCESSOR_ARCHITECTURE` CMake строит имя архива FFmpeg
+        `Windows--ffmpeg.tar.gz` (ошибка скачивания), без явного `cd` оболочка уходит в домашнюю папку;
+      - флаги — как у CI (`SUNSHINE_ASSETS_DIR=assets`, виртуальный дисплей и тесты `OFF`), кроме
+        `SUNSHINE_ENABLE_WEBRTC=OFF` и без `BUILD_WERROR` (наш gcc 16 новее);
+      - упаковка требует DLL TrueHDR в `<папка сборки>/truehdr-runtime/` (`vibeshine_truehdr.dll`, `nvngx_truehdr.dll`) —
+        копия из `C:\Program Files\Apollo`; сами DLL мы не подменяем;
+      - сборка: `timeout 560 ninja -C build-kast2 -j 14 sunshine` кусками — Ninja продолжает с места остановки.
 - [ ] 5. Владелец ставит официальный `VibepolloSetup-v2.0.0-beta.3.exe` (окно UAC — его клик); проверка критерия 1.
 - [ ] 6. Подмена по схеме, только без активной сессии; копия официального файла —
       `C:\Program Files\Apollo\sunshine.exe.official-2.0.0-beta.3`.
