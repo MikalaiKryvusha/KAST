@@ -539,10 +539,12 @@ over time; each command, stand and device gets its row in the house-rules file �
 
 ## Git workflow
 
-`<State your branching policy. A simple, effective default — used by this framework's own project —
-is: work ONLY in `main`, no feature branches; commit incrementally and often; to undo, use git history
-(git revert / git checkout <hash> -- file), not branches. Pick what fits your project and state it here
-so the agent doesn't improvise.>`
+Work on `moonlight-noir` — the default branch, pushed to origin `MikalaiKryvusha/KAST`. A phase whose change spans
+the C-core submodule (`app/src/main/jni/moonlight-core/moonlight-common-c`) lives on a branch `kast/<phase>` until its
+gate passes — today `kast/f2-hold`, with the core branch `kast/enet-timeout` in the fork
+`MikalaiKryvusha/moonlight-common-c` — and then merges into `moonlight-noir` together with the `.gitmodules` repoint.
+The submodule pointer never lands on `moonlight-noir` ahead of that merge. Commit small and often, and push after
+each judged step. To undo, use git history (`git revert` / `git checkout <hash> -- <file>`).
 
 > Reconciliation with the fable-method **authorization gate**: this deployed guide IS the owner's
 > standing authorization for routine commits/pushes per the policy above. Everything beyond it —
@@ -1084,18 +1086,4 @@ house-rules file. Examples this framework was distilled from:>`
   effective despite context loss. Steer and tune yourself toward maximum effectiveness and autonomy
   toward the stated goal.
 
-**KAST-specific (carried over from the owner's standing rules in his other KAIF projects, 2026-09-26):**
-- **Voice portrait: installed** (2026-09-26) — `AUTHOR_STYLOMETRY.md`, the public edition from the KAIF project
-  (2026-09-25), gitignored here (public repo). KAST has no script that BUILDS owner-facing text (README and docs
-  are hand-written; `res/values*/strings.xml` are product UI strings, not the owner's voice) — so the machine
-  minute runs by hand: `node .kaif/tools/kaif-voice-lint.mjs load` before writing an owner doc,
-  `… check <file>` after. A future generator of owner-facing text wires the check into itself.
-- **Plan first, then code** — any non-trivial task starts with a plan in `plans/` (goal vector, acceptance
-  criteria, steps, verification by observation); an oral "let's do it" approves the DIRECTION, not skipping the plan.
-- **Every plan with a mechanism or phases carries a mermaid flowchart.**
-- **Commits (and pushes) are the agent's job** — never ask the owner about committing.
-- **Ask the owner only owner-level questions** — what he sees and uses; machinery/technical choices are decided
-  by the agent by value for the product.
-- **Answer the owner promptly; never hold the chat on a running job** — long work runs as a separate
-  process/background task, and a short progress line goes to the chat. A status question means "discuss",
-  not "execute".
+**KAST-specific:** the owner's standing rules for this project live in `HOUSE_RULES.md` → §1 (each with its `[OWNER]` provenance line; the voice-portrait machine minute is a §6 tool row) — moved there 2026-09-26.
