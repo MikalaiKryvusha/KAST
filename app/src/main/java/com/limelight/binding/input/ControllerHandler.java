@@ -292,6 +292,28 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         deviceVibrator.cancel();
     }
 
+    // KAST (plans/06, step 4; judge S5): a resumed stream is a new session on the host, and the host learns a controller's
+    // type, motion sensors, touchpad and LED only from its arrival message — sent once, when the controller first got a
+    // number. So after a resume the arrival of every controller already numbered is sent again. [NOT-TESTED: needs a
+    // PS or Nintendo controller on the Titan]
+    public void kastReannounceControllers() {
+        if (stopped) {
+            return;
+        }
+        for (int i = 0; i < inputDeviceContexts.size(); i++) {
+            InputDeviceContext deviceContext = inputDeviceContexts.valueAt(i);
+            if (deviceContext.assignedControllerNumber) {
+                deviceContext.sendControllerArrival();
+            }
+        }
+        for (int i = 0; i < usbDeviceContexts.size(); i++) {
+            UsbDeviceContext deviceContext = usbDeviceContexts.valueAt(i);
+            if (deviceContext.assignedControllerNumber) {
+                deviceContext.sendControllerArrival();
+            }
+        }
+    }
+
     public void destroy() {
         if (!stopped) {
             stop();
