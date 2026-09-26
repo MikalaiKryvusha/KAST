@@ -44,9 +44,25 @@ if ($MidShotAt -gt 0) {
 $drop = & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $here 'netdrop.ps1') -Seconds $Seconds 2>&1
 $drop | Set-Content -LiteralPath (Join-Path $dir 'netdrop.txt') -Encoding UTF8
 
-Start-Sleep -Seconds 2
-& $adb disconnect $Serial | Out-Null
-& $adb connect $Serial | Out-Null
+# After the loss the adb link over Tailscale may stay "offline" for a while (2026-09-26: a reconnect after 2 s left
+# it offline and the run hung on the first device command). Reconnect every 3 s until the device answers, 60 s max.
+$online = $false
+for ($i = 0; $i -lt 20 -and -not $online; $i++) {
+    Start-Sleep -Seconds 3
+    & $adb disconnect $Serial | Out-Null
+    & $adb connect $Serial | Out-Null
+    $online = ((& $adb -s $Serial get-state 2>$null) -join '').Trim() -eq 'device'
+}
+if (-not $online) {
+    ('adb: device ' + $Serial + ' did not come back within 60 s after the loss; device steps skipped') |
+        Set-Content -LiteralPath (Join-Path $dir 'adb-offline.txt')
+    @(Get-Content -LiteralPath $hostLog.FullName -Encoding Default) | Select-Object -Skip $hostStart |
+        Set-Content -LiteralPath (Join-Path $dir 'host.log') -Encoding UTF8
+    Write-Output "EVIDENCE $dir"
+    Write-Output 'ADB OFFLINE: device steps skipped (host log saved)'
+    $drop | Where-Object { $_ -match 'DROP|RECOVERED' }
+    exit 2
+}
 Start-Sleep -Seconds $SettleSeconds
 
 $inv = [Globalization.CultureInfo]::InvariantCulture
