@@ -62,9 +62,9 @@ Table 2 — KAST plans (the full roadmap is in [MASTER_PLAN.md](MASTER_PLAN.md))
 
 | # | Feature | State |
 |---|---|---|
-| 1 | Reconnect: the session survives up to 60 s without network, the last frame stays on screen, the session resumes inside the stream screen | in progress: a loss shorter than the wait keeps the session with the last frame and a "connection lost" label; automatic resume is next |
-| 2 | Reconnect settings: wait time and frequency of reconnect attempts as separate options | in progress: the wait time is in the settings (10–300 s, 60 s by default); the attempt frequency comes with automatic resume |
-| 3 | A detailed log of every disconnect and reconnect with its cause | in progress: every loss and its outcome are logged; resume lines come with automatic resume |
+| 1 | Reconnect: the session survives up to 60 s without network, the last frame stays on screen, the session resumes inside the stream screen | in progress: a loss shorter than the wait keeps the session with the last frame and a "connection lost" label; a connection that died anyway comes back by itself on the same screen; when the network does not return in time, KAST says why |
+| 2 | Reconnect settings: wait time and frequency of reconnect attempts as separate options | in progress: both are in the settings — the wait (10–300 s, 60 s by default) and the longest pause between attempts (1–30 s, 3 s by default); automatic reconnection can be turned off |
+| 3 | A detailed log of every disconnect and reconnect with its cause | in progress: every loss, every attempt and its outcome are logged; the end dialog names the cause in plain words |
 | 4 | A configurable control-stream timeout on the Vibepollo side (request #522, local patch) | in progress |
 | 5 | All 22 Artemis languages with quality translations, EN and RU first; the language follows the device language, the KAST setting or the per-app language setting of Android 13+ | planned |
 | 6 | An [i] button on every setting: a dialog explains the setting and its possible values | planned |
@@ -140,9 +140,9 @@ gradlew.bat :app:assembleNonRoot_gameDebug
 
 | № | Возможность | Состояние |
 |---|---|---|
-| 1 | Переподключение: сессия переживает до 60 с без сети, последний кадр стоит на экране, сессия возобновляется внутри экрана игры | в работе: провал короче времени ожидания не рвёт сессию — стоит последний кадр и надпись «Связь потеряна»; следующее — автоматическое возобновление |
-| 2 | Настройки переподключения: время ожидания и частота попыток переподключения — отдельными опциями | в работе: время ожидания есть в настройках (10–300 с, по умолчанию 60 с); частота попыток — вместе с автоматическим возобновлением |
-| 3 | Подробный журнал каждого разрыва и каждого переподключения с причиной | в работе: каждый провал и его исход пишутся в журнал; строки возобновления — вместе с автоматическим возобновлением |
+| 1 | Переподключение: сессия переживает до 60 с без сети, последний кадр стоит на экране, сессия возобновляется внутри экрана игры | в работе: провал короче времени ожидания не рвёт сессию — стоит последний кадр и надпись «Связь потеряна»; соединение, которое всё-таки умерло, KAST поднимает сам на том же экране; если сеть не вернулась вовремя — KAST говорит почему |
+| 2 | Настройки переподключения: время ожидания и частота попыток переподключения — отдельными опциями | в работе: обе опции есть в настройках — время ожидания (10–300 с, по умолчанию 60 с) и самая долгая пауза между попытками (1–30 с, по умолчанию 3 с); автоматическое переподключение можно выключить |
+| 3 | Подробный журнал каждого разрыва и каждого переподключения с причиной | в работе: каждый провал, каждая попытка и исход пишутся в журнал; диалог конца называет причину словами |
 | 4 | Настраиваемый таймаут управляющего канала на стороне Vibepollo (запрос #522, локальный патч) | в работе |
 | 5 | Все 22 языка Artemis с качественными переводами, первые — EN и RU; язык берётся из языка устройства, из настроек KAST или из языка приложения в настройках Android 13+ | запланировано |
 | 6 | Кнопка [i] у каждой настройки: диалог с пояснением настройки и её возможных значений | запланировано |
