@@ -237,6 +237,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private static final int KAST_SILENCE_SHOW_MS = 1500;
     private long kastSilenceStartMs; // elapsedRealtime() when the current silence began; 0 = no silence
     private CharSequence kastOverlayTextBeforeSilence; // the "poor connection" text the outage label covered
+
+    // KAST (plans/06, step 6): the client ENet timeout — the grace period, or the debug-only instrument when it is set
+    private int kastEnetTimeoutMs() {
+        return (prefConfig.debugEnetTimeoutSeconds > 0 ? prefConfig.debugEnetTimeoutSeconds : prefConfig.reconnectGraceSeconds) * 1000;
+    }
     private final Runnable kastSilenceWatchdog = new Runnable() {
         @Override
         public void run() {
@@ -819,7 +824,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 .setColorSpace(decoderRenderer.getPreferredColorSpace())
                 .setColorRange(decoderRenderer.getPreferredColorRange())
                 .setPersistGamepadsAfterDisconnect(!prefConfig.multiController)
-                .setControlPeerTimeoutMs(prefConfig.reconnectGraceSeconds * 1000) // KAST: the grace period
+                .setControlPeerTimeoutMs(kastEnetTimeoutMs()) // KAST: the grace period (or the F3 debug instrument)
                 .build();
 
         // Initialize the connection
@@ -3599,6 +3604,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 timerHandler.removeCallbacksAndMessages(null);
 
                 // KAST: the reason of every end; "outcome=terminated" when it ended a silence
+                // KAST (plans/06, step 1, first half — log only, behaviour unchanged): the class of the end. 0 = the host
+                // ended it on purpose; -1 = the ENet control peer timed out (observed in F1/F2). Every other code stays
+                // "unknown" until the step's recon closes its FORK. "withinGrace" says whether F3 would still resume. [TESTED: 2026-09-26 17:47 · branch transport (-1, withinGrace=true) on Titan] [NOT-TESTED: branch final (host close) — the host admin session had expired, 401]
+                String kastEndClass = errorCode == MoonBridge.ML_ERROR_GRACEFUL_TERMINATION ? "final" : (errorCode == -1 ? "transport" : "unknown");
+                long kastSilenceElapsed = kastSilenceStartMs != 0 ? SystemClock.elapsedRealtime() - kastSilenceStartMs : 0;
+                Log.i(KAST_TAG, "end class=" + kastEndClass + " code=" + errorCode +
+                        " withinGrace=" + (kastSilenceElapsed < prefConfig.reconnectGraceSeconds * 1000L));
                 if (kastSilenceStartMs != 0) {
                     Log.i(KAST_TAG, "outcome=terminated code=" + errorCode +
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
@@ -3780,7 +3792,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 }
 
                 // KAST: the reconnect policy of this connection, then the silence watchdog
-                Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000));
+                Log.i(KAST_TAG, "policy grace=" + (prefConfig.reconnectGraceSeconds * 1000) + " enet=" + kastEnetTimeoutMs());
                 kastSilenceStartMs = 0;
                 timerHandler.postDelayed(kastSilenceWatchdog, KAST_WATCHDOG_PERIOD_MS);
             }

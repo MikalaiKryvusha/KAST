@@ -58,6 +58,10 @@ public class PreferenceConfiguration {
     // KAST (plans/04, step 4): the reconnect grace period in seconds — how long a lost network may stay
     // silent before the session ends. Range 10–300 s in the settings screen, default 60 s. [TESTED: 2026-09-26 · testcases/reports/2026-09-26_F2_hold.md — K1 20 s and K7 5 s held, control 10 s → −1 at 10.05 s]
     private static final String RECONNECT_GRACE_PREF_STRING = "seekbar_reconnect_grace_seconds";
+    // KAST (plans/06_epic02_F3_resume.md, step 6): a test instrument for debug builds only, no settings UI — set with
+    // `adb shell run-as <pkg>` in shared_prefs. A client ENet timeout shorter than the grace period makes the transport die
+    // inside the grace window, so the F3 resume path can be driven on the owner's live host. 0 = use the grace period. [TESTED: 2026-09-26 17:47 · value 10 with grace 60: policy grace=60000 enet=10000, a 20 s loss ended at 10.11 s with end class=transport withinGrace=true]
+    private static final String DEBUG_ENET_TIMEOUT_PREF_STRING = "kast_debug_enet_timeout_seconds";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";
     private static final String SMALL_ICONS_PREF_STRING = "checkbox_small_icon_mode";
@@ -245,6 +249,7 @@ public class PreferenceConfiguration {
     public int framePacingWarpFactor = 0;
     public int deadzonePercentage;
     public int reconnectGraceSeconds; // KAST
+    public int debugEnetTimeoutSeconds; // KAST F3 step 6: debug builds only; 0 = the grace period
     public int oscOpacity;
     public int oscKeyboardOpacity;
     public int onscreenKeyboardHeight;
@@ -880,6 +885,7 @@ private static int getFramePacingValue(Context context) {
         config.deadzonePercentage = prefs.getInt(DEADZONE_PREF_STRING, DEFAULT_DEADZONE);
 
         config.reconnectGraceSeconds = prefs.getInt(RECONNECT_GRACE_PREF_STRING, DEFAULT_RECONNECT_GRACE_SECONDS);
+        config.debugEnetTimeoutSeconds = com.limelight.BuildConfig.DEBUG ? prefs.getInt(DEBUG_ENET_TIMEOUT_PREF_STRING, 0) : 0;
 
         config.oscOpacity = prefs.getInt(OSC_OPACITY_PREF_STRING, DEFAULT_OPACITY);
 
