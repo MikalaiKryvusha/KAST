@@ -103,6 +103,9 @@ import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.view.PixelCopy;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -374,6 +377,77 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         }
     };
 
+    // KAST (plans/06, step 2): the last frame stays on screen through the resume. The surface keeps it by itself while no
+    // decoder is attached, but a new decoder taking the surface blanks it until its first frame — the black flash the owner
+    // saw on the Titan (testcases/reports/2026-09-26_F3_resume.md, run 2). So at the resume start the surface is copied
+    // (PixelCopy, API 24+) into a picture over the video, and the picture goes once the new decoder put out its first
+    // frame plus one more tick for it to reach the screen. [TESTED: 2026-09-26 18:56 · testcases/reports/2026-09-26_F3_resume.md, runs
+    // 3–4: last frame shown 2560x1440 at the resume start, hidden 0.5 s after outcome=resumed] [NOT-TESTED: the owner's eye on
+    // the black flash; API < 24 (no PixelCopy — the old flash stays)]
+    private static final int KAST_LAST_FRAME_POLL_MS = 50;
+    private static final int KAST_LAST_FRAME_MAX_WAIT_MS = 10000; // no new frame by then — show the stream anyway
+    private ImageView kastLastFrameView;
+    private long kastLastFrameHideDeadlineMs;
+
+    private void kastShowLastFrame() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return;
+        }
+        SurfaceView surfaceView = streamContainer.getSurfaceView();
+        if (surfaceView == null || surfaceView.getWidth() <= 0 || surfaceView.getHeight() <= 0
+                || !surfaceView.getHolder().getSurface().isValid()) {
+            Log.i(KAST_TAG, "last frame: no surface to copy");
+            return;
+        }
+        final Bitmap frame = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
+        try {
+            PixelCopy.request(surfaceView, frame, result -> {
+                if (result != PixelCopy.SUCCESS || !kastResuming) {
+                    Log.i(KAST_TAG, "last frame: copy result=" + result + " resuming=" + kastResuming);
+                    return;
+                }
+                if (kastLastFrameView == null) {
+                    kastLastFrameView = new ImageView(this);
+                    kastLastFrameView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    // a child of the stream container, over the video and under every overlay of the screen
+                    streamContainer.addView(kastLastFrameView, new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                }
+                kastLastFrameView.setImageBitmap(frame);
+                kastLastFrameView.setVisibility(View.VISIBLE);
+                Log.i(KAST_TAG, "last frame shown " + frame.getWidth() + "x" + frame.getHeight());
+            }, timerHandler);
+        } catch (IllegalArgumentException e) {
+            Log.i(KAST_TAG, "last frame: copy refused " + e);
+        }
+    }
+
+    // polls the new decoder after a resume; hides the picture one tick after its first frame is out
+    private final Runnable kastHideLastFrameWhenDrawn = new Runnable() {
+        @Override
+        public void run() {
+            if (kastLastFrameView == null || kastLastFrameView.getVisibility() != View.VISIBLE) {
+                return;
+            }
+            boolean drawn = decoderRenderer != null && decoderRenderer.getFramesOut() > 0;
+            if (drawn || SystemClock.elapsedRealtime() >= kastLastFrameHideDeadlineMs) {
+                timerHandler.postDelayed(() -> kastHideLastFrame(drawn ? "first new frame" : "no new frame in time"),
+                        KAST_LAST_FRAME_POLL_MS);
+                return;
+            }
+            timerHandler.postDelayed(this, KAST_LAST_FRAME_POLL_MS);
+        }
+    };
+
+    private void kastHideLastFrame(String why) {
+        if (kastLastFrameView == null || kastLastFrameView.getVisibility() != View.VISIBLE) {
+            return;
+        }
+        kastLastFrameView.setVisibility(View.GONE);
+        kastLastFrameView.setImageBitmap(null);
+        Log.i(KAST_TAG, "last frame hidden: " + why);
+    }
+
     // UI thread: the next attempt after the backoff delay
     private void kastScheduleAttempt() {
         long delay = KastReconnectPolicy.retryDelayMs(kastResumeAttempt + 1, prefConfig.reconnectRetrySeconds, kastRandom.nextDouble());
@@ -435,6 +509,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         connected = false;
         Log.i(KAST_TAG, "resume start cause=" + errorCode + " elapsed=" + elapsed);
         timerHandler.post(kastResumeTick);
+        kastShowLastFrame(); // step 2: before any new decoder takes the surface
         kastReleaseAndRetry();
         return true;
     }
@@ -463,6 +538,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         kastResuming = false;
         timerHandler.removeCallbacks(kastAttempt);
         timerHandler.removeCallbacks(kastResumeTick);
+        kastHideLastFrame("cancelled");
         Log.i(KAST_TAG, "outcome=cancelled attempts=" + kastResumeAttempt);
     }
 
@@ -4018,6 +4094,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     if (!isHidingOverlays) {
                         notificationOverlayView.setVisibility(requestedNotificationOverlayVisibility);
                     }
+                    // step 2: the snapshot of the last frame goes once the new decoder has drawn
+                    kastLastFrameHideDeadlineMs = SystemClock.elapsedRealtime() + KAST_LAST_FRAME_MAX_WAIT_MS;
+                    timerHandler.post(kastHideLastFrameWhenDrawn);
                 }
 
                 connected = true;

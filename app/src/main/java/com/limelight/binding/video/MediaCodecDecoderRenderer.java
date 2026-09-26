@@ -2235,6 +2235,13 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         return (int)(globalVideoStats.totalTimeMs / globalVideoStats.totalFramesReceived);
     }
 
+    // KAST (plans/06_epic02_F3_resume.md, step 2): frames that came out of the decoder so far — Game hides the snapshot of
+    // the previous connection's last frame once the first frame of a resumed connection is out. [TESTED: 2026-09-26 18:56 ·
+    // testcases/reports/2026-09-26_F3_resume.md, runs 3–4: last frame hidden: first new frame]
+    public int getFramesOut() {
+        return numFramesOut;
+    }
+
     public int getAverageDecoderLatency() {
         if (globalVideoStats.totalFramesReceived == 0) {
             return 0;
