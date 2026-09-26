@@ -11,7 +11,10 @@ import com.limelight.nvstream.jni.MoonBridge;
 public final class KastReconnectPolicy {
     private KastReconnectPolicy() {}
 
-    /** The end classes logged as "end class=…" (step 1, first half: log only). */
+    /**
+     * The end classes logged as "end class=…" (step 1: log only; step 4 resumes on {@link #END_TRANSPORT} alone —
+     * {@link #END_UNKNOWN} means "do not resume", the same as {@link #END_FINAL} for the user).
+     */
     public static final String END_FINAL = "final";
     public static final String END_TRANSPORT = "transport";
     public static final String END_UNKNOWN = "unknown";
@@ -35,9 +38,10 @@ public final class KastReconnectPolicy {
      * <ul>
      * <li>0 — the host closed the app on purpose → final.</li>
      * <li>-102 / -103 / -104 — the host ended the stream (early end, protected content, frame conversion) → final.</li>
-     * <li>-1 — the ENet control peer died or a stream receive failed → transport.</li>
-     * <li>-101 (no full frame) and positive codes (a socket errno, OR a host reason passed as-is — the two overlap) →
-     * transport only after a silence; without one → unknown.</li>
+     * <li>-1, -101 (no full frame) and positive codes (a socket errno, OR a host reason passed as-is — the two overlap) →
+     * transport only after a silence; without one → unknown. -1 is ambiguous too: an ENet DISCONNECT event is both a
+     * peer timeout and a disconnect the HOST sent on a live channel (ControlStream.c:894 → :1180, :1382), and the stream
+     * setup paths give -1 on an allocation failure (VideoStream.c:116, :132; AudioStream.c:265).</li>
      * <li>-100 (no video ever: a closed UDP port at start) and anything else → unknown.</li>
      * </ul>
      */
@@ -49,7 +53,6 @@ public final class KastReconnectPolicy {
             case MoonBridge.ML_ERROR_FRAME_CONVERSION:
                 return END_FINAL;
             case -1:
-                return END_TRANSPORT;
             case MoonBridge.ML_ERROR_NO_VIDEO_FRAME:
                 return silenceBefore ? END_TRANSPORT : END_UNKNOWN;
             default:

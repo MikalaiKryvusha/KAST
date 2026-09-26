@@ -35,7 +35,7 @@ public class KastReconnectPolicyTest {
     public void endClassesOfTheObservedCodes() {
         assertEquals(KastReconnectPolicy.END_FINAL, KastReconnectPolicy.endClass(0, false));      // host closed the app (K4)
         assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-1, true));  // ENet peer died after a silence (F2 control)
-        assertEquals(KastReconnectPolicy.END_TRANSPORT, KastReconnectPolicy.endClass(-1, false)); // a stream receive failure without a silence
+        assertEquals(KastReconnectPolicy.END_UNKNOWN, KastReconnectPolicy.endClass(-1, false));   // a host-sent ENet disconnect on a live channel
     }
 
     @Test
