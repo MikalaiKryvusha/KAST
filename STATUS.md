@@ -37,14 +37,15 @@
 Ф0 «Фундамент» закрыта. Кода KAST ещё нет — дерево `app/` равно Artemis `c5cf27f4`. Следующее — Ф1 «Сборочный
 стенд»: на машине владельца **нет Android SDK и NDK**, собрать APK пока нельзя.
 
-**Сервер (план 01) — в работе, сессия 1 передала его на полпути (2026-09-26 10:40):**
-- MSYS2 стоит в `D:\msys64`; клон Vibepollo — `D:\work\ai_sandbox\Vibepollo`, тег `2.0.0-beta.3`, ветка
-  `kast/control-peer-timeout`, правка — локальный коммит `9ad4e7e` (на GitHub не отправлялся);
-- сборка настроена в `build-kast2`; второй кусок сборки упал на `cc1plus.exe: out of memory` при `-j 14` —
-  **следующий запуск — с `-j 4`** (команда и все грабли — план 01, шаг 4); журнал — `D:\work\ai_sandbox\vibepollo-build.log`;
-- официальный установщик скачан и проверен (подпись SignPath Foundation):
-  `D:\work\ai_sandbox\Vibepollo-installers\VibepolloSetup-v2.0.0-beta.3.exe`;
-- обновление и подмена `sunshine.exe` — **только по слову владельца**: служба перезапускается и рвёт живую трансляцию.
+**Сервер (план 01) — наша сборка работает с 2026-09-26 11:23:37:**
+- Vibepollo обновлён до `2.0.0-beta.3`, поверх — наш `sunshine.exe` с правкой (журнал: `commit: 9ad4e7ec…`,
+  `control_peer_timeout = 60000`); копия официального файла — `C:\Program Files\Apollo\sunshine.exe.official-2.0.0-beta.3`;
+- откат: `Stop-Service ApolloService` → копия официального файла на место `sunshine.exe` → `Start-Service ApolloService`;
+- исходники: клон `D:\worki_sandbox\Vibepollo`, ветка `kast/control-peer-timeout`, коммит `9ad4e7e`; сборка — `build-kast2`
+  (MSYS2 в `D:\msys64`); все грабли сборки и установщика — план 01;
+- **каждое обновление Vibepollo затирает наш `sunshine.exe`** — пересборка и подмена по плану 01 (до ответа автора в #522);
+- следующий шаг — план 01, шаг 7: строка `Control peer timeout set to 60000 ms` при подключении клиента, режим полёта
+  на телефоне 20 с, выход из игры, откат.
 
 **README** переписан двуязычно (EN сверху, RU ниже) по публичному ядру голоса; **промпт логотипа** —
 `assets/logo/LOGO_PROMPT.md`; **логотип готов** (2026-09-26): шапка README — `assets/logo/kast-logo.png`, иконка
@@ -83,8 +84,6 @@
 - 📱 Телефон: установка APK и воспроизведение обрыва требуют телефона владельца. `adb devices` 2026-09-26 —
   устройств нет; путь — беспроводная отладка через Tailscale или установка APK руками.
 
-- ❓ Окно для обновления Vibepollo до 2.0.0-beta.3 и подмены `sunshine.exe` (служба перезапустится, трансляция
-  оборвётся; окно UAC установщика — клик владельца).
 
 - ⏳ Запрос автору Vibepollo отправлен 2026-09-26: https://github.com/Nonary/Vibepollo/issues/522 — ждём ответа; параллельно — локальная правка сервера, `plans/01_vibepollo_local_control_timeout_patch.md`.
 
