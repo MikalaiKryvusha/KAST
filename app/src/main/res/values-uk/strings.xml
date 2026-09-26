@@ -237,7 +237,6 @@
     <string name="audioconf_71surround">7.1 Об\'ємний Звук</string>
     <string name="summary_checkbox_enable_audiofx">Дозволяє аудіоефектам функціонувати під час потокового передавання, але може збільшити затримку звуку</string>
     <string name="title_troubleshooting">Гайд з усунення несправностей</string>
-    <string name="title_privacy_policy">Політика конфіденційності</string>
     <string name="summary_troubleshooting">Переглянути поради щодо діагностики та усунення поширених проблем з потоковою передачею</string>
     <string name="summary_checkbox_reduce_refresh_rate">Більш низька частота оновлення дисплея може заощадити енергію за рахунок деякої додаткової затримки відео</string>
     <string name="summary_seekbar_deadzone">Примітка: Деякі ігри можуть встановлювати більшу мертву зону, ніж та, на яку налаштовано KAST.</string>
@@ -251,7 +250,6 @@
     <string name="summary_checkbox_absolute_mouse_mode">Це може зробити прискорення миші більш природним під час використання віддаленого робочого столу, але воно несумісне з багатьма іграми.</string>
     <string name="title_checkbox_reduce_refresh_rate">Дозволити зниження частоти оновлення</string>
     <string name="category_help">Допомога</string>
-    <string name="summary_privacy_policy">Переглянути політику конфіденційності Moonlight</string>
     <string name="frame_conversion_error">Головний комп\'ютер повідомив про фатальну помилку кодування відео.
 \n
 \nСпробуйте вимкнути режим HDR, змінити роздільну здатність потокового відео або змінити роздільну здатність дисплея головного комп\'ютера.</string>

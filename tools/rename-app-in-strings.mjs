@@ -3,8 +3,8 @@
 //   node tools/rename-app-in-strings.mjs          # from the repository root; prints what changed per file and key
 // Scope: every <string> element (multi-line included) of app/src/main/res/values*/strings.xml whose text names the app.
 // Kept as is, on purpose:
-//   - keys that need the owner's decision or name the source: summary_privacy_policy (links to Artemis's policy),
-//     summary_performance_link (the Artemis community dashboard), summary_software_update («KAST, a fork of Artemis»);
+//   - keys that name the source or wait for their own change: summary_performance_link (the Artemis community dashboard;
+//     the owner 2026-09-26: a KAST page instead — bugs/06), summary_software_update («KAST, a fork of Artemis»);
 //   - the name of the separate host tool: «Moonlight Internet Hosting Tool» and its translations (a word for "Internet"
 //     follows the name), including the zh-rCN line where a translator put «Artemis» into the tool's name.
 // Only whole words are replaced; the file's line endings are kept. [TESTED: 2026-09-26 · 227 + 12 replacements in 26 files, a
@@ -12,7 +12,7 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 
 const RES = 'app/src/main/res';
-const KEEP_KEYS = new Set(['summary_privacy_policy', 'summary_performance_link', 'summary_software_update']);
+const KEEP_KEYS = new Set(['summary_performance_link', 'summary_software_update']);
 // The name with an optional case ending (Czech «Moonlightu», German/Swedish «Moonlights»); the character before it must
 // not be a letter or digit, except the literal "\n" escape of a multi-line XML string («\nMoonlight는…», ko).
 // Hebrew writes Moonlight in its own letters (מונלייט, values-iw) — found by the bug 06 judge.

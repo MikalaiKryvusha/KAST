@@ -249,9 +249,7 @@
     <string name="summary_checkbox_absolute_mouse_mode">Questo può rendere l\'accelerazione del mouse più naturale per l\'utilizzo del desktop remoto, ma è incompatibile con molti giochi.</string>
     <string name="summary_setup_guide">Visualizza le istruzioni su come configurare il tuo PC da gaming per lo streaming</string>
     <string name="title_troubleshooting">Guida alla risoluzione dei problemi</string>
-    <string name="title_privacy_policy">Informativa sulla privacy</string>
     <string name="summary_troubleshooting">Visualizza i suggerimenti per la diagnosi e la risoluzione dei problemi di streaming più comuni</string>
-    <string name="summary_privacy_policy">Visualizza l\'informativa sulla privacy di Moonlight</string>
     <string name="frame_conversion_error">Il PC host ha segnalato un errore fatale di codifica video.
 \n
 \nProva a disabilitare la modalità HDR, modificare la risoluzione dello streaming o la risoluzione del display del tuo PC host.</string>

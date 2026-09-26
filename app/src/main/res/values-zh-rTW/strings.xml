@@ -311,8 +311,6 @@
 	<string name="summary_setup_guide">檢視如何設定您的遊戲電腦以進行串流的指引</string>
 	<string name="title_troubleshooting">疑難排解指南</string>
 	<string name="summary_troubleshooting">檢視診斷與修復常見串流問題的提示</string>
-	<string name="title_privacy_policy">隱私權政策</string>
-	<string name="summary_privacy_policy">檢視 Artemis 的隱私權政策</string>
 	<string name="title_special_key_help">自訂按鍵說明</string>
 	<string name="summary_special_key_help">有關如何設定自訂特殊按鍵的指引</string>
 	<string name="summary_performance_link">查看其他裝置的效能。\n請注意，這些資料由社群管理，非由 Artemis 官方管理，也不代表 Artemis 的官方立場。</string>

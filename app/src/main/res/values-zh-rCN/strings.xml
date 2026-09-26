@@ -296,8 +296,6 @@
     <string name="video_scale_mode_fit">适应</string>
     <string name="video_scale_mode_fill">填充</string>
     <string name="video_scale_mode_stretch">拉伸</string>
-    <string name="title_privacy_policy">隐私政策</string>
-    <string name="summary_privacy_policy">查看  Artemis  隐私政策</string>
     <string name="category_help">帮助</string>
     <string name="title_setup_guide">安装向导</string>
     <string name="title_troubleshooting">解决方案向导</string>

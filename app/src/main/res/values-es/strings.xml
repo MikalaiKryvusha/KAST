@@ -159,7 +159,6 @@
     <string name="summary_fps_list">Incrementar para una experiencia mas fluida en la transmisión. Disminuir para una mejoría en el rendimiento en dispositivos de gama de entrada.</string>
     <string name="summary_reset_osc">Reiniciar toda la configuración a las predeterminadas de tamaño y posición para los controles en pantalla</string>
     <string name="summary_troubleshooting">Mostrar consejos para diagnosticar y corregir errores comunes respecto a la transmisión</string>
-    <string name="title_privacy_policy">Política de Privacidad</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_1440p">1440p</string>
     <string name="resolution_4k">4K</string>
@@ -247,7 +246,6 @@
     <string name="category_help">Ayuda</string>
     <string name="title_setup_guide">Guía para la Configuración</string>
     <string name="summary_setup_guide">Mostrar instrucciones para como configurar tu PC para juegos para la transmisión</string>
-    <string name="summary_privacy_policy">Mostrar la política de privacidad de Moonlight</string>
     <string name="resolution_480p">480p</string>
     <string name="fps_30">30 FPS</string>
     <string name="fps_60">60 FPS</string>

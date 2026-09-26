@@ -289,8 +289,6 @@
     <string name="summary_setup_guide">Voir les instructions sur la façon de configurer votre PC de jeu pour le streaming</string>
     <string name="title_troubleshooting">Guide de dépannage</string>
     <string name="summary_troubleshooting">Voir des conseils pour diagnostiquer et résoudre les problèmes de streaming courants</string>
-    <string name="title_privacy_policy">Politique de confidentialité</string>
-    <string name="summary_privacy_policy">Voir la politique de confidentialité d\'Artemis</string>
     <string name="title_special_key_help">Aide sur les touches spéciales personnalisées</string>
     <string name="summary_special_key_help">Instructions sur la configuration des touches spéciales personnalisées</string>
 

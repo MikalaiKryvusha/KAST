@@ -190,8 +190,6 @@
     <string name="summary_unlock_fps">Streamování v 90 nebo 120 FPS může snížit zpoždění na dražších zařízeních, ale může způsobit zasekávání nebo nestabilitu na zařízeních, které je nepodporují</string>
     <string name="title_enable_post_stream_toast">Zobrazit informace o zpoždění po streamování</string>
     <string name="summary_enable_post_stream_toast">Zobrazit informace o zpoždění po skončení streamování</string>
-    <string name="title_privacy_policy">Zásady ochrany osobních údajů</string>
-    <string name="summary_privacy_policy">Zobrazit zásady ochrany osobních údajů Moonlightu</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_480p">480p</string>
     <string name="pacing_balanced_alt">Vyvážené s limitem FPS</string>

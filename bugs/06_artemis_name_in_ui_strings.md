@@ -1,7 +1,8 @@
 # Баг 06 — в текстах интерфейса KAST называет себя Artemis
 
 **Status:** 🔧 механическая часть сделана 2026-09-26 (239 замен в 26 файлах, `tools/rename-app-in-strings.mjs`, судья — PASS,
-его находки исправлены); ждут владельца два ключа — политика конфиденциальности и панель производительности
+его находки исправлены); 2026-09-26 18:33 по решению владельца удалена мёртвая строка политики конфиденциальности; дальше —
+своя страница KAST для панели производительности
 **Version/build:** KAST Debug 20.2.6 (`moonlight-noir` @ `d100a101`) · **When/context:** 2026-09-26 17:40, агент увидел на
 Титане в настройках «Язык — Язык, который будет использоваться в Artemis» во время прогонов Ф2 (отчёт
 `testcases/reports/2026-09-26_F2_hold.md` → Found)
@@ -41,8 +42,8 @@
 | `keyboard_service_label`, `accessibility_description_text` | имя службы клавиатуры в системе | Artemis → KAST |
 | `summary_device_rumble` | упоминание в тексте про вибрацию | прочитать целиком, скорее Artemis → KAST |
 | `summary_software_update` | «KAST, a fork of Artemis by ClassicOldSong» | оставить — это источник |
-| `summary_privacy_policy` | «View Artemis's privacy policy», ссылка ведёт на политику Artemis | вопрос владельцу: у KAST своей политики нет — убрать пункт, оставить ссылку на Artemis с честной подписью или написать свою |
-| `summary_performance_link` | панель производительности сообщества Artemis | вопрос владельцу вместе с идеей 03/07 (см. баг 04 → «За рамками») |
+| `summary_privacy_policy` | «View Artemis's privacy policy»; ни один экран строку не показывает: `grep -rn privacy_policy app/src` вне `res/values*` — пусто (2026-09-26 18:32; прежняя запись «ссылка ведёт на политику Artemis» была неверной) | удалена вместе с `title_privacy_policy` — решение владельца «ДА УДАЛИТЬ» (выше, дословно) |
+| `summary_performance_link` | панель производительности сообщества Artemis: пункт настроек ведёт на вики Artemis `Performance-Statistics-Collection` | своя страница KAST — решение владельца «завести свою страницу KAST для производительности» (выше, дословно); шаг 3 ниже |
 
 Ключи с упоминанием в переводах (`git grep -h -i -E "moonlight|artemis"`, число файлов): `message_decoding_error` 25,
 `summary_language_list` 24, пять `nettest_text_*` по 24, `summary_checkbox_usb_bind_all` 23, `summary_privacy_policy` 18,
@@ -54,8 +55,10 @@ Internet Hosting Tool» во второй строке `nettest_text_*` у 18 я
 ## Fix plan
 1. Механическая часть: заменить «Artemis» на «KAST» в строках колонки «Artemis → KAST» во всех языковых файлах, где ключ
    есть; сверка по ключу (EXP-0004); сборка; снимки настроек и теста сети на русском и английском — владельцу.
-2. Два вопроса владельцу (политика конфиденциальности, панель производительности) — одним интервью, когда будет готово
-   больше вопросов об именах (идея 07).
+2. ~~Два вопроса владельцу~~ — отвечены в чате 2026-09-26 ≈ 18:30 (выше, дословно): строку политики удалить (✅ 18:33, 36 строк в
+   18 файлах, ссылок в коде нет, сборка); для производительности — своя страница KAST.
+3. Своя страница KAST о производительности: как включить журнал производительности, как сохранить и прислать его (диалог
+   бага 04, адрес issues KAST); пункт настроек ведёт на неё, подпись пункта — на всех языках. [NOT-TESTED] — следующий шаг.
 
 ## Сделано 2026-09-26 (механическая часть)
 `node tools/rename-app-in-strings.mjs` заменил имя приложения на KAST во всех `<string>` с упоминанием, кроме трёх ключей
@@ -65,7 +68,7 @@ Internet Hosting Tool» во второй строке `nettest_text_*` у 18 я
 «d'KAST» → «de KAST» (элизия только перед гласной, 3 места); во вьетнамском имя инструмента хоста «Công cụ … Internet
 Artemis» задето — возвращено, правило «имя сразу после Internet не трогать» добавлено в инструмент; русская ошибка
 декодера без предлога → «В KAST произошёл сбой»; греческий артикль «της KAST» → «του KAST».
-Осталось намеренно (`git grep -i -E "moonlight|artemis"`): ключи `summary_privacy_policy`, `summary_performance_link`,
+Осталось намеренно (`git grep -i -E "moonlight|artemis"`): ключи `summary_performance_link`,
 `summary_software_update` и имя инструмента хоста — «Moonlight Internet Hosting Tool» у 18 языков, «Artemis Internet
 Hosting Tool» в `values`, `values-fr`, `values-ru`, `values-zh-rTW` (Artemis переименовал и имя инструмента — это
 ошибка источника), «Artemis 互联网主机工具» в `values-zh-rCN`, «Internet Artemis» в `values-vi`.

@@ -243,13 +243,11 @@
     <string name="pacing_balanced_alt">Ausbalanciert mit FPS-Limit</string>
     <string name="summary_checkbox_absolute_mouse_mode">Dies kann die Mausbeschleunigung für die Fernsteuerung natürlicher gestalten, ist aber mit vielen Spielen nicht kompatibel.</string>
     <string name="title_troubleshooting">Anleitung zur Fehlersuche</string>
-    <string name="title_privacy_policy">Datenschutzbestimmungen</string>
     <string name="title_checkbox_enable_audiofx">Unterstützung des System-Equalizer aktivieren</string>
     <string name="summary_setup_guide">Zeige Anweisungen zum Einrichten Ihres Gaming-PCs für das Streaming an</string>
     <string name="title_checkbox_absolute_mouse_mode">Modus für ferngesteuerte Maus</string>
     <string name="category_help">Hilfe</string>
     <string name="title_setup_guide">Einstellungsanleitung</string>
-    <string name="summary_privacy_policy">Moonlight\'s Datenschutzbestimmungen anzeigen</string>
     <string name="summary_seekbar_deadzone">Hinweis: Einige Spiele können eine größere Controller-Totzone erzwingen als die, die in KAST konfiguriert ist.</string>
     <string name="summary_checkbox_enable_audiofx">Ermöglicht das Funktionieren von Audioeffekten beim Streaming, kann aber die Audio-Latenz erhöhen</string>
     <string name="resolution_prefix_native_portrait">(Portrait)</string>

@@ -227,11 +227,9 @@
     <string name="summary_enable_post_stream_toast">Akış sona erdikten sonra bir gecikme bilgi mesajı görüntüle</string>
     <string name="summary_setup_guide">Oyun bilgisayarınızı akış için nasıl ayarlayacağınıza ilişkin talimatları görüntüleyin</string>
     <string name="title_troubleshooting">Sorun giderme kılavuzu</string>
-    <string name="title_privacy_policy">Gizlilik politikası</string>
     <string name="resolution_480p">480p</string>
     <string name="resolution_1080p">1080p</string>
     <string name="summary_troubleshooting">Yaygın akış sorunlarını teşhis etmeye ve düzeltmeye yönelik ipuçlarını görüntüle</string>
-    <string name="summary_privacy_policy">Moonlight gizlilik politikasını görüntüleyin</string>
     <string name="toast_controller_type_changed">Hareket sensörü taklidi nedeniyle oyun kumandası türü değiştirilebilir</string>
     <string name="audioconf_51surround">5.1 Surround Ses</string>
     <string name="audioconf_71surround">7.1 Surround Ses</string>

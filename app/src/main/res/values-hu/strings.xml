@@ -213,7 +213,6 @@
     <string name="title_native_fps_dialog">Natív FPS figyelmeztetés</string>
     <string name="pacing_balanced">Kiegyensúlyozott</string>
     <string name="summary_full_range">Ez részletvesztést okoz a világos és sötét területeken, ha a készülék nem jeleníti meg megfelelően a teljes tartományú videotartalmat.</string>
-    <string name="summary_privacy_policy">A Moonlight adatvédelmi szabályzatának megtekintése</string>
     <string name="resolution_4k">4K</string>
     <string name="pacing_smoothness">A legsimább videó előnyben részesítése (jelentősen növelheti a késleltetést)</string>
     <string name="fps_120">120 FPS</string>
@@ -242,7 +241,6 @@
     <string name="summary_seekbar_deadzone">Megjegyzés: Egyes játékok nagyobb holtteret kényszeríthetnek ki, mint amire a KAST be van állítva.</string>
     <string name="audioconf_stereo">Sztereó</string>
     <string name="videoformat_h264always">Inkább H.264</string>
-    <string name="title_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="fps_suffix_fps">FPS</string>
     <string name="category_gamepad_settings">Gamepad beállítások</string>
     <string name="fps_30">30 FPS</string>

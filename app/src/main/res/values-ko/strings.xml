@@ -237,8 +237,6 @@
     <string name="summary_setup_guide">스트리밍을 위해 게임 PC를 설정하는 방법 보기</string>
     <string name="title_troubleshooting">문제 해결 가이드</string>
     <string name="summary_troubleshooting">일반적인 스트리밍 문제 진단 및 해결을 위한 팁 보기</string>
-    <string name="title_privacy_policy">개인 정보 정책</string>
-    <string name="summary_privacy_policy">Moonlight의 개인 정보 보호 정책 보기</string>
     <string name="summary_frame_pacing">비디오 지연 시간과 부드러움의 균형을 맞추는 방법 설정</string>
     <string name="pacing_latency">최저 지연 시간 선호</string>
     <string name="pacing_balanced">균형</string>

@@ -172,8 +172,6 @@
     <string name="title_setup_guide">Installationsguide</string>
     <string name="title_troubleshooting">Vägledning för felsökning</string>
     <string name="summary_troubleshooting">Visa gissningar för att utvärdera och åtgärda vanliga strömningsbeskymmer</string>
-    <string name="title_privacy_policy">Integritetspolicy</string>
-    <string name="summary_privacy_policy">Visa Moonlights integritetspolicy</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_480p">480p</string>
     <string name="resolution_720p">720p</string>
