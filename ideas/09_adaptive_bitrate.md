@@ -2,6 +2,6 @@
 
 ---
 
-> Заметка агента, 2026-09-26: сервер Vibepollo уже принял PR «Runtime bitrate endpoint + ABR capability negotiation»
-> (автор AsafMah, список принятых PR `gh pr list --repo Nonary/Vibepollo --state merged`) — возможная опора для
-> плавающего битрейта на стороне сервера; разобрать при планировании этой идеи.
+> Заметка агента, 2026-09-26: в Vibepollo принят PR «Runtime bitrate endpoint + ABR capability negotiation» (автор
+> AsafMah; список принятых PR — `gh pr list --repo Nonary/Vibepollo --state merged`). Вероятно, это опора для
+> плавающего битрейта на стороне сервера; PR разбирается при планировании идеи 09.
