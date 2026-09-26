@@ -33,3 +33,9 @@
 - Тема — `Theme.MaterialComponents.NoActionBar` (`res/values/styles.xml:9`), настройки —
   `Theme.AppCompat.NoActionBar` (`:52`); библиотеки `material 1.13.0`, `appcompat 1.7.1` (`app/build.gradle`).
 - Интерфейс на XML-разметке: 18 файлов в `res/layout`; Jetpack Compose в проекте нет.
+
+---
+
+> Дополнение владельца (дословно, чат 2026-09-26):
+
+и цветовую тему, UI/UX KAST нужно потихоньку приближать и адаптировать к теме веб админке Vibepollo - чтобы пользователю KLAS было по теме и оформлению было похоже Vibepollo и наоборот
