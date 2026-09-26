@@ -264,8 +264,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private int kastResumeCause;          // the termination code that started the resume
     private String kastNextAttemptReason = "backoff";
     // step 11: what the attempts ran into — the reason dialog after the give-up says it in words
-    private int kastUnreachableAttempts;   // the host did not answer (connect or read timeout)
-    private int kastRefusedCode;           // the host answered with an error (HTTP code), 0 = never
+    private volatile int kastRefusedCode;  // the host answered with an error status (HTTP or RTSP, ≥ 400), 0 = never
+    // judge (third) finding 3: a stream that came back and died again within this window counts as «dropped», also across
+    // a new resume (connectionStarted ends a resume, so the old in-resume flag alone never survived to the dialog)
+    private static final int KAST_DROPPED_WINDOW_MS = 30000;
+    private long kastLastResumedAtMs;       // elapsedRealtime of the last outcome=resumed, 0 = none
     private boolean kastStartedAndDied;    // an attempt's stream started and broke off again
     private volatile boolean kastPhoneOffline; // the phone's default network was lost and none came back
     private boolean kastAutoReconnectOff;  // step 12: the setting is off — no attempts at all
@@ -485,6 +488,15 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             kastReleaseAndRetry();
             return true;
         }
+        if (!kastGaveUp && !displayedFailureDialog && KastReconnectPolicy.END_TRANSPORT.equals(endClass) && !inGrace) {
+            // the third judge, finding 1: with the client's ENet timeout equal to the grace period (as a user has it) a long
+            // outage ends at the grace edge, past it — no attempt is left, but the end still gets the reason dialog
+            kastGaveUp = true;
+            kastStartedAndDied = kastLastResumedAtMs != 0
+                    && SystemClock.elapsedRealtime() - kastLastResumedAtMs < KAST_DROPPED_WINDOW_MS;
+            Log.i(KAST_TAG, "end past the grace period — the reason dialog");
+            return false;
+        }
         if (kastGaveUp || displayedFailureDialog || !KastReconnectPolicy.END_TRANSPORT.equals(endClass) || !inGrace) {
             return false;
         }
@@ -498,9 +510,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         kastResuming = true;
         kastResumeCause = errorCode;
         kastResumeAttempt = 0;
-        kastUnreachableAttempts = 0;
         kastRefusedCode = 0;
-        kastStartedAndDied = false;
+        kastStartedAndDied = kastLastResumedAtMs != 0
+                && SystemClock.elapsedRealtime() - kastLastResumedAtMs < KAST_DROPPED_WINDOW_MS;
         kastAttemptInFlight = false;
         timerHandler.removeCallbacksAndMessages(null); // the watchdog and the pings of the dead connection
         connected = false;
@@ -3887,12 +3899,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (kastResuming || kastAttemptInFlight) {
             Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode +
                     (kastResuming ? "" : " (after the resume ended — dropped)"));
-            // step 11: a refusal is an answer with an error code; everything else (no answer in time) is «unreachable»
-            if (errorCode > 0) {
+            // step 11: a refusal is an answer status from the host — HTTP /resume (NvConnection, HostHttpResponseException)
+            // or RTSP, ≥ 400; the core also reports errno values (110 ETIMEDOUT, 111 ECONNREFUSED) as positive codes, and
+            // those are «the host did not answer», not a refusal (the third judge, finding 2)
+            if (errorCode >= 400) {
                 kastRefusedCode = errorCode;
-            }
-            else {
-                kastUnreachableAttempts++;
             }
             runOnUiThread(() -> {
                 kastAttemptInFlight = false;
@@ -4079,8 +4090,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                         // попыток переподключения»): after the resume gave up, or with automatic reconnection off, the
                         // dialog says what is wrong and what to do — no «KAST waited», no «attempts»: the owner, ≈20:42, «текст
                         // ошибки тупорылый, опять оправдания. Ждал, сделал попыток»; the code stays one line for support. [TESTED: 2026-09-26 20:34 ·
-                        // testcases/reports/2026-09-26_F3_resume.md, run 16: «unreachable», the text on the Titan] [NOT-TESTED: the
-                        // reasons no_network, refused, dropped, off]
+                        // testcases/reports/2026-09-26_F3_resume.md, run 16: «unreachable», the text on the Titan; run 18: the end
+                        // past the grace period as a user has it — the same dialog] [NOT-TESTED: the reasons no_network, refused,
+                        // dropped, off]
                         String title = getResources().getString(R.string.conn_terminated_title);
                         if (kastGaveUp) {
                             title = getResources().getString(R.string.kast_resume_failed_title);
@@ -4184,6 +4196,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 // the start below (input grab, watchdog, network watch) runs as for any start. [TESTED: 2026-09-26 18:46 ·
                 // testcases/reports/2026-09-26_F3_resume.md, run 2: outcome=resumed attempt=3, then the policy line again]
                 if (kastResuming) {
+                    kastLastResumedAtMs = SystemClock.elapsedRealtime(); // judge (third) finding 3
                     Log.i(KAST_TAG, "outcome=resumed attempt=" + kastResumeAttempt +
                             " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
                     kastResuming = false;
@@ -4201,6 +4214,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     // step 10: the stream is back on the same codec; from now on its stop releases it the Moonlight way
                     decoderRenderer.kastSetKeepCodecOnCleanup(false);
                 }
+                kastRefusedCode = 0; // KAST (step 11): a refusal belongs to one outage — a stream that runs starts clean
 
                 connected = true;
                 connecting = false;
