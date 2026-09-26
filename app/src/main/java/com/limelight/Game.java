@@ -263,6 +263,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private int kastResumeAttempt;        // attempts started in this resume
     private int kastResumeCause;          // the termination code that started the resume
     private String kastNextAttemptReason = "backoff";
+    // step 11: what the attempts ran into — the reason dialog after the give-up says it in words
+    private int kastUnreachableAttempts;   // the host did not answer (connect or read timeout)
+    private int kastRefusedCode;           // the host answered with an error (HTTP code), 0 = never
+    private boolean kastStartedAndDied;    // an attempt's stream started and broke off again
+    private volatile boolean kastPhoneOffline; // the phone's default network was lost and none came back
+    private boolean kastAutoReconnectOff;  // step 12: the setting is off — no attempts at all
+    private int kastGaveUpSeconds;         // how long KAST waited, for the dialog
     private final java.util.Random kastRandom = new java.util.Random();
     // the decoder's inputs, kept from onCreate for kastCreateDecoderRenderer
     private boolean kastDecoderMetered;
@@ -475,15 +482,26 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (kastResuming) {
             // the connection of an attempt ended (no video at start, the transport died again): release it, try again
             kastAttemptInFlight = false;
+            kastStartedAndDied = true; // step 11
             kastReleaseAndRetry();
             return true;
         }
         if (kastGaveUp || displayedFailureDialog || !KastReconnectPolicy.END_TRANSPORT.equals(endClass) || !inGrace) {
             return false;
         }
+        if (!prefConfig.autoReconnect) {
+            // step 12: the user turned automatic reconnection off — the old end, with the reason dialog of step 11
+            kastGaveUp = true;
+            kastAutoReconnectOff = true;
+            Log.i(KAST_TAG, "resume off by the setting");
+            return false;
+        }
         kastResuming = true;
         kastResumeCause = errorCode;
         kastResumeAttempt = 0;
+        kastUnreachableAttempts = 0;
+        kastRefusedCode = 0;
+        kastStartedAndDied = false;
         kastAttemptInFlight = false;
         timerHandler.removeCallbacksAndMessages(null); // the watchdog and the pings of the dead connection
         connected = false;
@@ -500,6 +518,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private void kastGiveUp() {
         Log.i(KAST_TAG, "outcome=gave-up attempts=" + kastResumeAttempt +
                 " elapsed=" + (SystemClock.elapsedRealtime() - kastSilenceStartMs));
+        kastGaveUpSeconds = (int) ((SystemClock.elapsedRealtime() - kastSilenceStartMs) / 1000);
         kastResuming = false;
         kastGaveUp = true;
         timerHandler.removeCallbacks(kastAttempt);
@@ -512,6 +531,39 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 connectionTerminated(cause); // does network I/O (the port test) — never on the UI thread
             }
         }.start();
+    }
+
+    // step 11: which reason the dialog names — the phone had no network > the host refused > the stream came back and broke
+    // off again > the host did not answer; the setting off stands apart
+    private String kastResumeFailedReasonKey() {
+        if (kastAutoReconnectOff) {
+            return "off";
+        }
+        if (kastPhoneOffline) {
+            return "no_network";
+        }
+        if (kastRefusedCode != 0) {
+            return "refused";
+        }
+        if (kastStartedAndDied) {
+            return "dropped";
+        }
+        return "unreachable";
+    }
+
+    private String kastResumeFailedReason() {
+        switch (kastResumeFailedReasonKey()) {
+            case "off":
+                return getString(R.string.kast_resume_failed_off);
+            case "no_network":
+                return getString(R.string.kast_resume_failed_no_network, kastGaveUpSeconds);
+            case "refused":
+                return getString(R.string.kast_resume_failed_refused, kastRefusedCode);
+            case "dropped":
+                return getString(R.string.kast_resume_failed_dropped);
+            default:
+                return getString(R.string.kast_resume_failed_unreachable, kastGaveUpSeconds, kastResumeAttempt);
+        }
     }
 
     // UI thread: the resume ended (gave up or cancelled) while an attempt still runs. The attempt is left to finish on its
@@ -562,12 +614,14 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             @Override
             public void onAvailable(android.net.Network network) {
                 Log.i(KAST_TAG, "net available " + network);
+                kastPhoneOffline = false; // step 11
                 timerHandler.post(() -> kastOnNetworkAvailable());
             }
 
             @Override
             public void onLost(android.net.Network network) {
                 Log.i(KAST_TAG, "net lost " + network);
+                kastPhoneOffline = true; // step 11: until a network is available again
             }
         };
         try {
@@ -3835,6 +3889,13 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         if (kastResuming || kastAttemptInFlight) {
             Log.i(KAST_TAG, "attempt=" + kastResumeAttempt + " failed stage=" + stage + " code=" + errorCode +
                     (kastResuming ? "" : " (after the resume ended — dropped)"));
+            // step 11: a refusal is an answer with an error code; everything else (no answer in time) is «unreachable»
+            if (errorCode > 0) {
+                kastRefusedCode = errorCode;
+            }
+            else {
+                kastUnreachableAttempts++;
+            }
             runOnUiThread(() -> {
                 kastAttemptInFlight = false;
                 if (kastResuming) {
@@ -4016,8 +4077,19 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                                     MoonBridge.stringifyPortFlags(portFlags, "\n");
                         }
 
-                        Dialog.displayDialog(Game.this, getResources().getString(R.string.conn_terminated_title),
-                                message, true);
+                        // KAST (plans/06, step 11; the owner: «Диалог - с адекватным пояснением причины - да, тоже нужен, после
+                        // попыток переподключения»): after the resume gave up, or with automatic reconnection off, the
+                        // dialog says what happened in words; the code stays one line for support. [TESTED: 2026-09-26 20:34 ·
+                        // testcases/reports/2026-09-26_F3_resume.md, run 16: «unreachable», the text on the Titan] [NOT-TESTED: the
+                        // reasons no_network, refused, dropped, off]
+                        String title = getResources().getString(R.string.conn_terminated_title);
+                        if (kastGaveUp) {
+                            title = getResources().getString(R.string.kast_resume_failed_title);
+                            message = kastResumeFailedReason() + "\n\n" +
+                                    getResources().getString(R.string.kast_resume_failed_support_code, errorCode);
+                            Log.i(KAST_TAG, "reason dialog: " + kastResumeFailedReasonKey());
+                        }
+                        Dialog.displayDialog(Game.this, title, message, true);
                     }
                     else {
                         finish();

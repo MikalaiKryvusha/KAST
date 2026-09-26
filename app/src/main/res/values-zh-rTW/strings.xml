@@ -796,4 +796,13 @@
     <string name="summary_seekbar_reconnect_retry">連線中斷後，KAST 嘗試恢復串流的兩次嘗試之間的最長間隔。</string>
     <string name="suffix_seekbar_seconds">秒</string>
     <string name="kast_connection_lost_waiting">連線已中斷 — 正在等待網路… %1$d 秒</string>
+    <string name="kast_resume_failed_title">與電腦的連線未能恢復</string>
+    <string name="kast_resume_failed_unreachable">KAST 等待了 %1$d 秒並嘗試了 %2$d 次，但主機電腦沒有回應。請檢查手機是否有網路，以及電腦是否已開機並連線。</string>
+    <string name="kast_resume_failed_no_network">KAST 等待了 %1$d 秒，但手機一直沒有恢復網路。請檢查 Wi-Fi 或行動數據後重新連線。</string>
+    <string name="kast_resume_failed_refused">主機電腦有回應，但沒有讓 KAST 回到遊戲（代碼 %1$d）。請在電腦上關閉遊戲，或從應用程式清單重新啟動。</string>
+    <string name="kast_resume_failed_dropped">串流恢復過，但又中斷了：網路似乎不穩定。請在網路穩定後重新連線。</string>
+    <string name="kast_resume_failed_off">與電腦的連線已中斷。KAST 設定中已關閉自動重新連線。</string>
+    <string name="kast_resume_failed_support_code">供技術支援參考：代碼 %1$d。</string>
+    <string name="kast_title_auto_reconnect">自動重新連線</string>
+    <string name="kast_summary_auto_reconnect">與電腦的連線中斷時，KAST 會在重新連線等待時間內自行嘗試恢復串流。</string>
 </resources>

@@ -194,4 +194,13 @@
     <string name="summary_seekbar_reconnect_retry">Cea mai lungă pauză dintre încercările KAST de a reface fluxul după întreruperea conexiunii.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Conexiune pierdută — aștept rețeaua… %1$d s</string>
+    <string name="kast_resume_failed_title">Conexiunea cu PC-ul nu s-a restabilit</string>
+    <string name="kast_resume_failed_unreachable">KAST a așteptat %1$d s și a făcut %2$d încercări, dar PC-ul gazdă nu a răspuns. Verificați că telefonul are internet și că PC-ul este pornit și conectat.</string>
+    <string name="kast_resume_failed_no_network">KAST a așteptat %1$d s, dar telefonul nu a mai avut rețea. Verificați Wi-Fi sau datele mobile și conectați-vă din nou.</string>
+    <string name="kast_resume_failed_refused">PC-ul gazdă a răspuns, dar nu a lăsat KAST să revină în joc (cod %1$d). Închideți jocul pe PC sau porniți-l din nou din lista de aplicații.</string>
+    <string name="kast_resume_failed_dropped">Fluxul revenea, dar se întrerupea din nou: rețeaua pare instabilă. Conectați-vă din nou când se stabilizează.</string>
+    <string name="kast_resume_failed_off">Conexiunea cu PC-ul s-a întrerupt. Reconectarea automată este oprită în setările KAST.</string>
+    <string name="kast_resume_failed_support_code">Pentru asistență: cod %1$d.</string>
+    <string name="kast_title_auto_reconnect">Reconectare automată</string>
+    <string name="kast_summary_auto_reconnect">Când conexiunea cu PC-ul se întrerupe, KAST încearcă singur să readucă fluxul în timpul de așteptare pentru reconectare.</string>
 </resources>

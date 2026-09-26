@@ -157,4 +157,13 @@
     <string name="summary_seekbar_reconnect_retry">Най-дългата пауза между опитите на KAST да възстанови потока след прекъсване на връзката.</string>
     <string name="suffix_seekbar_seconds">с</string>
     <string name="kast_connection_lost_waiting">Връзката е загубена — изчаквам мрежата… %1$d с</string>
+    <string name="kast_resume_failed_title">Връзката с компютъра не се възстанови</string>
+    <string name="kast_resume_failed_unreachable">KAST чака %1$d с и направи опити: %2$d, но хост компютърът не отговори. Проверете дали телефонът има интернет и дали компютърът е включен и в мрежата.</string>
+    <string name="kast_resume_failed_no_network">KAST чака %1$d с, но телефонът така и не получи мрежа. Проверете Wi-Fi или мобилните данни и се свържете отново.</string>
+    <string name="kast_resume_failed_refused">Хост компютърът отговори, но не пусна KAST обратно в играта (код %1$d). Затворете играта на компютъра или я стартирайте отново от списъка с приложения.</string>
+    <string name="kast_resume_failed_dropped">Потокът се връщаше, но отново прекъсваше: мрежата изглежда нестабилна. Свържете се отново, когато връзката се оправи.</string>
+    <string name="kast_resume_failed_off">Връзката с компютъра прекъсна. Автоматичното повторно свързване е изключено в настройките на KAST.</string>
+    <string name="kast_resume_failed_support_code">За поддръжка: код %1$d.</string>
+    <string name="kast_title_auto_reconnect">Автоматично повторно свързване</string>
+    <string name="kast_summary_auto_reconnect">Когато връзката с компютъра прекъсне, KAST сам се опитва да върне потока в рамките на времето за изчакване на повторно свързване.</string>
 </resources>

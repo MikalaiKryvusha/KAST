@@ -685,4 +685,13 @@
     <string name="summary_seekbar_reconnect_retry">Самая долгая пауза между попытками KAST вернуть поток после обрыва связи.</string>
     <string name="suffix_seekbar_seconds">с</string>
     <string name="kast_connection_lost_waiting">Связь потеряна — жду сеть… %1$d с</string>
+    <string name="kast_resume_failed_title">Связь с компьютером не восстановилась</string>
+    <string name="kast_resume_failed_unreachable">KAST ждал %1$d с и сделал попыток: %2$d, но компьютер-хост не ответил. Проверьте, что у телефона есть интернет, а компьютер включён и в сети.</string>
+    <string name="kast_resume_failed_no_network">KAST ждал %1$d с, но у телефона так и не появилась сеть. Проверьте Wi-Fi или мобильный интернет и подключитесь снова.</string>
+    <string name="kast_resume_failed_refused">Компьютер-хост ответил, но не пустил KAST обратно в игру (код %1$d). Закройте игру на компьютере или запустите её заново из списка приложений.</string>
+    <string name="kast_resume_failed_dropped">Поток возвращался, но снова обрывался: сеть, похоже, нестабильна. Подключитесь снова, когда связь наладится.</string>
+    <string name="kast_resume_failed_off">Связь с компьютером прервалась. Автоматическое переподключение выключено в настройках KAST.</string>
+    <string name="kast_resume_failed_support_code">Для поддержки: код %1$d.</string>
+    <string name="kast_title_auto_reconnect">Переподключаться автоматически</string>
+    <string name="kast_summary_auto_reconnect">Когда связь с компьютером обрывается, KAST сам пытается вернуть поток в пределах времени ожидания переподключения.</string>
 </resources>

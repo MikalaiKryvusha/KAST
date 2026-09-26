@@ -199,4 +199,13 @@
     <string name="summary_seekbar_reconnect_retry">接続が切れた後、KASTがストリームの復帰を試みる間隔の最大値です。</string>
     <string name="suffix_seekbar_seconds">秒</string>
     <string name="kast_connection_lost_waiting">接続が切れました — ネットワークを待機中… %1$d 秒</string>
+    <string name="kast_resume_failed_title">ホストPCとの接続が回復しませんでした</string>
+    <string name="kast_resume_failed_unreachable">KASTは%1$d秒待ち、%2$d回試しましたが、ホストPCが応答しませんでした。スマートフォンがインターネットにつながっているか、PCの電源が入ってオンラインか確認してください。</string>
+    <string name="kast_resume_failed_no_network">KASTは%1$d秒待ちましたが、スマートフォンのネットワークが戻りませんでした。Wi-Fiまたはモバイルデータを確認して、もう一度接続してください。</string>
+    <string name="kast_resume_failed_refused">ホストPCは応答しましたが、KASTのゲームへの復帰を許可しませんでした（コード %1$d）。PCでゲームを閉じるか、アプリ一覧からもう一度起動してください。</string>
+    <string name="kast_resume_failed_dropped">ストリームは戻りましたが、再び途切れました。ネットワークが不安定なようです。安定してから再接続してください。</string>
+    <string name="kast_resume_failed_off">ホストPCとの接続が切れました。KASTの設定で自動再接続がオフになっています。</string>
+    <string name="kast_resume_failed_support_code">サポート用：コード %1$d。</string>
+    <string name="kast_title_auto_reconnect">自動的に再接続</string>
+    <string name="kast_summary_auto_reconnect">ホストPCとの接続が切れたとき、KASTは再接続の待機時間内に自分でストリームの復帰を試みます。</string>
 </resources>

@@ -945,10 +945,10 @@
     <PreferenceCategory
         android:key="category_advanced_settings"
         android:title="@string/category_advanced_settings"
-        app:initialExpandedChildrenCount="2"
+        app:initialExpandedChildrenCount="3"
         app:iconSpaceReserved="false">
         <!-- KAST (plans/04, step 4): the reconnect grace period; first in the category so it shows without "more"
-             (plans/06, step 5: the count is 2 — the retry interval shows beside it) -->
+             (plans/06, steps 5 and 12: the count is 3 — the retry interval and «Reconnect automatically» show beside it) -->
         <com.limelight.preferences.SeekBarPreference
             android:key="seekbar_reconnect_grace_seconds"
             android:dialogMessage=""
@@ -971,6 +971,13 @@
             android:max="30"
             seekbar:min="1"
             seekbar:step="1"
+            app:iconSpaceReserved="false" />
+        <!-- KAST (plans/06, step 12; the owner: «Все должно иметь настройки»): automatic reconnection on or off -->
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="checkbox_kast_auto_reconnect"
+            android:title="@string/kast_title_auto_reconnect"
+            android:summary="@string/kast_summary_auto_reconnect"
             app:iconSpaceReserved="false" />
         <ListPreference
             android:defaultValue="auto"

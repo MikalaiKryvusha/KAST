@@ -67,6 +67,9 @@ public class PreferenceConfiguration {
     // between two resume attempts when no network event comes first (KastReconnectPolicy.retryDelayMs). 1–30 s, default 3 s.
     // [NOT-TESTED]
     private static final String RECONNECT_RETRY_PREF_STRING = "seekbar_reconnect_retry_seconds";
+    // KAST (plans/06, step 12): automatic reconnection after the connection died by itself; off — the reason dialog at once.
+    // [NOT-TESTED]
+    private static final String AUTO_RECONNECT_PREF_STRING = "checkbox_kast_auto_reconnect";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";
     private static final String SMALL_ICONS_PREF_STRING = "checkbox_small_icon_mode";
@@ -257,6 +260,7 @@ public class PreferenceConfiguration {
     public int reconnectGraceSeconds; // KAST
     public int debugEnetTimeoutSeconds; // KAST F3 step 6: debug builds only; 0 = the grace period
     public int reconnectRetrySeconds; // KAST F3 step 5
+    public boolean autoReconnect; // KAST F3 step 12
     public int oscOpacity;
     public int oscKeyboardOpacity;
     public int onscreenKeyboardHeight;
@@ -894,6 +898,7 @@ private static int getFramePacingValue(Context context) {
         config.reconnectGraceSeconds = prefs.getInt(RECONNECT_GRACE_PREF_STRING, DEFAULT_RECONNECT_GRACE_SECONDS);
         config.debugEnetTimeoutSeconds = com.limelight.BuildConfig.DEBUG ? prefs.getInt(DEBUG_ENET_TIMEOUT_PREF_STRING, 0) : 0;
         config.reconnectRetrySeconds = prefs.getInt(RECONNECT_RETRY_PREF_STRING, DEFAULT_RECONNECT_RETRY_SECONDS);
+        config.autoReconnect = prefs.getBoolean(AUTO_RECONNECT_PREF_STRING, true);
 
         config.oscOpacity = prefs.getInt(OSC_OPACITY_PREF_STRING, DEFAULT_OPACITY);
 

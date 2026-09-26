@@ -286,4 +286,13 @@
     <string name="summary_seekbar_reconnect_retry">Den längsta pausen mellan KAST:s försök att återställa strömmen efter att anslutningen brutits.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Anslutningen förlorades — väntar på nätverket… %1$d s</string>
+    <string name="kast_resume_failed_title">Anslutningen till datorn kom inte tillbaka</string>
+    <string name="kast_resume_failed_unreachable">KAST väntade i %1$d s och gjorde %2$d försök, men värddatorn svarade inte. Kontrollera att telefonen har internet och att datorn är på och ansluten.</string>
+    <string name="kast_resume_failed_no_network">KAST väntade i %1$d s, men telefonen fick aldrig nätverk igen. Kontrollera Wi-Fi eller mobildata och anslut igen.</string>
+    <string name="kast_resume_failed_refused">Värddatorn svarade men släppte inte tillbaka KAST in i spelet (kod %1$d). Stäng spelet på datorn eller starta det igen från applistan.</string>
+    <string name="kast_resume_failed_dropped">Strömmen kom tillbaka men bröts igen: nätverket verkar instabilt. Anslut igen när det har lugnat sig.</string>
+    <string name="kast_resume_failed_off">Anslutningen till datorn bröts. Automatisk återanslutning är avstängd i KAST:s inställningar.</string>
+    <string name="kast_resume_failed_support_code">För support: kod %1$d.</string>
+    <string name="kast_title_auto_reconnect">Återanslut automatiskt</string>
+    <string name="kast_summary_auto_reconnect">När anslutningen till datorn bryts försöker KAST själv få tillbaka strömmen inom väntetiden för återanslutning.</string>
 </resources>

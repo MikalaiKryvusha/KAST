@@ -307,4 +307,13 @@
     <string name="summary_seekbar_reconnect_retry">La pausa más larga entre los intentos de KAST de recuperar la transmisión tras cortarse la conexión.</string>
     <string name="suffix_seekbar_seconds">s</string>
     <string name="kast_connection_lost_waiting">Conexión perdida — esperando la red… %1$d s</string>
+    <string name="kast_resume_failed_title">La conexión con el PC no se recuperó</string>
+    <string name="kast_resume_failed_unreachable">KAST esperó %1$d s e hizo %2$d intentos, pero el PC anfitrión no respondió. Comprueba que el teléfono tiene internet y que el PC está encendido y conectado.</string>
+    <string name="kast_resume_failed_no_network">KAST esperó %1$d s, pero el teléfono no volvió a tener red. Comprueba el Wi-Fi o los datos móviles y vuelve a conectarte.</string>
+    <string name="kast_resume_failed_refused">El PC anfitrión respondió, pero no dejó a KAST volver al juego (código %1$d). Cierra el juego en el PC o vuelve a iniciarlo desde la lista de aplicaciones.</string>
+    <string name="kast_resume_failed_dropped">La transmisión volvía, pero se cortaba otra vez: la red parece inestable. Vuelve a conectarte cuando se estabilice.</string>
+    <string name="kast_resume_failed_off">La conexión con el PC se cortó. La reconexión automática está desactivada en los ajustes de KAST.</string>
+    <string name="kast_resume_failed_support_code">Para soporte: código %1$d.</string>
+    <string name="kast_title_auto_reconnect">Reconectar automáticamente</string>
+    <string name="kast_summary_auto_reconnect">Cuando la conexión con el PC se corta, KAST intenta recuperar la transmisión por sí mismo dentro del tiempo de espera para reconexión.</string>
 </resources>

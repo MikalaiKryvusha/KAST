@@ -302,4 +302,13 @@
     <string name="summary_seekbar_reconnect_retry">연결이 끊긴 후 KAST가 스트림 복구를 시도하는 사이의 최대 대기 시간입니다.</string>
     <string name="suffix_seekbar_seconds">초</string>
     <string name="kast_connection_lost_waiting">연결 끊김 — 네트워크 대기 중… %1$d초</string>
+    <string name="kast_resume_failed_title">호스트 PC와의 연결이 복구되지 않았습니다</string>
+    <string name="kast_resume_failed_unreachable">KAST가 %1$d초 동안 기다리며 %2$d번 시도했지만 호스트 PC가 응답하지 않았습니다. 휴대폰에 인터넷이 연결되어 있는지, PC가 켜져 있고 온라인인지 확인하세요.</string>
+    <string name="kast_resume_failed_no_network">KAST가 %1$d초 동안 기다렸지만 휴대폰의 네트워크가 돌아오지 않았습니다. Wi-Fi나 모바일 데이터를 확인하고 다시 연결하세요.</string>
+    <string name="kast_resume_failed_refused">호스트 PC가 응답했지만 KAST가 게임으로 돌아가는 것을 허용하지 않았습니다(코드 %1$d). PC에서 게임을 닫거나 앱 목록에서 다시 시작하세요.</string>
+    <string name="kast_resume_failed_dropped">스트림이 돌아왔지만 다시 끊겼습니다. 네트워크가 불안정한 것 같습니다. 안정되면 다시 연결하세요.</string>
+    <string name="kast_resume_failed_off">호스트 PC와의 연결이 끊겼습니다. KAST 설정에서 자동 재연결이 꺼져 있습니다.</string>
+    <string name="kast_resume_failed_support_code">지원용: 코드 %1$d.</string>
+    <string name="kast_title_auto_reconnect">자동으로 재연결</string>
+    <string name="kast_summary_auto_reconnect">호스트 PC와의 연결이 끊기면 KAST가 재연결 대기 시간 안에 스스로 스트림 복구를 시도합니다.</string>
 </resources>
