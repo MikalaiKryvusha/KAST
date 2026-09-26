@@ -41,7 +41,7 @@
 - Vibepollo обновлён до `2.0.0-beta.3`, поверх — наш `sunshine.exe` с правкой (журнал: `commit: 9ad4e7ec…`,
   `control_peer_timeout = 60000`); копия официального файла — `C:\Program Files\Apollo\sunshine.exe.official-2.0.0-beta.3`;
 - откат: `Stop-Service ApolloService` → копия официального файла на место `sunshine.exe` → `Start-Service ApolloService`;
-- исходники: клон `D:\worki_sandbox\Vibepollo`, ветка `kast/control-peer-timeout`, коммит `9ad4e7e`; сборка — `build-kast2`
+- исходники: клон `D:\workai_sandbox\Vibepollo`, ветка `kast/control-peer-timeout`, коммит `9ad4e7e`; сборка — `build-kast2`
   (MSYS2 в `D:\msys64`); все грабли сборки и установщика — план 01;
 - **каждое обновление Vibepollo затирает наш `sunshine.exe`** — пересборка и подмена по плану 01 (до ответа автора в #522);
 - следующий шаг — план 01, шаг 7: строка `Control peer timeout set to 60000 ms` при подключении клиента, режим полёта
