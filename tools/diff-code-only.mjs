@@ -3,7 +3,7 @@
 //   node tools/diff-code-only.mjs <file.java|file.c> [revision]    # revision: default HEAD; exit 0 — the code is the same
 // Both versions — the file in <revision> and the working copy — lose their comments (// … and /* … */) and every whitespace
 // character, string and char literals kept intact; then they are compared. Any difference is exit 1 with the first place
-// that differs. Fit for Java and C. [TESTED: 2026-09-26 20:47 · a comment added to Game.java → exit 0; the same file with
+// that differs. Fit for Java and C. [TESTED: 2026-09-26 ≈20:40 (first written by feel as 20:47) · a comment added to Game.java → exit 0; the same file with
 // one operator changed (== → !=) → exit 1, the place printed]
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';

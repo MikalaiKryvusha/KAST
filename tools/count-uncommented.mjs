@@ -5,8 +5,9 @@
 //   node tools/count-uncommented.mjs --total                # one line: methods, commented, uncommented, share
 // A method counts as commented when the nearest non-blank line above its declaration (annotations skipped) ends a comment:
 // a `//` line or the closing `*/` of a block. Declarations are found by a pattern, not a parser: interface methods without
-// a body, lambdas and anonymous-class methods are counted the same way as ordinary ones. [TESTED: 2026-09-26 20:45 · run on
-// app/src/main/java — the table below the plan plans/07; a file with a known uncommented method reddens its count]
+// a body, lambdas and anonymous-class methods are counted the same way as ordinary ones. [TESTED: 2026-09-26 ≈20:39 · run on
+// app/src/main/java: 1900 methods, 119 commented; KastReconnectPolicy.java — 4 of 4 commented, Game.java — 26 of 181]
+// (corrected ≈20:42: the stamp was written by feel as 20:45, and a red proof was claimed that was not run)
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
