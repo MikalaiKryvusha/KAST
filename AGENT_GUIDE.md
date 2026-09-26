@@ -1068,7 +1068,17 @@ cognition» (80% deterministic / 20% the model); it is stated once there and app
   cached must be deterministic — sorts with a full tie-break, serialization with sorted keys, no
   `Date.now()`/random in compared output. Nondeterminism never shows in tests and quietly voids diffs
   and caches on live data — this checklist line notices it so you don't have to.
-- `<add language/framework-specific rules here>`
+- **KAST: the code inherited from Artemis is commented too — our obligation in developing KAST.** Two steps:
+  1. A task that reads an inherited block to understand it, or changes it, and finds it uncommented, comments that
+     block in the same commit: what it does, why, what it connects to. Our own changes keep their `KAST (<plan or
+     bug>)` tag and test-status marker; a comment that only explains inherited code needs neither.
+  2. The rest of the inherited code is commented by a plan in `plans/`, file by file, starting with the files the
+     current phase touches (`Game.java`, `NvConnection.java`, `NvHTTP.java`, `ControllerHandler.java`,
+     `MediaCodecDecoderRenderer.java`).
+  The price, said once: comments in inherited files widen the diff to Artemis and make merging its fresh versions
+  harder (`MASTER_PLAN.md` → «Маленький дифф к Artemis»); the owner's word puts commenting first.
+  [OWNER] 2026-09-26 19:21 · chat: «если он не закоментирован - нужно коментировать» · «даже сырой код, который нам от
+  Артемис достался - нужно комментировать - запиши это в АГЕНТ ГАЙД - это наше обязательство по развитию KAST»
 
 ---
 
