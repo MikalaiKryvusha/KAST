@@ -34,8 +34,12 @@
 
 ## Где мы сейчас
 
-Ф0 «Фундамент» закрыта. Кода KAST ещё нет — дерево `app/` равно Artemis `c5cf27f4`. Следующее — Ф1 «Сборочный
-стенд»: на машине владельца **нет Android SDK и NDK**, собрать APK пока нельзя.
+Ф0 «Фундамент» закрыта. Кода KAST ещё нет — дерево `app/` равно Artemis `c5cf27f4`. **Идёт Ф1 «Сборочный стенд»**
+по плану `plans/03_epic02_F1_build_stand.md` (эпик переподключения — `plans/02_EPIC_reconnect.md`, критерии К1–К6;
+исследование — `researches/02_reconnect_epic_research.md`). Шаг 1 (SDK + NDK в `D:\Android\Sdk`) запущен 2026-09-26.
+
+**Тестовое устройство:** планшет HEADWOLF Titan 1 (Android 16, MT8792) по беспроводному `adb` через Tailscale —
+маршрут и грабли NordVPN в `HOUSE_RULES.md`. AVD на этой машине не делаем (правило П1 владельца).
 
 **Сервер (план 01) — наша сборка работает с 2026-09-26 11:23:37:**
 - Vibepollo обновлён до `2.0.0-beta.3`, поверх — наш `sunshine.exe` с правкой (журнал: `commit: 9ad4e7ec…`,
@@ -44,8 +48,11 @@
 - исходники: клон `D:\work\ai_sandbox\Vibepollo`, ветка `kast/control-peer-timeout`, коммит `9ad4e7e`; сборка — `build-kast2`
   (MSYS2 в `D:\msys64`); все грабли сборки и установщика — план 01;
 - **каждое обновление Vibepollo затирает наш `sunshine.exe`** — пересборка и подмена по плану 01 (до ответа автора в #522);
-- следующий шаг — план 01, шаг 7: строка `Control peer timeout set to 60000 ms` при подключении клиента, режим полёта
-  на телефоне 20 с, выход из игры, откат.
+- строка `Control peer timeout set to 60000 ms` появляется при каждом подключении (2026-09-26 11:27:58, 11:35:05);
+  сессия с Mac продержалась 19+ минут без разрывов; удержание молчащего клиента ≥ 55 с ещё не наблюдали — шаг 7
+  плана 01 выполняется внутри Ф1 (план 03, шаг 8);
+- качество стрима: 7–42 повторных полных кадра в минуту; оба оверлея идут через ретранслятор (Tailscale DERP, ZeroTier
+  RELAY) — гипотеза: мешает NordVPN на хосте; проверка — 2 минуты без NordVPN (ждёт владельца).
 
 **README** переписан двуязычно (EN сверху, RU ниже) по публичному ядру голоса; **промпт логотипа** —
 `assets/logo/LOGO_PROMPT.md`; **логотип готов** (2026-09-26): шапка README — `assets/logo/kast-logo.png`, иконка
@@ -66,14 +73,14 @@
 
 ## 🤖 Пул автономных задач
 
-- [ ] Локальная правка Vibepollo — `plans/01_vibepollo_local_control_timeout_patch.md` (MSYS2, сборка, подмена `sunshine.exe`).
-- [ ] План эпика «переподключение» (Ф1–Ф4) — `/plan-epic`, с блок-схемой mermaid; опора — `researches/01`.
-- [ ] Разведка интерфейса → `researches/03_*`: свежие SDK и библиотеки UI Android, подходы, палитры, радиусы; без Liquid Glass (`ideas/04`).
+- [x] Локальная правка Vibepollo — `plans/01_vibepollo_local_control_timeout_patch.md`: шаги 1–6 ✅; шаг 7 — в Ф1.
+- [x] План эпика «переподключение» — `plans/02_EPIC_reconnect.md` + операционный план Ф1 `plans/03_epic02_F1_build_stand.md` (2026-09-26).
+- [ ] **Ф1 по плану 03** — SDK/NDK на D, сборка, имя и пакет KAST, установка на Титан, инструмент провала сети, эталон.
+- [ ] Разведка интерфейса → `researches/NN_*` (следующий свободный номер): свежие SDK и библиотеки UI Android, подходы, палитры, радиусы; без Liquid Glass (`ideas/04`).
 - [ ] Разведка тредов сообщества (XDA, Reddit, GitHub) об оптимизациях Moonlight/Artemis под MediaTek Dimensity и
-      Snapdragon → `researches/02_*`: оптимизация · источник · чип · заявленный эффект (`ideas/02`, фаза Ф6).
-- [ ] Поставить Android SDK (cmdline-tools, platform 36, build-tools) и NDK `27.0.12077973` — фоновой задачей;
-      прописать `local.properties sdk.dir`; собрать `gradlew.bat :app:assembleNonRoot_gameDebug`.
-- [ ] Свой форк `moonlight-common-c` (нужен для правки `ControlStream.c`) и перенаправление `.gitmodules`.
+      Snapdragon → `researches/NN_*`: оптимизация · источник · чип · заявленный эффект (`ideas/02`, фаза Ф6).
+- [ ] Свой форк `moonlight-common-c` (нужен для правки `ControlStream.c`) и перенаправление `.gitmodules` — по слову
+      владельца (публичный репозиторий на его GitHub), до кода Ф2.
 - [ ] Иконка KAST в лаунчер Android: adaptive icon (передний план и фон, безопасная зона 66 из 108 dp), `mipmap-*`,
       одноцветный силуэт для тематических иконок Android 13; исходник — `assets/logo/kast-icon-1024.png`.
 - [ ] Имя приложения и `applicationId` KAST (сейчас debug — «Diana» / `com.limelight.noirdebug`), чтобы KAST
@@ -81,8 +88,8 @@
 
 ## ❓ Ждёт владельца
 
-- 📱 Телефон: установка APK и воспроизведение обрыва требуют телефона владельца. `adb devices` 2026-09-26 —
-  устройств нет; путь — беспроводная отладка через Tailscale или установка APK руками.
+- 🔑 PIN сопряжения KAST в админке Vibepollo — один раз, на шаге 6 плана 03.
+- 🌐 Проверка «2 минуты без NordVPN» — станет ли путь до Титана/Mac прямым и упадёт ли число повторных кадров.
 
 
 - ⏳ Запрос автору Vibepollo отправлен 2026-09-26: https://github.com/Nonary/Vibepollo/issues/522 — ждём ответа; параллельно — локальная правка сервера, `plans/01_vibepollo_local_control_timeout_patch.md`.
@@ -91,11 +98,8 @@
 
 ## С чего начать следующей сессии
 
-1. Прочитать `GOAL.md` → этот файл → `researches/01_why_session_drops_on_network_loss.md`.
-2. Отчёт об установке KAIF — `reports/KAIF_UPDATES/KAST_KAIF_2.7_INSTALL_REPORT.md` (там же видно, доставлен ли).
-3. Досборка сервера по плану 01, шаг 4: `timeout 560 ninja -C build-kast2 -j 4 sunshine` в оболочке MSYS2 с
-   переменными из плана (фоновой задачей, кусками); затем шаги 5–7 — по слову владельца.
-4. `/plan-epic` для переподключения; параллельно — установка SDK/NDK фоновой задачей.
+1. Прочитать `GOAL.md` → этот файл → `plans/02_EPIC_reconnect.md` → `plans/03_epic02_F1_build_stand.md`.
+2. Продолжить Ф1 с первого неотмеченного шага плана 03; `adb connect` к Титану — по `HOUSE_RULES.md`.
 
 ## ⚠️ Грабли
 
