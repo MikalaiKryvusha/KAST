@@ -7,6 +7,38 @@
 > владельцем («нужна сильная абстракция про стрим»); версия 3 — иконка по разбору GPT, версия 2 — правка сцены · **Вовне:** готовый логотип — в эту
 > папку (`assets/logo/`), затем в шапку `README.md`
 
+## Итоговый промпт (2026-09-26) — иконка и сцена одним запросом
+
+Слово владельца: «собери один итоговый промпт» · «Иконка наша должна быть проста и понятна» · «К не нужно в
+иконке». Из версии 3 оставлено одно направление иконки — A3, экран собирается из блоков потока. Направления с
+буквой K (C2, B1) и перегруженное A1 сняты. Правка сцены — из версии 2. Промпт отправляется вместе с картинкой
+версии 1.
+
+```text
+Two tasks for the KAST logo. KAST is an Android client that streams games from a Windows PC to a phone or
+tablet and keeps the stream alive over weak mobile internet. The attached image is our first version.
+
+TASK 1 — THE APP ICON. It must be simple and clear: one shape, one idea, readable at 48 x 48 px.
+The idea: a screen assembled from the stream. One rounded rectangle screen; its left part is 3-4 big square
+blocks with gaps that drift in from the left; toward the right the blocks close into one solid surface.
+No letters, no text, no antennas, no Wi-Fi symbol, no play triangle, no small details.
+Style: flat vector; three colors at most — deep navy background, bright cyan-teal for the stream, warm
+amber as one small accent; thick shapes, no thin lines; no glassmorphism, no Liquid Glass, no gradients
+except one soft glow; a solid navy background, no painted checkerboard.
+Android adaptive icon: keep the key shape inside the central circle (the 66 dp safe zone of a 108 dp icon)
+so it survives circle and squircle masks. Show 6 variants; for each show the full icon, the same icon in a
+circle mask, and the icon at 48 x 48 px.
+
+TASK 2 — THE HORIZONTAL LOGO. Keep the attached scene and its style (PC with antenna on the left, an arc of
+flying game frames in the night sky, a tablet with antenna on the right), with these fixes:
+1) replace the Windows logo on the PC screen with an abstract desktop — a few simple window rectangles;
+2) remove the small "KAST" nameplate under the tablet — the big wordmark already names the app;
+3) redraw the wordmark "KAST" with clean letterforms — the letter A has a white glitch at its base;
+4) put the best icon from Task 1 to the left of the wordmark "KAST";
+5) make the background truly transparent — no painted checkerboard, no watermark artifacts.
+Keep the "Vibepollo" nameplate under the PC exactly as it is.
+```
+
 ## Версия 3 (2026-09-26) — иконка по разбору GPT
 
 Владелец принёс разбор GPT: иконка — «фрагмент ДНК» большой сцены; треугольник Play — общее место видеоплееров;
