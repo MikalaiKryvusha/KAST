@@ -15,6 +15,8 @@ public class ConnectionContext {
     public NvConnectionListener connListener;
     public SecretKey riKey;
     public int riKeyId;
+    // KAST (plans/06, step 4): this start is a resume attempt — the host is probed with the short connect timeout
+    public boolean kastResumeAttempt;
     
     // This is the version quad from the appversion tag of /serverinfo
     public String serverAppVersion;

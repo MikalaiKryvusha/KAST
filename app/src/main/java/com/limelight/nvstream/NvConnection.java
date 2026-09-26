@@ -89,6 +89,11 @@ public class NvConnection {
         return new SecureRandom().nextInt();
     }
 
+    // KAST (plans/06, step 4): Game marks the starts of its resume loop (the short probe in startApp)
+    public void setKastResumeAttempt(boolean resumeAttempt) {
+        context.kastResumeAttempt = resumeAttempt;
+    }
+
     public void stop() {
         // Interrupt any pending connection. This is thread-safe.
         MoonBridge.interruptConnection();
@@ -226,7 +231,10 @@ public class NvConnection {
     {
         NvHTTP h = new NvHTTP(context.serverAddress, context.httpsPort, uniqueId, context.serverCert, cryptoProvider);
 
-        String serverInfo = h.getServerInfo(true);
+        // KAST (plans/06, step 4): a resume attempt probes with the short connect timeout (3 s, not 5 s) — an attempt that
+        // began just before the network came back gives up sooner, and the next one starts sooner (run 4 of
+        // testcases/reports/2026-09-26_F3_resume.md: 10.8 s to picture, 5 s of it in one connect). [NOT-TESTED]
+        String serverInfo = h.getServerInfo(!context.kastResumeAttempt);
         
         context.serverAppVersion = h.getServerVersion(serverInfo);
         if (context.serverAppVersion == null) {
@@ -389,6 +397,12 @@ public class NvConnection {
     {
         new Thread(new Runnable() {
             public void run() {
+                // KAST (plans/06, step 4; judge S2): a fresh remote-input key for every start. The resume loop starts the same
+                // NvConnection again, and the core restarts its AES-GCM IV counter with every connection — one key with
+                // the same IVs in two sessions would let an observer of both forge control messages. Moonlight keeps a
+                // key per connection (the constructor's "unique per connection"); this keeps it per start. [NOT-TESTED]
+                context.riKey = generateRiAesKey();
+                context.riKeyId = generateRiKeyId();
                 context.connListener = connectionListener;
                 context.videoCapabilities = videoDecoderRenderer.getCapabilities();
 

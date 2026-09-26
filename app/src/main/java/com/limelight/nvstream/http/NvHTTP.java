@@ -81,6 +81,11 @@ public class NvHTTP {
     
     private OkHttpClient httpClientLongConnectTimeout;
     private OkHttpClient httpClientLongConnectNoReadTimeout;
+    // KAST (plans/06, step 4; judge S3; Vibepollo #443): /resume of an app that already runs gets a read deadline. A host
+    // that accepted the connection and never answers would otherwise hold a resume attempt — and the whole resume loop —
+    // until the grace period runs out. /launch keeps no deadline: starting a game may legitimately take long. [NOT-TESTED]
+    public static final int KAST_RESUME_READ_TIMEOUT = 20000;
+    private OkHttpClient httpClientLongConnectResumeReadTimeout;
     private OkHttpClient httpClientShortConnectTimeout;
 
     private X509TrustManager defaultTrustManager;
@@ -188,6 +193,10 @@ public class NvHTTP {
 
         httpClientLongConnectNoReadTimeout = httpClientLongConnectTimeout.newBuilder()
                 .readTimeout(0, TimeUnit.MILLISECONDS)
+                .build();
+
+        httpClientLongConnectResumeReadTimeout = httpClientLongConnectTimeout.newBuilder()
+                .readTimeout(KAST_RESUME_READ_TIMEOUT, TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -875,7 +884,9 @@ public class NvHTTP {
             }
         }
 
-        String xmlStr = openHttpConnectionToString(httpClientLongConnectNoReadTimeout, getHttpsUrl(true), verb,
+        String xmlStr = openHttpConnectionToString(
+                verb.equals("resume") ? httpClientLongConnectResumeReadTimeout : httpClientLongConnectNoReadTimeout, // KAST
+                getHttpsUrl(true), verb,
             "appid=" + appId +
             (appUUID == null ? "" : ("&appuuid=" + appUUID)) +
             "&mode=" + context.negotiatedWidth + "x" + context.negotiatedHeight + "x" + fpsInt +
