@@ -144,3 +144,15 @@ not the text; edit upstream files with the Edit tool, which keeps the file's end
 **Trigger:** `sed -i` / `awk > file` / a node rewrite on a tracked file → `git diff --stat <file>` before anything else.
 **Not for:** files the agent created itself with LF (`core.autocrlf=true` normalises them on add).
 none-cheap: a hook sees the command, not the endings of the file it will touch; the one-command check in Trigger catches it before a commit
+
+### EXP-0006 · 2026-09-26 · ❌→✅ · #shell #gates #git
+class: shell-lied
+**Context:** a gate chained before a commit: `node kaif-voice-lint.mjs check <doc> | tail -1 | cut -c1-70 && git add … && git commit … && git push`.
+**Tried / did:** the lint printed `✖ voice-lint: 1 finding(s)` — and the commit and the push went through anyway.
+**Result:** ❌ a pipeline's exit code is the LAST command's (`cut` → 0), so the red gate never stopped the chain; the
+finding (bug 06, «Поэтому») was pushed and needed a follow-up commit. ✅ run the gate alone, read `$?`, then commit.
+**Lesson:** a gate that decides a commit is never piped into `tail`/`cut`/`head`: trimming output hides its exit code.
+**Repro:** `node .kaif/tools/kaif-voice-lint.mjs check <doc> > /dev/null 2>&1; echo rc=$?` — commit only on `rc=0`.
+**Trigger:** writing `<gate> | … && git commit` → split it: `<gate> > /dev/null 2>&1; rc=$?; [ $rc -eq 0 ] && git commit …`.
+**Not for:** display-only commands whose output is read, not obeyed.
+mechanized: tools/hooks/no-backslash-heredoc.mjs, check gate-piped-into-commit — refuses a KAIF lint / review --check / gradlew / self-test piped and then chained into git commit|push (tests: node tools/test-hook-guards.mjs part B; live refusal 2026-09-26)

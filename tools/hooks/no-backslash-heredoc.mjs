@@ -46,11 +46,44 @@ export function heredocBodiesWithBackslash(command) {
   return hits;
 }
 
+// Second check of the same Bash hook (EXPERIENCE.md EXP-0006, class shell-lied, 2026-09-26): a GATE piped into
+// tail/cut/head before `&& git commit|push` \u2014 the pipe's exit code is the last command's, so a red gate never stops the
+// commit (bug 06: a voice-lint finding was pushed). One line of the command is judged at a time.
+// @guard gate-piped-into-commit
+// THREAT:         a red gate (a KAIF lint, review.mjs --check, gradlew, a self-test) is piped and chained into a commit or push
+// PROVED-AGAINST: `node tools/test-hook-guards.mjs` part B \u2014 piped gate + commit refused, gate alone + `rc` check passed;
+//                 the version without this check lets the piped form through (mutant)
+// GAP:            a gate whose name is not in GATE; a pipe followed by `;` instead of `&&`; a commit in a later tool call
+// ON-REAL-PATH:   KAST .claude/settings.json (the same PreToolUse entry as the heredoc check), 2026-09-26 17:4x: a live
+//                 voice-lint | tail && git push --dry-run was refused by the harness before it ran
+const GATE = /(kaif-[\w-]+\.mjs|review\.mjs\b[^|\n]*--check|gradlew(\.bat)?\b|test-hook-guards\.mjs|kaif-core\.mjs\s+check)/;
+export function gatePipedIntoCommit(command) {
+  for (const line of command.split(/\r?\n/)) {
+    const g = line.search(GATE);
+    if (g < 0) continue;
+    const rest = line.slice(g);
+    const pipe = rest.search(/[^|]\|[^|]/);
+    if (pipe < 0) continue;
+    if (/&&\s*git\s+(commit|push)\b/.test(rest.slice(pipe))) return line.trim();
+  }
+  return null;
+}
+
 try {
   const raw = readFileSync(0, 'utf8').replace(/^\uFEFF/, '');
   const event = JSON.parse(raw || '{}');
   if (event.tool_name !== 'Bash') process.exit(0);
-  const hits = heredocBodiesWithBackslash((event.tool_input && event.tool_input.command) || '');
+  const command = (event.tool_input && event.tool_input.command) || '';
+  const piped = gatePipedIntoCommit(command);
+  if (piped) {
+    process.stderr.write(
+      'KAST guard (tools/hooks/no-backslash-heredoc.mjs, gate-piped-into-commit): a gate is piped and then chained into a ' +
+      'commit or push \u2014 the pipe returns the exit code of its last command, so a red gate would not stop the commit ' +
+      '(EXPERIENCE.md EXP-0006). Line: ' + piped.slice(0, 140) + '\n' +
+      'Do this instead: run the gate alone \u2014 `<gate> > /dev/null 2>&1; rc=$?` \u2014 then `[ $rc -eq 0 ] && git commit \u2026`.\n');
+    process.exit(2);
+  }
+  const hits = heredocBodiesWithBackslash(command);
   if (!hits.length) process.exit(0);
   process.stderr.write(
     'KAST guard (tools/hooks/no-backslash-heredoc.mjs): the heredoc body (<<' + hits[0].delim + ') contains a backslash, ' +

@@ -34,5 +34,15 @@ hookCase('arithmetic shift, no slash', ev('echo $((1<<3))'), 0);
 hookCase('broken JSON — fail-open', 'not json', 0);
 hookCase('empty stdin — fail-open', '', 0);
 
+// Part B — gate-piped-into-commit (EXP-0006): the exact form that pushed a red voice-lint on 2026-09-26
+console.log('B. gate-piped-into-commit');
+hookCase('voice-lint | tail && git add && git commit (EXP-0006)', ev('node .kaif/tools/kaif-voice-lint.mjs check bugs/06.md --genre document 2>&1 | tail -1 | cut -c1-70 && git add bugs/06.md && git commit -q -m x'), 2);
+hookCase('review --check | head && git push', ev('node .kaif/tools/contour/review.mjs interviews/i.md --check | head -3 && git push -q origin main'), 2);
+hookCase('gradlew | tail && git commit', ev('./gradlew.bat :app:assembleNonRoot_gameDebug | tail -2 && git commit -am x'), 2);
+hookCase('gate alone, rc checked, then commit', ev('node .kaif/tools/kaif-voice-lint.mjs check a.md > /dev/null 2>&1; rc=$?; [ $rc -eq 0 ] && git commit -m x'), 0);
+hookCase('gate piped for reading, no commit', ev('node .kaif/tools/kaif-voice-lint.mjs check a.md 2>&1 | tail -3'), 0);
+hookCase('commit alone', ev('git add a.md && git commit -m "x | y"'), 0);
+hookCase('logical OR is not a pipe', ev('node .kaif/tools/kaif-experience-lint.mjs check || echo red && git status'), 0);
+
 console.log(`${total - bad}/${total} as expected`);
 process.exit(bad ? 1 : 0);
