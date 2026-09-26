@@ -11,9 +11,18 @@
 // Контракт хука Claude Code: событие приходит JSON-ом на stdin (`tool_name`, `tool_input.command`); код 2 — вызов
 // отклонён, stderr уходит модели; код 0 — пропустить. Любая своя ошибка → код 0: сломанный страж не запирает весь Bash.
 //
-// GAP: `<<<` (here-string) не судит; тело, собранное переменной, не видит; слэш в АРГУМЕНТЕ команды (`sed -i "…"`,
-// `printf`) не судит; `<<` внутри строки или арифметики при слэше ниже в команде даёт ложный отказ — выход тот же, Write.
 // Проверка: `node tools/test-hook-guards.mjs` из корня репозитория.
+//
+// @guard no-backslash-heredoc
+// THREAT:         the agent writes a file through a Bash heredoc whose body carries a backslash; the Bash tool collapses
+//                 it silently, exit 0 (EXPERIENCE.md EXP-0002, four times on 2026-09-26)
+// PROVED-AGAINST: `node tools/test-hook-guards.mjs` — 7 heredoc forms with a slash refused (exit 2), 7 controls passed;
+//                 a pass-all mutant (HOOK_UNDER_TEST) goes 7/14, exit 1
+// GAP:            here-strings (`<<<`), a body built from a variable, a backslash in a command ARGUMENT (`sed -i "…"`,
+//                 `printf`) are not judged; `<<` inside a string or arithmetic with a slash later in the command is a
+//                 false refusal (the way out is the same: the Write tool)
+// ON-REAL-PATH:   KAST `.claude/settings.json` (PreToolUse, matcher Bash), wired 2026-09-26 by the owner; live: a heredoc
+//                 with `C:\probe\guard-test` refused, a clean heredoc passed
 import { readFileSync } from 'node:fs';
 
 const BS = String.fromCharCode(92);

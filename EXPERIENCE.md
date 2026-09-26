@@ -123,13 +123,14 @@ Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
 **Recurred:** 2026-09-26, minutes after this entry — `sed -i "s#...C:\\\\Program Files...#"` on a build script produced
 `C:Program FilesMicrosoft...`; caught by reading the file back. Third time the same day — `sed -i 's#…F:\\kast-maintenance\\…#…#'` on STATUS.md
 matched nothing (caught by grepping the line back). Two strikes → candidate guard: a PreToolUse hook that
-refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` (proposal pending, not wired).
-none-cheap: the guard is a PreToolUse hook in the Claude Code settings, and the agent may not change its own settings (auto-mode classifier: Self-Modification, 2026-09-26) — wiring it is the owner's call; until then the Trigger line + read-back is the defence
+refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` — later built for heredoc bodies (below).
+mechanized: tools/hooks/no-backslash-heredoc.mjs — heredoc bodies only (wired 2026-09-26 by the owner, `.claude/settings.json` in 849319dd; live refusal seen); backslashes in command ARGUMENTS (`sed -i`, `printf` — repeats 1 and 2) stay with the Trigger line + read-back
 **Recurred (4th):** 2026-09-26 ≈16:10 — a `node - <<'EOF'` script with `'$env:…; python D:\\Android\\…'` arrived as
 `D:\Android\…` and died on `\A` (Invalid Unicode escape); caught by the error, rewritten through the Write tool.
 **Guard written:** `tools/hooks/no-backslash-heredoc.mjs` (the logic of the owner's KUMM guard), self-test
-`node tools/test-hook-guards.mjs` 14/14, proven red on a pass-all mutant (7/14, exit 1). Wiring: the owner runs
-`F:\kast-maintenance\kast_wire_hooks.cmd` (plan 05, step 2); after the session restart the entry is marked as guarded by that hook.
+`node tools/test-hook-guards.mjs` 14/14, proven red on a pass-all mutant (7/14, exit 1). Wired: 2026-09-26 by the owner's
+script `F:\kast-maintenance\kast_wire_hooks.cmd` (plan 05, step 2); live, the harness refused a heredoc with
+`C:\probe\guard-test` and passed a clean one.
 
 ### EXP-0005 · 2026-09-26 · ❌→✅ · #shell #line-endings #windows
 class: line-endings

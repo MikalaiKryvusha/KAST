@@ -33,7 +33,7 @@
 ```mermaid
 flowchart TD
     S1[1. droprun.ps1 — прогон с уликами:<br/>netdrop + logcat + срез журнала сервера<br/>в приватную папку; контроль: K1 на старой сборке падает] --> S2
-    S2[2. Ядро (локальная ветка):<br/>STREAM_CONFIGURATION.controlPeerTimeoutMs,<br/>ControlStream.c — таймаут из поля, 0 = 10 с;<br/>LiGetControlStreamSilenceMs] --> S3
+    S2[2. Ядро (ветка kast/enet-timeout копии ядра):<br/>STREAM_CONFIGURATION.controlPeerTimeoutMs,<br/>ControlStream.c — таймаут из поля, 0 = 10 с;<br/>LiGetControlStreamSilenceMs] --> S3
     S3[3. Мост JNI + Java:<br/>callbacks.c, MoonBridge, StreamConfiguration,<br/>NvConnection] --> S4
     S4[4. Опция «Время ожидания переподключения»<br/>PreferenceConfiguration + экран настроек,<br/>строки на всех языках] --> S5
     S5[5. Game: сторож тишины каждые 500 мс,<br/>надпись поверх последнего кадра,<br/>журнал KastReconnect] --> S6
@@ -50,7 +50,7 @@ flowchart TD
       сохраняет `logcat --pid` KAST и срез журнала сервера за окно провала в `D:\Android\private\evidence\<время>\`, печатает
       итог (строки `KastReconnect`, `Connection terminated`, `Ping Timeout`). Урок Ф1 (находка F1 судьи). Проверка: прогон
       20 с на нынешней сборке — K1 **падает** (контроль инструмента).
-- [ ] 2. **Ядро** — в подмодуле `moonlight-common-c`, локальная ветка `kast/enet-timeout`:
+- [ ] 2. **Ядро** — в подмодуле `moonlight-common-c`, ветка `kast/enet-timeout` копии `MikalaiKryvusha/moonlight-common-c`:
       (а) поле `int controlPeerTimeoutMs;` в `STREAM_CONFIGURATION` (`Limelight.h`), 0 = прежние 10000 мс;
       (б) `ControlStream.c:1802` — `enet_peer_timeout(peer, 2, t, t)`, где `t` из поля;
       (в) `LiGetControlStreamSilenceMs()` — сколько мс не было ни одного пакета от сервера по управляющему каналу (ENet

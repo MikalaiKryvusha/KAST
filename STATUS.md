@@ -15,7 +15,8 @@
   (`ClassicOldSong/moonlight-android`, ветка `moonlight-noir`, база `c5cf27f4` от 2026-09-09). Локально —
   `D:\work\ai_sandbox\KAST`; remote `upstream` = Artemis. Выбор базы и цифры — `researches/01` → «Выбор базы форка».
 - **KAIF:** 2.8 (выпуск 2026-09-26), поднята `/kaif-update` 2026-09-26 13:36. Язык `ru`, сфера `programming`, пять
-  агентских систем. Долг по 2.8 (хуки, голос, контур, дом-правила) — `plans/05_kaif28_adoption_debt.md`.
+  агентских систем. Долг по 2.8 — `plans/05_kaif28_adoption_debt.md`: хуки и голос закрыты, дом-правила в работе,
+  живая проверка страницы вопросов — при первом настоящем вопросе.
 - **Причины обрыва найдены** — `researches/01_why_session_drops_on_network_loss.md`: таймаут ENet клиента 10 с
   (`ControlStream.c:1802`) → «Error code -1» → `Game.java:3563` закрывает экран; сервер Vibepollo сам отпускает
   клиента по умолчаниям ENet (5–30 с) — `ping_timeout=60000` этого не покрывает. Решение — два слоя: удержание +
@@ -36,7 +37,7 @@
 Ф0 и **Ф1 «Сборочный стенд» закрыты 2026-09-26** (`plans/03_epic02_F1_build_stand.md`, судья — VERIFIED WITH CAVEATS):
 KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит на Титане и стримит с Vibepollo; обрыв воспроизводится
 командой `tools/netdrop.ps1`; эталон — `testcases/reports/2026-09-26_F1_baseline.md`, тест-кейсы — `testcases/TC_reconnect.md`.
-**Следующая — Ф2 «Удержание»** (`plans/04_epic02_F2_hold.md`); правка ядра связи живёт в открытой копии ядра
+**Сейчас — Ф2 «Удержание»** (`plans/04_epic02_F2_hold.md`); правка ядра связи живёт в открытой копии ядра
 `MikalaiKryvusha/moonlight-common-c`, ветка `kast/enet-timeout` (интервью #001, Q1: A). Эпик — `plans/02_EPIC_reconnect.md`.
 
 **Тестовое устройство:** планшет HEADWOLF Titan 1 (Android 16, MT8792) по беспроводному `adb` через Tailscale —
