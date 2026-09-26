@@ -409,7 +409,7 @@
     <string name="title_import_special_button">Importer des touches spéciales personnalisées</string>
     <string name="summary_import_special_button">Disponible dans le menu Retour et les touches spéciales.\nRemarque : l\'importation écrasera la configuration actuelle, veuillez sauvegarder en conséquence.</string>
     <string name="title_software_update">Mise à jour du logiciel</string>
-    <string name="summary_software_update">Version Artemis Nior par ClassicOldSong - Visitez la page des versions GitHub pour obtenir la dernière version</string>
+    <string name="summary_software_update">KAST, un fork d\'Artemis par ClassicOldSong - Visitez la page des versions GitHub pour obtenir la dernière version</string>
     <string name="title_follow_update">Suivre les mises à jour</string>
     <string name="summary_follow_update">Suivre les mises à jour d\'Artemis avec Obtainium</string>
     <string name="title_special_key_layout">Disposition des touches spéciales</string>

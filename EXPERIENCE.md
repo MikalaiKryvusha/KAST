@@ -80,6 +80,32 @@
 
 ## Entries
 
+### EXP-0003 · 2026-09-26 · ❌→✅ · #build #android-sdk #windows
+class: shell-lied
+**Context:** installing the Android SDK packages from PowerShell for Ф1 (plan 03, step 1).
+**Tried / did:** `sdkmanager.bat --sdk_root=... 'platforms;android-36' 'ndk;27.0.12077973'` from cmdline-tools `16111833`.
+**Result:** ❌ "Package platforms not found. Package android-36 not found" — cmd.exe splits `.bat` arguments on `;`, and in
+this cmdline-tools release `sdkmanager` is only a deprecated shim over the new Android CLI. ✅ `android.exe sdk install
+platforms/android-36 ndk/27.0.12077973 build-tools/35.0.0` — package names use `/`, and `android.exe` is a real exe (no cmd layer).
+**Lesson:** with cmdline-tools ≥ 2026 use `android.exe sdk install|list`, names with `/`; never pass `;`-names through a `.bat`.
+**Repro:** `D:\Android\Sdk\cmdline-tools\latest\bin\android.exe --sdk=D:\Android\Sdk sdk list` — lists installed packages in the `/` form.
+**Trigger:** installing or updating any Android SDK package → `android.exe sdk install <name/version>`.
+**Not for:** an old cmdline-tools (before the Android CLI), where `sdkmanager` with `;`-names still works if called from cmd itself.
+
+### EXP-0002 · 2026-09-26 · ❌→✅ · #build #properties #shell
+class: escaping-layer
+**Context:** writing `local.properties` (`sdk.dir`) from Git Bash.
+**Tried / did:** `printf 'sdk.dir=D\\:\\\\Android\\\\Sdk\n' > local.properties`.
+**Result:** ❌ the file got `sdk.dir=D\:\Android\Sdk` — one escaping level lost; Java properties would read `D:AndroidSdk`. ✅ the
+Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
+**Lesson:** a file whose content has backslashes is written by the file tool, not by the shell (AGENT_GUIDE → text travels through files).
+**Repro:** `cat local.properties` must show `sdk.dir=D\:\\Android\\Sdk` (two backslashes between path parts).
+**Trigger:** writing any file containing `\` → Write tool, then read the file back.
+**Not for:** content without backslashes or other escape characters.
+**Recurred:** 2026-09-26, minutes after this entry — `sed -i "s#...C:\\\\Program Files...#"` on a build script produced
+`C:Program FilesMicrosoft...`; caught by reading the file back. Two strikes → candidate guard: a PreToolUse hook that
+refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` (proposal pending, not wired).
+
 ### EXP-0001 · 2026-01-01 · ✅ · #example #meta
 **Context:** first task after KAIF was deployed into this project (example entry — replace with real ones).
 **Tried / did:** wrote the first real lesson here in the canonical format.

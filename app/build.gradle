@@ -54,7 +54,7 @@ android {
 
             resValue "string",
                     "obtainium_app_url",
-                    "https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.noir%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FClassicOldSong%2Fmoonlight-android%22%2C%22author%22%3A%22ClassicOldSong%22%2C%22name%22%3A%22Artemis%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot%5C%22%2C%5C%22matchGroutToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"
+                    "https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.kast%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FMikalaiKryvusha%2FKAST%22%2C%22author%22%3A%22MikalaiKryvusha%22%2C%22name%22%3A%22KAST%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot%5C%22%2C%5C%22matchGroutToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"
 
             applicationId "com.limelight"
             dimension "root"
@@ -95,10 +95,14 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".noirdebug"
-            resValue "string", "app_label", "Diana"
-            resValue "string", "app_label_root", "Diana (Root)"
-            resValue "string", "app_label_game", "Diana (Game)"
+            // KAST: own package and label, so KAST installs next to Artemis (.noir) and Artemide (.perf)
+            // (plans/03_epic02_F1_build_stand.md, step 4).
+            // [TESTED: 2026-09-26 · aapt2 badging: package com.limelight.kastdebug, label 'KAST Debug'; installed on
+            // Titan 1 next to com.limelight.noir and com.limelight.perf, launched to the host list]
+            applicationIdSuffix ".kastdebug"
+            resValue "string", "app_label", "KAST Debug"
+            resValue "string", "app_label_root", "KAST Debug (Root)"
+            resValue "string", "app_label_game", "KAST Debug (Game)"
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -134,10 +138,13 @@ android {
             // is to please change the applicationId before you publish.
             //
             // TL;DR: Leave the following line alone!
-            applicationIdSuffix ".noir"
-            resValue "string", "app_label", "Artemis"
-            resValue "string", "app_label_root", "Artemis (Root)"
-            resValue "string", "app_label_game", "Artemis (Game)"
+            //
+            // KAST: the fork's own suffix, as the note above asks of every fork (Artemis ".noir" -> KAST ".kast").
+            // [NOT-TESTED]
+            applicationIdSuffix ".kast"
+            resValue "string", "app_label", "KAST"
+            resValue "string", "app_label_root", "KAST (Root)"
+            resValue "string", "app_label_game", "KAST (Game)"
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -32,3 +32,12 @@
 | Локальная сборка Vibepollo с `control_peer_timeout` | `plans/01_vibepollo_local_control_timeout_patch.md` | MSYS2, сборка, подмена `sunshine.exe`, откат, грабли установщика |
 | Причины обрыва сессии | `researches/01_why_session_drops_on_network_loss.md` | таймауты ENet клиента и сервера, файл:строка |
 | Отправка в GitHub | `git push` (origin `MikalaiKryvusha/KAST`) | при отказе non-fast-forward — `git pull --rebase`, повторить |
+
+## 6. Инструменты проекта
+
+| Команда | Что делает | От чего бережёт |
+|---|---|---|
+| PowerShell: `$env:JAVA_HOME='C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot'; $env:ANDROID_HOME='D:\Android\Sdk'; $env:GRADLE_USER_HOME='D:\Android\gradle-home'; .\gradlew.bat :app:assembleNonRoot_gameDebug --console=plain` | сборка отладочного APK KAST (4 APK по ABI; Титану нужен `arm64-v8a`) | `JAVA_HOME` машины указывает на удалённый JDK 17 — без явного JDK 21 сборка падает сразу; без `GRADLE_USER_HOME` кэш Gradle ляжет на переполненный диск C |
+| `D:\Android\Sdk\cmdline-tools\latest\bin\android.exe --sdk=D:\Android\Sdk sdk install <пакет/версия>` | установка пакетов SDK (`platforms/android-36`, `ndk/27.0.12077973`, `build-tools/35.0.0` стоят) | в этом выпуске `sdkmanager` — устаревшая обёртка, имена с `;` режутся в `.bat` (EXP-0003) |
+| `D:\Android\Sdk\build-tools\35.0.0\aapt2.exe dump badging <apk>` | пакет и подпись приложения в собранном APK | проверка имени KAST до установки |
+| `adb -s 100.99.111.48:<порт> install -r <apk>` · `adb -s … exec-out screencap -p > <png>` (через `cmd /c`, чтобы PowerShell не испортил байты) | установка и снимок экрана Титана | — |

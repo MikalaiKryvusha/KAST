@@ -47,23 +47,33 @@ flowchart TD
 
 ## Шаги
 
-- [ ] 1. **SDK на D.** `commandlinetools-win-*_latest.zip` с `dl.google.com` → `D:\Android\Sdk\cmdline-tools\latest`;
+- [x] 1. **SDK на D.** `commandlinetools-win-*_latest.zip` с `dl.google.com` → `D:\Android\Sdk\cmdline-tools\latest`;
       `sdkmanager --licenses`; `sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.0.12077973"` — фоновой
       задачей. Проверка: папки `platforms\android-36` и `ndk\27.0.12077973` есть; замер свободного места на C до и после.
-- [ ] 2. **Окружение без глобальных изменений.** `local.properties` (в `.gitignore`) — `sdk.dir=D\:\\Android\\Sdk`;
+      ✅ 2026-09-26: в этом выпуске cmdline-tools (`16111833`) `sdkmanager` заменён на `android.exe sdk install
+      platforms/android-36 ndk/27.0.12077973 build-tools/35.0.0` (EXP-0003); `android.exe sdk list` показывает все три;
+      C: 18,76 → 18,81 ГБ (не тронут), D: −2,7 ГБ.
+- [x] 2. **Окружение без глобальных изменений.** `local.properties` (в `.gitignore`) — `sdk.dir=D\:\\Android\\Sdk`;
       кэш Gradle — переменной окружения только на вызов: `$env:GRADLE_USER_HOME='D:\Android\gradle-home'`. Рецепт —
       строка в `HOUSE_RULES.md` → «Инструменты». Проверка: после сборки `C:\Users\krinik\.gradle` не появился.
-- [ ] 3. **Сборка Artemis как есть** — `gradlew.bat :app:assembleNonRoot_gameDebug` (кусками по ≤ 10 мин, Gradle
+      ✅ 2026-09-26: `C:\Users\krinik\.gradle` нет, кэш — 1,2 ГБ в `D:\Android\gradle-home`; `JAVA_HOME` машины указывает
+      на несуществующий JDK 17 — сборка берёт `C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot` (рецепт — `HOUSE_RULES.md`).
+- [x] 3. **Сборка Artemis как есть** — `gradlew.bat :app:assembleNonRoot_gameDebug` (кусками по ≤ 10 мин, Gradle
       продолжает с места). Проверка: критерий 1. Это отделяет поломки инструментов от наших правок.
-- [ ] 4. **Имя и пакет KAST** — `app/build.gradle`: `applicationIdSuffix` `.kastdebug` / `.kast`, `app_label*`
+      ✅ 2026-09-26: `BUILD SUCCESSFUL in 2m 36s`, 4 APK по ABI; критерий 2 — C: 18,81 → 18,8 ГБ.
+- [x] 4. **Имя и пакет KAST** — `app/build.gradle`: `applicationIdSuffix` `.kastdebug` / `.kast`, `app_label*`
       `KAST Debug` / `KAST` (и `(Root)`, `(Game)`); `obtainium_app_url` и ссылка `option_software_release`
       (`res/xml/preferences.xml:1019`) — на `github.com/MikalaiKryvusha/KAST`. Проверка: критерий 3.
       `FORK: options com.limelight.kast | io.github.mikalaikryvusha.kast · price of error: смена пакета потом = переустановка
       и новое сопряжение · consulted: просьба автора Moonlight в app/build.gradle («please change the applicationId»),
       практика форков — Artemis .noir и Artemide .perf оставляют com.limelight + суффикс; выбран суффикс — самый маленький
       дифф к Artemis (MASTER_PLAN, принципы)`.
-- [ ] 5. **Установка на Титан** — `adb install -r`; запуск; скриншот `adb exec-out screencap -p`. Проверка: критерий 4,
-      снимок показан владельцу.
+      ✅ 2026-09-26: `aapt2 dump badging` — `com.limelight.kastdebug`, `KAST Debug`; двойник — подпись
+      `summary_software_update` («Artemis Nior by ClassicOldSong») рядом с перенаправленной ссылкой переписана в 5 языках,
+      где она есть (EN, RU, FR, zh-CN, zh-TW); ссылки на вики Artemis и на сервер Apollo оставлены — они верны для KAST.
+- [x] 5. **Установка на Титан** — `adb install -r`; запуск; скриншот `adb exec-out screencap -p`. Проверка: критерий 4,
+      снимок показан владельцу. ✅ 2026-09-26 12:39: `pm list packages` — `noir`, `perf`, `kastdebug`; KAST открылся на
+      списке хостов («Поиск хост-ПК в вашей локальной сети…»).
 - [ ] 6. **Сопряжение KAST с Vibepollo** — в KAST добавить хост `100.80.125.66`; KAST покажет PIN; **владелец вводит PIN в
       админке Vibepollo** (`https://localhost:47990`, вход — его). Проверка: критерий 5.
 - [ ] 7. **Инструмент провала сети** — по наблюдению, по порядку цены (исследование 02, вывод 10):

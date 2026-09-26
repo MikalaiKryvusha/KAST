@@ -413,7 +413,7 @@
     <string name="summary_share_performance_logs">Поделиться данными о производительности с друзьями/сообществом</string>
     <string name="title_share_performance_logs_button">Поделиться логами производительности</string>
     <string name="title_software_update">Обновление ПО</string>
-    <string name="summary_software_update">Artemis Nior от ClassicOldSong — смотрите релизы на GitHub для последней версии</string>
+    <string name="summary_software_update">KAST — форк Artemis от ClassicOldSong; смотрите релизы на GitHub для последней версии</string>
     <string name="title_follow_update">Следить за обновлениями</string>
     <string name="summary_follow_update">Следите за обновлениями Artemis через Obtainium</string>
     <string name="title_special_key_layout">Раскладка спец-клавиш</string>
