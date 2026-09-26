@@ -54,6 +54,7 @@
 
 - [ ] Локальная правка Vibepollo — `plans/01_vibepollo_local_control_timeout_patch.md` (MSYS2, сборка, подмена `sunshine.exe`).
 - [ ] План эпика «переподключение» (Ф1–Ф4) — `/plan-epic`, с блок-схемой mermaid; опора — `researches/01`.
+- [ ] Разведка интерфейса → `researches/03_*`: свежие SDK и библиотеки UI Android, подходы, палитры, радиусы; без Liquid Glass (`ideas/04`).
 - [ ] Разведка тредов сообщества (XDA, Reddit, GitHub) об оптимизациях Moonlight/Artemis под MediaTek Dimensity и
       Snapdragon → `researches/02_*`: оптимизация · источник · чип · заявленный эффект (`ideas/02`, фаза Ф6).
 - [ ] Поставить Android SDK (cmdline-tools, platform 36, build-tools) и NDK `27.0.12077973` — фоновой задачей;
@@ -66,10 +67,9 @@
 
 - 📱 Телефон: установка APK и воспроизведение обрыва требуют телефона владельца. `adb devices` 2026-09-26 —
   устройств нет; путь — беспроводная отладка через Tailscale или установка APK руками.
-- ❓ `ideas/04` — образцы «современного» интерфейса и какие экраны первыми.
+
 - ❓ `ideas/05` — пресеты = профили настроек или другой список.
-- ❓ Запрос автору Vibepollo (issue): текст готов, ждёт слова владельца; параллельно — локальная правка сервера, `plans/01_vibepollo_local_control_timeout_patch.md`.
-- ❓ Браузерный клиент Vibepollo (WebRTC): владелец им пользуется? В нашей локальной сборке сервера его не будет.
+- ⏳ Запрос автору Vibepollo отправлен 2026-09-26: https://github.com/Nonary/Vibepollo/issues/522 — ждём ответа; параллельно — локальная правка сервера, `plans/01_vibepollo_local_control_timeout_patch.md`.
 
 ---
 
