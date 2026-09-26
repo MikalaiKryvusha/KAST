@@ -59,8 +59,9 @@ public class PreferenceConfiguration {
     // silent before the session ends. Range 10–300 s in the settings screen, default 60 s. [TESTED: 2026-09-26 · testcases/reports/2026-09-26_F2_hold.md — K1 20 s and K7 5 s held, control 10 s → −1 at 10.05 s]
     private static final String RECONNECT_GRACE_PREF_STRING = "seekbar_reconnect_grace_seconds";
     // KAST (plans/06_epic02_F3_resume.md, step 6): a test instrument for debug builds only, no settings UI — set with
-    // `adb shell run-as <pkg>` in shared_prefs. A client ENet timeout shorter than the grace period makes the transport die
-    // inside the grace window, so the F3 resume path can be driven on the owner's live host. 0 = use the grace period. [TESTED: 2026-09-26 17:47 · value 10 with grace 60: policy grace=60000 enet=10000, a 20 s loss ended at 10.11 s with end class=transport withinGrace=true]
+    // `adb shell run-as <pkg>` in shared_prefs as an INT: <int name="kast_debug_enet_timeout_seconds" value="10" /> (a <string> would
+    // crash getInt). Honoured only below the grace period (Game.kastEnetTimeoutMs). A client ENet timeout shorter than the grace period makes the transport die
+    // inside the grace window, so the F3 resume path can be driven on the owner's live host. 0 = use the grace period. [TESTED: 2026-09-26 17:47 · testcases/reports/2026-09-26_F3_instrument.md: value 10 with grace 60 → policy grace=60000 enet=10000, a 20 s loss ended at 10.11 s]
     private static final String DEBUG_ENET_TIMEOUT_PREF_STRING = "kast_debug_enet_timeout_seconds";
     private static final String OSC_OPACITY_PREF_STRING = "seekbar_osc_opacity";
     private static final String LANGUAGE_PREF_STRING = "list_languages";
