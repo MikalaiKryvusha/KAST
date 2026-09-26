@@ -494,7 +494,7 @@
 	<string name="summary_software_update">KAST（ClassicOldSong 的 Artemis 分支）－前往 GitHub Releases 取得最新版本</string>
 
 	<string name="title_follow_update">追蹤更新</string>
-	<string name="summary_follow_update">使用 Obtainium 追蹤 Artemis 更新</string>
+	<string name="summary_follow_update">使用 Obtainium 追蹤 KAST 更新</string>
 
 	<string name="title_special_key_layout">特殊按鍵佈局</string>
 	<string name="title_show_virtual_key">在螢幕上顯示虛擬按鍵</string>

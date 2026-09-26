@@ -473,7 +473,7 @@
     <string name="title_software_update">Software Update</string>
     <string name="summary_software_update">KAST, a fork of Artemis by ClassicOldSong - Visit GitHub Releases to get latest version</string>
     <string name="title_follow_update">Follow Update</string>
-    <string name="summary_follow_update">Follow updates of Artemis with Obtainium</string>
+    <string name="summary_follow_update">Follow updates of KAST with Obtainium</string>
     <string name="title_special_key_layout">Special Key Layout</string>
     <string name="title_show_virtual_key">Display virtual keys on screen</string>
     <string name="summary_show_virtual_key">Display a layer of virtual special keys on the touchscreen.\nKey opacity is shared with the virtual gamepad above.</string>

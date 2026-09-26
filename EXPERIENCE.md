@@ -80,6 +80,22 @@
 
 ## Entries
 
+### EXP-0004 · 2026-09-26 · ❌→✅ · #i18n #strings #twins
+class: twins-missed
+**Context:** renaming the fork's identity in UI strings (Artemis → KAST), plan 03 step 4.
+**Tried / did:** found the twins with `grep -rn 'Artemis Nior\|ClassicOldSong' app/src` — a search by TEXT.
+**Result:** ❌ the F1 judge found two misses: `values-vi` phrased the same string differently ("Artemis Việt Hóa bởi ZeronX"),
+and the neighbour key `summary_follow_update` said just "Artemis" in 5 locales. ✅ searched by KEY:
+`grep -rn 'name="summary_software_update"\|name="summary_follow_update"' app/src/main/res/values*/strings.xml` → fixed 6 + 5.
+**Lesson:** a translated string's twins are found by its resource KEY across all `values*/` folders, never by its text —
+every locale words it differently.
+**Repro:** `grep -rn 'name="<key>"' app/src/main/res/values*/strings.xml | grep -v '<expected word>'` → must print nothing.
+**Trigger:** changing any user-visible string → run the key grep over all locales before committing.
+**Not for:** strings marked `translatable="false"` (one copy only).
+none-cheap: a per-key locale checker is a small script, but the identity rename is a one-off; if a second string sweep
+misses a locale, write `tools/string-twins` then
+
+
 ### EXP-0003 · 2026-09-26 · ❌→✅ · #build #android-sdk #windows
 class: shell-lied
 **Context:** installing the Android SDK packages from PowerShell for Ф1 (plan 03, step 1).

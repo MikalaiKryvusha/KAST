@@ -471,7 +471,7 @@
     <string name="title_software_update">软件更新</string>
     <string name="summary_software_update">KAST（ClassicOldSong 的 Artemis 分支）- 访问 GitHub Release 以获取更新</string>
     <string name="title_follow_update">订阅更新</string>
-    <string name="summary_follow_update">使用 Obtainium 订阅 Artemis 的更新</string>
+    <string name="summary_follow_update">使用 Obtainium 订阅 KAST 的更新</string>
     <string name="title_special_key_layout">特殊按键布局</string>
     <string name="title_show_virtual_key">屏幕显示虚拟按键</string>
     <string name="summary_show_virtual_key">在触摸屏上显示一层虚拟特殊按键。\n按键透明度与上方选项中虚拟手柄共用。</string>

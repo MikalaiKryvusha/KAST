@@ -2,8 +2,9 @@
 
 > **Создан:** 2026-09-26 (агент, `/plan-epic`, по слову владельца «принимаемся за разработку KAST … сначала
 > планирование, потом по планам работы») · **Родитель:** `ideas/01_reconnect_grace_period.md`, `MASTER_PLAN.md` Ф1–Ф4,
-> исследование `researches/02_reconnect_epic_research.md` · **Статус:** 🔧 мета-план 2026-09-26; Ф1 — в работе
-> (`plans/03_epic02_F1_build_stand.md`) · **Вовне:** публичный форк `moonlight-common-c` на GitHub владельца — по его
+> исследование `researches/02_reconnect_epic_research.md` · **Статус:** 🔧 мета-план 2026-09-26; Ф1 ✅ 2026-09-26
+> (`plans/03_epic02_F1_build_stand.md`, судья: VERIFIED WITH CAVEATS); Ф2 — план `plans/04_epic02_F2_hold.md`, развилка
+> ядра — `interviews/interview_001_core_fork.md` · **Вовне:** публичный форк `moonlight-common-c` на GitHub владельца — по его
 > слову, до кода Ф2
 
 ## Вектор цели

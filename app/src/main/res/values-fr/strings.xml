@@ -411,7 +411,7 @@
     <string name="title_software_update">Mise à jour du logiciel</string>
     <string name="summary_software_update">KAST, un fork d\'Artemis par ClassicOldSong - Visitez la page des versions GitHub pour obtenir la dernière version</string>
     <string name="title_follow_update">Suivre les mises à jour</string>
-    <string name="summary_follow_update">Suivre les mises à jour d\'Artemis avec Obtainium</string>
+    <string name="summary_follow_update">Suivre les mises à jour de KAST avec Obtainium</string>
     <string name="title_special_key_layout">Disposition des touches spéciales</string>
     <string name="title_show_virtual_key">Afficher les touches virtuelles à l\'écran</string>
     <string name="summary_show_virtual_key">Affiche une couche de touches spéciales virtuelles sur l\'écran tactile.\nL\'opacité des touches est partagée avec la manette virtuelle ci-dessus.</string>
