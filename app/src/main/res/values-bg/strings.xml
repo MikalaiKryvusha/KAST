@@ -142,4 +142,12 @@
     <!-- commit-text feature -->
     <string name="title_enable_commit_text">Разреши изпращане на текст на блокове (жестово/гласово въвеждане)</string>
     <string name="summary_enable_commit_text">Изпраща текст от софтуерната клавиатура наведнъж (жестово писане, предложения, гласово диктуване). Възможно е да не работи с игри, които разчитат на по-символно въвеждане.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Дневник на производителността</string>
+    <string name="kast_perf_log_dialog_message">Открихте проблем? Създайте тикет в GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nЗапазете дневника като файл или го споделете, след това прикачете файла към тикета — плъзнете го в полето за описание.</string>
+    <string name="kast_perf_log_save">Запази файла</string>
+    <string name="kast_perf_log_share">Сподели</string>
+    <string name="kast_perf_log_close">Затвори</string>
+    <string name="kast_perf_log_saved">Дневникът е запазен</string>
+    <string name="kast_perf_log_share_subject">KAST — дневник на производителността</string>
 </resources>

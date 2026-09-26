@@ -179,4 +179,12 @@
     <string name="audioconf_51surround">Sunet Surround 5.1</string>
     <string name="audioconf_71surround">Sunet Surround 7.1</string>
     <string name="videoformat_hevcalways">Folosește HEVC mereu (se poate bloca)</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Jurnal de performanță</string>
+    <string name="kast_perf_log_dialog_message">Ați găsit o problemă? Deschideți un tichet pe GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSalvați jurnalul ca fișier sau partajați-l, apoi atașați fișierul la tichet — trageți-l în câmpul de descriere.</string>
+    <string name="kast_perf_log_save">Salvează fișierul</string>
+    <string name="kast_perf_log_share">Partajează</string>
+    <string name="kast_perf_log_close">Închide</string>
+    <string name="kast_perf_log_saved">Jurnal salvat</string>
+    <string name="kast_perf_log_share_subject">KAST — jurnal de performanță</string>
 </resources>

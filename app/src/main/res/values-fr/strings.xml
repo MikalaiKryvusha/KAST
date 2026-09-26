@@ -590,4 +590,12 @@
     <string name="title_checkbox_remember_zoom_pan">Mémoriser le zoom et le panoramique</string>
     <string name="summary_checkbox_remember_zoom_pan">Enregistre la position de zoom et de panoramique entre les sessions.</string>
     <string name="title_edit_profile">Modifier le profil</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Journal de performances</string>
+    <string name="kast_perf_log_dialog_message">Un problème ? Créez un ticket sur GitHub :\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nEnregistrez le journal dans un fichier ou partagez-le, puis joignez le fichier au ticket — faites-le glisser dans le champ de description.</string>
+    <string name="kast_perf_log_save">Enregistrer le fichier</string>
+    <string name="kast_perf_log_share">Partager</string>
+    <string name="kast_perf_log_close">Fermer</string>
+    <string name="kast_perf_log_saved">Journal enregistré</string>
+    <string name="kast_perf_log_share_subject">KAST — journal de performances</string>
 </resources>

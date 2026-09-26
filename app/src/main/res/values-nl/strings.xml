@@ -224,4 +224,12 @@
     <string name="videoformat_hevcalways">Gebruik HEVC altijd (mogelijkheid tot crashes)</string>
     <string name="title_enable_commit_text">Commit-tekstinvoer inschakelen (veeg/stem)</string>
     <string name="summary_enable_commit_text">Stuurt meerteksts invoer van softwaretoetsenborden (veegtypen, voorspellingen, spraakdicteren) door naar de pc. Kan problemen geven bij games die per-toetsinvoer vereisen.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Prestatielogboek</string>
+    <string name="kast_perf_log_dialog_message">Probleem gevonden? Maak een ticket aan op GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSla het logboek op als bestand of deel het, en voeg het bestand toe aan het ticket — sleep het naar het beschrijvingsveld.</string>
+    <string name="kast_perf_log_save">Bestand opslaan</string>
+    <string name="kast_perf_log_share">Delen</string>
+    <string name="kast_perf_log_close">Sluiten</string>
+    <string name="kast_perf_log_saved">Logboek opgeslagen</string>
+    <string name="kast_perf_log_share_subject">KAST — prestatielogboek</string>
 </resources>

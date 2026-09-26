@@ -184,4 +184,12 @@
 \nカスタム解像度を作成することに起因する問題について、私たちは責任を負いません。
 \n
 \nモニターが必要な表示設定をサポートしていない場合もあります。その場合は、仮想モニターを設定してみてください。最後に、デバイスまたはホストPCが特定の解像度またはリフレッシュレートでのストリーミングをサポートしていない場合、残念ながら運が悪かったということになります。</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">パフォーマンスログ</string>
+    <string name="kast_perf_log_dialog_message">問題が見つかりましたか？GitHub でチケットを作成してください:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nログをファイルとして保存するか共有し、そのファイルをチケットに添付してください（説明欄にドラッグします）。</string>
+    <string name="kast_perf_log_save">ファイルを保存</string>
+    <string name="kast_perf_log_share">共有</string>
+    <string name="kast_perf_log_close">閉じる</string>
+    <string name="kast_perf_log_saved">ログを保存しました</string>
+    <string name="kast_perf_log_share_subject">KAST パフォーマンスログ</string>
 </resources>

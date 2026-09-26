@@ -286,16 +286,8 @@
     <string name="summary_checkbox_gamepad_motion_fallback">Verwendet die integrierten Bewegungssensoren Ihres Geräts, wenn Gamepad-Sensoren von Ihrem angeschlossenen Gamepad oder Ihrer Android-Version nicht unterstützt werden.
 \nHinweis: Die Aktivierung dieser Option kann dazu führen, dass Ihr Gamepad auf dem Host als PlayStation-Controller angezeigt wird.</string>
     <string name="pcview_menu_eol">NVIDIA GameStream End-of-Service</string>
-    <string name="summary_share_performance_logs">Teile deine Leistungsdaten mit Freunden oder unserer Community. Wenn du sie an artemistics.logs@gmail.com sendest, erscheinen sie automatisch auf https://tinyurl.com/artemis-performance.</string>
+    <string name="summary_share_performance_logs">Teile deine Leistungsdaten mit Freunden oder der Community.</string>
     <string name="title_share_performance_logs_button">Leistungsdaten teilen</string>
-    <string name="email_prefix_message">
-    Bitte sende diesen Anhang unverändert an artemistics.logs@gmail.com, wenn du unsere Community unterstützen möchtest.\n
-    Deine geteilten Leistungsdaten helfen, den verfügbaren Datensatz zu verbessern und zu erweitern:\n
-     https://tinyurl.com/artemis-performance\n\n</string>
-    <string name="email_recipient">artemistics.logs@gmail.com</string>
-    <string name="email_subject">Artemistics - Performance Log</string>
-    <string name="email_chooser_title">Performance Log senden...</string>
-    <string name="toast_no_email_clients">Keine E-Mail-Clients installiert.</string>
     <string name="toast_no_logs">Es sind noch keine Leistungsdaten gespeichert.</string>
     <string name="title_enable_commit_text">Commit-Text-Eingabe (Swipe/Spracherkennung) aktivieren</string>
     <string name="summary_enable_commit_text">Überträgt mehrzeilige Texte von Bildschirmtastaturen (Swipeeingabe, Wortvorschläge, Spracherkennung). Kann Spiele stören, die einzelne Tastendrücke erwarten.</string>
@@ -310,4 +302,12 @@
 
     <string name="title_edit_profile">Profil bearbeiten</string>
 
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Leistungsprotokoll</string>
+    <string name="kast_perf_log_dialog_message">Ein Problem gefunden? Erstelle ein Ticket auf GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSpeichere das Protokoll als Datei oder teile es und hänge die Datei an das Ticket an — ziehe sie in das Beschreibungsfeld.</string>
+    <string name="kast_perf_log_save">Datei speichern</string>
+    <string name="kast_perf_log_share">Teilen</string>
+    <string name="kast_perf_log_close">Schließen</string>
+    <string name="kast_perf_log_saved">Protokoll gespeichert</string>
+    <string name="kast_perf_log_share_subject">KAST-Leistungsprotokoll</string>
 </resources>

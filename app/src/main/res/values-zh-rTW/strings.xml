@@ -136,16 +136,7 @@
 	<string name="perf_overlay_drawdelay">延遲：%1$.2f ms</string>
 
 	<!-- Performance Report Sharing -->
-	<string name="email_prefix_message">
-		請將此電子郵件原樣發送至 artemistics.logs@gmail.com 以支持社群。\n
-		您分享的效能數據將有助於改善並擴充資料集，該資料集可在以下位置取得：\n
-		https://tinyurl.com/artemis-performance\n\n
-	</string>
 
-	<string name="email_recipient">artemistics.logs@gmail.com</string>
-	<string name="email_subject">Artemistics - 效能日誌</string>
-	<string name="email_chooser_title">傳送效能日誌...</string>
-	<string name="toast_no_email_clients">未安裝電子郵件用戶端。</string>
 	<string name="toast_no_logs">尚未儲存任何效能數據。</string>
 
 	<!-- AppList activity -->
@@ -792,4 +783,12 @@
 
 	<string name="title_checkbox_full_screen">啟用全螢幕</string>
 	<string name="summary_checkbox_full_screen">以沉浸模式隱藏系統列</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">效能日誌</string>
+    <string name="kast_perf_log_dialog_message">遇到問題？請在 GitHub 上建立工單：\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\n將日誌儲存為檔案或分享出去，然後把檔案附加到工單——拖到描述欄即可。</string>
+    <string name="kast_perf_log_save">儲存檔案</string>
+    <string name="kast_perf_log_share">分享</string>
+    <string name="kast_perf_log_close">關閉</string>
+    <string name="kast_perf_log_saved">日誌已儲存</string>
+    <string name="kast_perf_log_share_subject">KAST 效能日誌</string>
 </resources>

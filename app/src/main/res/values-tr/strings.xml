@@ -274,4 +274,12 @@
     <string name="summary_enable_perf_overlay">Akış sırasında gerçek zamanlı akış performansı bilgilerini görüntüleyin</string>
     <string name="title_enable_commit_text">Commit-text girişini etkinleştir (kaydırma/sesli)</string>
     <string name="summary_enable_commit_text">Yazılım klavyelerinden çok karakterli metni iletir (sürükleyerek yazma, tahminler, sesli dikte). Tuş bazlı girişe ihtiyaç duyan oyunlarda sorun yaratabilir.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Performans günlüğü</string>
+    <string name="kast_perf_log_dialog_message">Bir sorun mu buldunuz? GitHub\'da bir bilet açın:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nGünlüğü dosya olarak kaydedin veya paylaşın, ardından dosyayı bilete ekleyin — açıklama alanına sürükleyin.</string>
+    <string name="kast_perf_log_save">Dosyayı kaydet</string>
+    <string name="kast_perf_log_share">Paylaş</string>
+    <string name="kast_perf_log_close">Kapat</string>
+    <string name="kast_perf_log_saved">Günlük kaydedildi</string>
+    <string name="kast_perf_log_share_subject">KAST performans günlüğü</string>
 </resources>

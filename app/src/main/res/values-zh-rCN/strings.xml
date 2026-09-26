@@ -615,11 +615,7 @@
     <string name="searchpreference_no_results">无结果</string>
     <string name="game_menu_toggle_mouse_on">启用手柄鼠标模拟</string>
     <string name="summary_performance_link">查看其他设备的性能数据</string>
-    <string name="email_chooser_title">发送性能统计...</string>
-    <string name="toast_no_email_clients">找不到电子邮件客户端</string>
-    <string name="email_subject">Artemistics - 性能统计</string>
     <string name="summary_share_performance_logs">与朋友或社区分享你的性能统计数据</string>
-    <string name="email_prefix_message">"\n        请按原样将此邮件发送至 artemistics.logs@gmail.com 以帮助社区。\n\n        您分享的性能数据将会帮助改进和扩充以下地址的统计数据：\n\n        https://tinyurl.com/artemis-performance\n\n\n    "</string>
 
     <!-- Keyboard -->
     <string name="keyboard_clear_all">清除全部</string>
@@ -715,4 +711,12 @@
 
     <string name="title_checkbox_full_screen">启用全屏</string>
     <string name="summary_checkbox_full_screen">使用沉浸模式隐藏系统状态栏</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">性能日志</string>
+    <string name="kast_perf_log_dialog_message">遇到问题？请在 GitHub 上提交工单：\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\n将日志保存为文件或分享出去，然后把文件附加到工单中——拖到描述框里即可。</string>
+    <string name="kast_perf_log_save">保存文件</string>
+    <string name="kast_perf_log_share">分享</string>
+    <string name="kast_perf_log_close">关闭</string>
+    <string name="kast_perf_log_saved">日志已保存</string>
+    <string name="kast_perf_log_share_subject">KAST 性能日志</string>
 </resources>

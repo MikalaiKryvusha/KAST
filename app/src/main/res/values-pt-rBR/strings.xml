@@ -252,4 +252,12 @@
     <string name="fps_suffix_fps">FPS</string>
     <string name="title_enable_commit_text">Ativar envio de texto concluído (gesto/voz)</string>
     <string name="summary_enable_commit_text">Encaminha textos com vários caracteres de teclados virtuais (digitação por gestos, sugestões, ditado por voz). Pode causar problemas em jogos que dependem de entrada tecla por tecla.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Log de desempenho</string>
+    <string name="kast_perf_log_dialog_message">Encontrou um problema? Abra um ticket no GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSalve o log como arquivo ou compartilhe-o e depois anexe o arquivo ao ticket — arraste-o para o campo de descrição.</string>
+    <string name="kast_perf_log_save">Salvar arquivo</string>
+    <string name="kast_perf_log_share">Compartilhar</string>
+    <string name="kast_perf_log_close">Fechar</string>
+    <string name="kast_perf_log_saved">Log salvo</string>
+    <string name="kast_perf_log_share_subject">KAST — log de desempenho</string>
 </resources>

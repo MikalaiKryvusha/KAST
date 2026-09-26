@@ -209,4 +209,12 @@
     <string name="perf_overlay_streamdetails">Videostrøm: %1$s %2$.2f BPS</string>
     <string name="title_enable_commit_text">Aktiver commit-tekst-input (sveip/stemme)</string>
     <string name="summary_enable_commit_text">Sender tekst med flere tegn fra skjermtastaturet (gesture-skriving, forslag, stemmediktat). Kan skape problemer i spill som krever tast-for-tast-inndata.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Ytelseslogg</string>
+    <string name="kast_perf_log_dialog_message">Fant du et problem? Opprett en sak på GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nLagre loggen som fil eller del den, og legg deretter filen ved saken — dra den inn i beskrivelsesfeltet.</string>
+    <string name="kast_perf_log_save">Lagre fil</string>
+    <string name="kast_perf_log_share">Del</string>
+    <string name="kast_perf_log_close">Lukk</string>
+    <string name="kast_perf_log_saved">Loggen er lagret</string>
+    <string name="kast_perf_log_share_subject">KAST – ytelseslogg</string>
 </resources>

@@ -260,4 +260,12 @@
     <string name="pacing_latency">A legalacsonyabb késleltetés előnyben részesítése</string>
     <string name="title_enable_commit_text">Commit-szöveg bevitel engedélyezése (húzás/hang)</string>
     <string name="summary_enable_commit_text">A képernyő-billentyűzetek többkarakteres szövegét (gesztusos gépelés, predikciók, hangalapú diktálás) továbbítja. Megzavarhatja azokat a játékokat, amelyek egyes gombnyomásokra támaszkodnak.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Teljesítménynapló</string>
+    <string name="kast_perf_log_dialog_message">Hibát talált? Nyisson jegyet a GitHubon:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nMentse a naplót fájlba, vagy ossza meg, majd csatolja a fájlt a jegyhez — húzza a leírás mezőbe.</string>
+    <string name="kast_perf_log_save">Fájl mentése</string>
+    <string name="kast_perf_log_share">Megosztás</string>
+    <string name="kast_perf_log_close">Bezárás</string>
+    <string name="kast_perf_log_saved">Napló mentve</string>
+    <string name="kast_perf_log_share_subject">KAST — teljesítménynapló</string>
 </resources>

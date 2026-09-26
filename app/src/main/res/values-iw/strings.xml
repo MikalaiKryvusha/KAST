@@ -153,4 +153,12 @@
     <string name="title_checkbox_touchscreen_trackpad">השתמש במסך מגע כמשטח מגע</string>
     <string name="title_enable_commit_text">הפעל קלט commit-text (החלקה/קול)</string>
     <string name="summary_enable_commit_text">מעביר טקסט מרובה תווים ממקלדות וירטואליות (החלקה, הצעות, הקלדה קולית). עלול לגרום בעיות במשחקים שמסתמכים על קלט לפי מקש.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">יומן ביצועים</string>
+    <string name="kast_perf_log_dialog_message">מצאתם בעיה? פתחו כרטיס ב-GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nשמרו את היומן כקובץ או שתפו אותו, ואז צרפו את הקובץ לכרטיס — גררו אותו לשדה התיאור.</string>
+    <string name="kast_perf_log_save">שמירת קובץ</string>
+    <string name="kast_perf_log_share">שיתוף</string>
+    <string name="kast_perf_log_close">סגירה</string>
+    <string name="kast_perf_log_saved">היומן נשמר</string>
+    <string name="kast_perf_log_share_subject">KAST — יומן ביצועים</string>
 </resources>

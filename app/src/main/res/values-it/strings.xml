@@ -290,4 +290,12 @@
     <string name="analogscroll_left">Stick analogico sinistro</string>
     <string name="title_enable_commit_text">Abilita input commit-text (swipe/voce)</string>
     <string name="summary_enable_commit_text">Invia al PC testi multi-carattere provenienti dalle tastiere software (scrittura a gesto, suggerimenti, dettatura vocale). Può causare problemi ai giochi che richiedono la pressione singola dei tasti.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Registro delle prestazioni</string>
+    <string name="kast_perf_log_dialog_message">Hai trovato un problema? Apri un ticket su GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSalva il registro come file o condividilo, poi allega il file al ticket: trascinalo nel campo della descrizione.</string>
+    <string name="kast_perf_log_save">Salva file</string>
+    <string name="kast_perf_log_share">Condividi</string>
+    <string name="kast_perf_log_close">Chiudi</string>
+    <string name="kast_perf_log_saved">Registro salvato</string>
+    <string name="kast_perf_log_share_subject">KAST — registro delle prestazioni</string>
 </resources>

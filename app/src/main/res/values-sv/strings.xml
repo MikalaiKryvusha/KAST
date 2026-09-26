@@ -273,4 +273,12 @@
     <string name="title_analog_scrolling">Använd en analog spak för att bläddra</string>
     <string name="title_enable_commit_text">Aktivera commit-textinmatning (svep/röst)</string>
     <string name="summary_enable_commit_text">Vidarebefordra text i flera tecken från mjuka tangentbord (gestinmatning, förslag, röstdiktering). Kan störa spel som kräver tangent för tangent.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Prestandalogg</string>
+    <string name="kast_perf_log_dialog_message">Hittat ett problem? Skapa ett ärende på GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSpara loggen som fil eller dela den och bifoga sedan filen till ärendet — dra den till beskrivningsfältet.</string>
+    <string name="kast_perf_log_save">Spara fil</string>
+    <string name="kast_perf_log_share">Dela</string>
+    <string name="kast_perf_log_close">Stäng</string>
+    <string name="kast_perf_log_saved">Loggen sparades</string>
+    <string name="kast_perf_log_share_subject">KAST – prestandalogg</string>
 </resources>

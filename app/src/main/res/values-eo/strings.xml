@@ -36,4 +36,12 @@
     <string name="unpairing">Malparigante…</string>
     <string name="applist_connect_msg">Konektante al komputilo…</string>
     <string name="pcview_menu_unpair_pc">Malparigi</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Protokolo de rendimento</string>
+    <string name="kast_perf_log_dialog_message">Ĉu vi trovis problemon? Kreu bileton ĉe GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nKonservu la protokolon kiel dosieron aŭ kunhavigu ĝin, poste aldonu la dosieron al la bileto — trenu ĝin en la priskriban kampon.</string>
+    <string name="kast_perf_log_save">Konservi dosieron</string>
+    <string name="kast_perf_log_share">Kunhavigi</string>
+    <string name="kast_perf_log_close">Fermi</string>
+    <string name="kast_perf_log_saved">Protokolo konservita</string>
+    <string name="kast_perf_log_share_subject">KAST — protokolo de rendimento</string>
 </resources>

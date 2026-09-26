@@ -213,4 +213,12 @@
     <string name="pair_pairing_help">Εάν ο υπολογιστής οικοδεσπότης χρησιμοποιεί το Sunshine, πλοηγηθείτε στην διαδικτυακή διεπαφή χρήστη του Sunshine για να εισάγετε το PIN.</string>
     <string name="title_enable_commit_text">Ενεργοποίηση εισαγωγής commit-text (σάρωση/φωνή)</string>
     <string name="summary_enable_commit_text">Προωθεί κείμενο πολλών χαρακτήρων από τα εικονικά πληκτρολόγια (σάρωση, προτάσεις, φωνητική πληκτρολόγηση). Ίσως προκαλέσει προβλήματα σε παιχνίδια που βασίζονται σε πληκτρολόγηση πλήκτρο-πλήκτρο.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Αρχείο καταγραφής απόδοσης</string>
+    <string name="kast_perf_log_dialog_message">Βρήκατε πρόβλημα; Ανοίξτε ένα ticket στο GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nΑποθηκεύστε το αρχείο καταγραφής ή μοιραστείτε το και επισυνάψτε το στο ticket — σύρετέ το στο πεδίο περιγραφής.</string>
+    <string name="kast_perf_log_save">Αποθήκευση αρχείου</string>
+    <string name="kast_perf_log_share">Κοινοποίηση</string>
+    <string name="kast_perf_log_close">Κλείσιμο</string>
+    <string name="kast_perf_log_saved">Το αρχείο καταγραφής αποθηκεύτηκε</string>
+    <string name="kast_perf_log_share_subject">KAST — αρχείο καταγραφής απόδοσης</string>
 </resources>

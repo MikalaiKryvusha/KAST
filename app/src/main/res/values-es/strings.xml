@@ -294,4 +294,12 @@
     <string name="title_checkbox_remember_zoom_pan">Recordar zoom y desplazamiento</string>
     <string name="summary_checkbox_remember_zoom_pan">Guarda la posición de zoom y desplazamiento entre sesiones.</string>
     <string name="title_edit_profile">Editar perfil</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Registro de rendimiento</string>
+    <string name="kast_perf_log_dialog_message">¿Encontraste un problema? Crea un ticket en GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nGuarda el registro como archivo o compártelo y luego adjunta el archivo al ticket: arrástralo al campo de descripción.</string>
+    <string name="kast_perf_log_save">Guardar archivo</string>
+    <string name="kast_perf_log_share">Compartir</string>
+    <string name="kast_perf_log_close">Cerrar</string>
+    <string name="kast_perf_log_saved">Registro guardado</string>
+    <string name="kast_perf_log_share_subject">KAST: registro de rendimiento</string>
 </resources>

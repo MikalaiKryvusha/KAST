@@ -248,4 +248,12 @@
     <string name="pacing_latency">Preferovat nejnižší zpoždění</string>
     <string name="title_enable_commit_text">Povolit vstup commit-textu (swipe/hlas)</string>
     <string name="summary_enable_commit_text">Předává vícestránkový text z softwarových klávesnic (psaní gesty, návrhy, diktování). Může narušit hry, které vyžadují jednotlivé stisky kláves.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Protokol výkonu</string>
+    <string name="kast_perf_log_dialog_message">Našli jste problém? Založte tiket na GitHubu:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nUložte protokol jako soubor nebo ho sdílejte a pak soubor přiložte k tiketu — přetáhněte ho do pole popisu.</string>
+    <string name="kast_perf_log_save">Uložit soubor</string>
+    <string name="kast_perf_log_share">Sdílet</string>
+    <string name="kast_perf_log_close">Zavřít</string>
+    <string name="kast_perf_log_saved">Protokol uložen</string>
+    <string name="kast_perf_log_share_subject">KAST — protokol výkonu</string>
 </resources>

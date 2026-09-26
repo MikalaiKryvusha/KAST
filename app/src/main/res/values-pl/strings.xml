@@ -273,4 +273,12 @@
     <string name="summary_setup_guide">Wyświetl instrukcje, jak skonfigurować komputer do gier do streamowania</string>
     <string name="title_enable_commit_text">Włącz przekazywanie tekstu (pisanie gestem/głos)</string>
     <string name="summary_enable_commit_text">Przekazuje wieloznakowy tekst z klawiatur ekranowych (pisanie gestem, podpowiedzi, dyktowanie głosowe) do hosta. Może powodować problemy w grach wymagających wprowadzania znak po znaku.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Dziennik wydajności</string>
+    <string name="kast_perf_log_dialog_message">Znalazłeś problem? Utwórz zgłoszenie na GitHubie:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nZapisz dziennik jako plik lub udostępnij go, a następnie dołącz plik do zgłoszenia — przeciągnij go do pola opisu.</string>
+    <string name="kast_perf_log_save">Zapisz plik</string>
+    <string name="kast_perf_log_share">Udostępnij</string>
+    <string name="kast_perf_log_close">Zamknij</string>
+    <string name="kast_perf_log_saved">Dziennik zapisany</string>
+    <string name="kast_perf_log_share_subject">KAST — dziennik wydajności</string>
 </resources>

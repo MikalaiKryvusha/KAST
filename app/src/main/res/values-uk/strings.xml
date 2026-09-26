@@ -284,4 +284,12 @@
     <string name="perf_overlay_hostprocessinglatency">Затримка обробки хостом мін./макс./середня: %1$.1f/%2$.1f/%3$.1f мс</string>
     <string name="title_enable_commit_text">Увімкнути commit-text ввід (свайп/голос)</string>
     <string name="summary_enable_commit_text">Пересилати багато-символьний текст з екранних клавіатур (жестове введення, підказки, голосовий ввід). Може порушити ігри, що покладаються на посимвольне введення.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Журнал продуктивності</string>
+    <string name="kast_perf_log_dialog_message">Знайшли проблему? Створіть тікет на GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nЗбережіть журнал файлом або поділіться ним, потім додайте файл до тікета — перетягніть його в поле опису.</string>
+    <string name="kast_perf_log_save">Зберегти файл</string>
+    <string name="kast_perf_log_share">Поділитися</string>
+    <string name="kast_perf_log_close">Закрити</string>
+    <string name="kast_perf_log_saved">Журнал збережено</string>
+    <string name="kast_perf_log_share_subject">KAST — журнал продуктивності</string>
 </resources>

@@ -638,4 +638,12 @@
     <!-- New Strings -->
     <string name="title_enable_commit_text">Bật nhập commit-text (vuốt/giọng nói)</string>
     <string name="summary_enable_commit_text">Chuyển tiếp văn bản nhiều ký tự từ bàn phím ảo (gõ vuốt, gợi ý, nhập giọng nói). Có thể gây lỗi với trò chơi yêu cầu nhập từng phím.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Nhật ký hiệu năng</string>
+    <string name="kast_perf_log_dialog_message">Bạn gặp sự cố? Hãy tạo ticket trên GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nLưu nhật ký thành tệp hoặc chia sẻ, rồi đính kèm tệp vào ticket — kéo tệp vào ô mô tả.</string>
+    <string name="kast_perf_log_save">Lưu tệp</string>
+    <string name="kast_perf_log_share">Chia sẻ</string>
+    <string name="kast_perf_log_close">Đóng</string>
+    <string name="kast_perf_log_saved">Đã lưu nhật ký</string>
+    <string name="kast_perf_log_share_subject">KAST — nhật ký hiệu năng</string>
 </resources>

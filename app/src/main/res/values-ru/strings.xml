@@ -320,9 +320,6 @@
     <string name="pair_otp_pairing_msg">Сопряжение, подождите…</string>
     <string name="pair_passphrase_hint">Пароль</string>
     <string name="pair_pin_length_msg">PIN должен состоять из 4 цифр</string>
-    <string name="email_subject">Artemistics - журнал производительности</string>
-    <string name="email_chooser_title">Отправить журнал производительности...</string>
-    <string name="toast_no_email_clients">Почтовые клиенты не установлены.</string>
     <string name="applist_menu_start_vdisplay">Запустить в виртуальном дисплее</string>
     <string name="applist_menu_quit_and_start_vdisplay">Завершить игру и запустить в виртуальном дисплее</string>
     <string name="category_general_settings">Общие настройки</string>
@@ -645,7 +642,6 @@
     <string name="rename">Переименовать</string>
     <string name="save">Сохранить</string>
     <string name="perf_overlay_drawdelay">" Задержка: %1$.2f мс"</string>
-    <string name="email_prefix_message">"\n        Пожалуйста отправьте это письмо как есть на artemistics.logs@gmail.com чтобы поддержать сообщество. \n\n        Ваши данные о производительности помогут улучшить и расширить набор данных по ссылке: \n\n        https://tinyurl.com/artemis-performance       "</string>
     <string name="title_checkbox_remember_mouse_mode">Запоминать режим мыши</string>
     <string name="title_enable_rumble">Включить вибрацию</string>
     <string name="title_prevent_packet_loss">Предотвращать потерю пакетов</string>
@@ -676,4 +672,12 @@
     <string name="render_mode_2d">По умолчанию 2D</string>
     <string name="title_checkbox_full_screen">Включить полноэкранный режим</string>
     <string name="summary_checkbox_full_screen">Скрывать системные панели в режиме погружения</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Журнал производительности</string>
+    <string name="kast_perf_log_dialog_message">Нашли проблему? Заведите тикет на GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nСохраните журнал файлом или поделитесь им, затем приложите файл к тикету — перетащите его в поле описания.</string>
+    <string name="kast_perf_log_save">Сохранить файл</string>
+    <string name="kast_perf_log_share">Поделиться</string>
+    <string name="kast_perf_log_close">Закрыть</string>
+    <string name="kast_perf_log_saved">Журнал сохранён</string>
+    <string name="kast_perf_log_share_subject">KAST — журнал производительности</string>
 </resources>

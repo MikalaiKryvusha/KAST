@@ -773,47 +773,18 @@ public class StreamSettings extends AppCompatActivity {
                 _pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
+                        // KAST (bugs/04, the owner's decision 2026-09-26): a modal dialog — save the log as a file or
+                        // share it with the standard Android chooser, and file a ticket in the KAST issues on GitHub.
+                        // The log is addressed to nobody: the Artemis collection e-mail is gone. [TESTED 2026-09-26, Titan: dialog, Share, Save, link]
                         Context context = preference.getContext();
-                        PerformanceDataTracker tracker = new PerformanceDataTracker();
-                        String logs = tracker.getLog(context);
+                        String logs = new PerformanceDataTracker().getLog(context);
 
                         if (logs == null || logs.trim().isEmpty()) {
                             Toast.makeText(context, context.getString(R.string.toast_no_logs), Toast.LENGTH_SHORT).show();
                             return false;
                         }
 
-                        String prefixMessage = context.getString(R.string.email_prefix_message);
-                        String emailRecipient = context.getString(R.string.email_recipient);
-                        String emailSubject = context.getString(R.string.email_subject);
-                        String chooserTitle = context.getString(R.string.email_chooser_title);
-                        String noEmailClientsMsg = context.getString(R.string.toast_no_email_clients);
-
-                        try {
-                            File cacheDir = context.getCacheDir();
-                            File logFile = new File(cacheDir, "artemistics_logs.txt");
-                            try (FileOutputStream fos = new FileOutputStream(logFile)) {
-                                fos.write(logs.getBytes(StandardCharsets.UTF_8));
-                            }
-
-                            Uri logFileUri = FileProvider.getUriForFile(context,
-                                    context.getPackageName() + ".fileprovider",
-                                    logFile);
-
-                            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                            emailIntent.setType("text/plain");
-                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailRecipient});
-                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
-                            emailIntent.putExtra(Intent.EXTRA_TEXT, prefixMessage);
-                            emailIntent.putExtra(Intent.EXTRA_STREAM, logFileUri);
-
-                            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                            context.startActivity(Intent.createChooser(emailIntent, chooserTitle));
-                        } catch (IOException e) {
-                            Log.d("PerformanceDataTracker", "Error creating log file");
-                        } catch (android.content.ActivityNotFoundException ex) {
-                            Toast.makeText(context, noEmailClientsMsg, Toast.LENGTH_SHORT).show();
-                        }
+                        showPerformanceLogDialog(context, logs);
                         return false;
                     }
                 });
@@ -994,10 +965,83 @@ public class StreamSettings extends AppCompatActivity {
 
         int READ_REQUEST_CODE = 1001;
         int READ_REQUEST_SPECIAL_CODE = 1002;
+        // KAST (bugs/04): the "save the performance log" system dialog
+        int SAVE_PERF_LOG_REQUEST_CODE = 1003;
+
+        // KAST (bugs/04): the performance-log dialog — where to file a ticket, and two ways to get the log out.
+        private void showPerformanceLogDialog(Context context, String logs) {
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(context)
+                    .setTitle(R.string.kast_perf_log_dialog_title)
+                    .setMessage(R.string.kast_perf_log_dialog_message)
+                    .setPositiveButton(R.string.kast_perf_log_share, (d, which) -> sharePerformanceLog(context, logs))
+                    .setNeutralButton(R.string.kast_perf_log_save, (d, which) -> savePerformanceLog())
+                    .setNegativeButton(R.string.kast_perf_log_close, null)
+                    .create();
+            dialog.show();
+
+            // Make the GitHub address in the message tappable
+            android.widget.TextView message = dialog.findViewById(android.R.id.message);
+            if (message != null) {
+                android.text.util.Linkify.addLinks(message, android.text.util.Linkify.WEB_URLS);
+                message.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+            }
+        }
+
+        // KAST (bugs/04): the standard Android share sheet with the log as a file; no recipient.
+        private void sharePerformanceLog(Context context, String logs) {
+            try {
+                File logFile = new File(context.getCacheDir(), "kast_performance_log.txt");
+                try (FileOutputStream fos = new FileOutputStream(logFile)) {
+                    fos.write(logs.getBytes(StandardCharsets.UTF_8));
+                }
+                Uri logFileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", logFile);
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.kast_perf_log_share_subject));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, logFileUri);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.kast_perf_log_share)));
+            } catch (IOException | android.content.ActivityNotFoundException e) {
+                Log.d("PerformanceDataTracker", "Error sharing the performance log: " + e);
+                Toast.makeText(context, context.getString(R.string.pref_error_occurred) + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // KAST (bugs/04): the system "Save as" dialog; the file is written in onActivityResult.
+        private void savePerformanceLog() {
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("text/plain");
+            String stamp = new java.text.SimpleDateFormat("yyyyMMdd-HHmm", java.util.Locale.US).format(new java.util.Date());
+            intent.putExtra(Intent.EXTRA_TITLE, "kast_performance_log_" + stamp + ".txt");
+            // Android TV builds may have no system "Save as" screen; the message replaces a crash there [NOT-TESTED: TV]
+            try {
+                startActivityForResult(intent, SAVE_PERF_LOG_REQUEST_CODE);
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(getActivity(), getString(R.string.pref_error_occurred) + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == SAVE_PERF_LOG_REQUEST_CODE) {
+                // KAST (bugs/04): the log is read again here — no state survives a recreated fragment
+                if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+                    String logs = new PerformanceDataTracker().getLog(requireContext());
+                    try (java.io.OutputStream out = requireActivity().getContentResolver().openOutputStream(data.getData())) {
+                        if (out == null) {
+                            throw new IOException("no output stream");
+                        }
+                        out.write(logs.getBytes(StandardCharsets.UTF_8));
+                        Toast.makeText(getActivity(), getString(R.string.kast_perf_log_saved), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), getString(R.string.pref_error_occurred) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return;
+            }
             if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData() != null) {
                 try {
                     Uri uri = data.getData();

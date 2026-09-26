@@ -136,16 +136,7 @@
     <string name="perf_overlay_drawdelay"> Delay: %1$.2f ms</string>
 
     <!-- Performance Report Sharing -->
-    <string name="email_prefix_message">
-        Please send this email as-is to artemistics.logs@gmail.com to support the community.\n
-        Your shared performance data will help improve and expand the dataset available at:\n
-        https://tinyurl.com/artemis-performance\n\n
-    </string>
 
-    <string name="email_recipient">artemistics.logs@gmail.com</string>
-    <string name="email_subject">Artemistics - Performance Log</string>
-    <string name="email_chooser_title">Send performance log...</string>
-    <string name="toast_no_email_clients">No email clients installed.</string>
     <string name="toast_no_logs">There is no performance data stored yet.</string>
 
     <!-- AppList activity -->
@@ -743,4 +734,12 @@
 
     <string name="title_checkbox_full_screen">Enable Full Screen</string>
     <string name="summary_checkbox_full_screen">Hide system bars with immersive mode</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Performance log</string>
+    <string name="kast_perf_log_dialog_message">Found a problem? File a ticket on GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSave the log as a file or share it, then attach the file to the ticket — drag it into the description field.</string>
+    <string name="kast_perf_log_save">Save file</string>
+    <string name="kast_perf_log_share">Share</string>
+    <string name="kast_perf_log_close">Close</string>
+    <string name="kast_perf_log_saved">Log saved</string>
+    <string name="kast_perf_log_share_subject">KAST performance log</string>
 </resources>

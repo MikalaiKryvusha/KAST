@@ -212,4 +212,12 @@
     <string name="error_code_prefix">Kode galat:</string>
     <string name="title_enable_commit_text">Aktifkan input commit-text (geser/suara)</string>
     <string name="summary_enable_commit_text">Meneruskan teks multi-karakter dari papan ketik lunak (gestur geser, prediksi, dikte suara). Mungkin menyebabkan masalah pada gim yang bergantung pada input per tombol.</string>
+    <!-- KAST (bugs/04): the performance-log dialog -->
+    <string name="kast_perf_log_dialog_title">Log performa</string>
+    <string name="kast_perf_log_dialog_message">Menemukan masalah? Buat tiket di GitHub:\nhttps://github.com/MikalaiKryvusha/KAST/issues\n\nSimpan log sebagai file atau bagikan, lalu lampirkan file ke tiket — seret ke kolom deskripsi.</string>
+    <string name="kast_perf_log_save">Simpan file</string>
+    <string name="kast_perf_log_share">Bagikan</string>
+    <string name="kast_perf_log_close">Tutup</string>
+    <string name="kast_perf_log_saved">Log disimpan</string>
+    <string name="kast_perf_log_share_subject">KAST — log performa</string>
 </resources>
