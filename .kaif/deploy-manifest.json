@@ -4134,7 +4134,7 @@
   },
   "fills": {
     "<BUILD_COMMAND>": "gradlew.bat :app:assembleNonRoot_gameDebug — the full line with JDK/SDK/cache: HOUSE_RULES.md → \"Tools of this project\"",
-    "<TEST_HARNESS>": "gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (D:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands)",
+    "<TEST_HARNESS>": "gradlew.bat :app:testNonRoot_gameDebugUnitTest (Robolectric JVM tests) + the real device over adb (C:/Android/Sdk/platform-tools/adb.exe, logcat; HOUSE_RULES.md → Stands)",
     "<YOUR AGENT/MODEL>": "Claude Opus 5.5 (1M context)",
     "<YOUR AGENT'S noreply EMAIL>": "Opus 5.5 (1M context) <noreply@anthropic.com>"
   },

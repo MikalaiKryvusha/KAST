@@ -105,7 +105,7 @@ class: shell-lied
 this cmdline-tools release `sdkmanager` is only a deprecated shim over the new Android CLI. ✅ `android.exe sdk install
 platforms/android-36 ndk/27.0.12077973 build-tools/35.0.0` — package names use `/`, and `android.exe` is a real exe (no cmd layer).
 **Lesson:** with cmdline-tools ≥ 2026 use `android.exe sdk install|list`, names with `/`; never pass `;`-names through a `.bat`.
-**Repro:** `D:\Android\Sdk\cmdline-tools\latest\bin\android.exe --sdk=D:\Android\Sdk sdk list` — lists installed packages in the `/` form.
+**Repro:** `C:\Android\Sdk\cmdline-tools\latest\bin\android.exe --sdk=C:\Android\Sdk sdk list` — lists installed packages in the `/` form.
 **Trigger:** installing or updating any Android SDK package → `android.exe sdk install <name/version>`.
 **Not for:** an old cmdline-tools (before the Android CLI), where `sdkmanager` with `;`-names still works if called from cmd itself.
 subject-lesson
@@ -115,9 +115,9 @@ class: escaping-layer
 **Context:** writing `local.properties` (`sdk.dir`) from Git Bash.
 **Tried / did:** `printf 'sdk.dir=D\\:\\\\Android\\\\Sdk\n' > local.properties`.
 **Result:** ❌ the file got `sdk.dir=D\:\Android\Sdk` — one escaping level lost; Java properties would read `D:AndroidSdk`. ✅ the
-Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
+Write tool with the literal text `sdk.dir=C\:\\Android\\Sdk`.
 **Lesson:** a file whose content has backslashes is written by the file tool, not by the shell (AGENT_GUIDE → text travels through files).
-**Repro:** `cat local.properties` must show `sdk.dir=D\:\\Android\\Sdk` (two backslashes between path parts).
+**Repro:** `cat local.properties` must show `sdk.dir=C\:\\Android\\Sdk` (two backslashes between path parts).
 **Trigger:** writing any file containing `\` → Write tool, then read the file back.
 **Not for:** content without backslashes or other escape characters.
 **Recurred:** 2026-09-26, minutes after this entry — `sed -i "s#...C:\\\\Program Files...#"` on a build script produced
@@ -125,8 +125,8 @@ Write tool with the literal text `sdk.dir=D\:\\Android\\Sdk`.
 matched nothing (caught by grepping the line back). Two strikes → candidate guard: a PreToolUse hook that
 refuses a Bash `sed -i`/`printf >`/`echo >` whose text carries `\\` — later built for heredoc bodies (below).
 mechanized: tools/hooks/no-backslash-heredoc.mjs — heredoc bodies only (wired 2026-09-26 by the owner, `.claude/settings.json` in 849319dd; live refusal seen); backslashes in command ARGUMENTS (`sed -i`, `printf` — repeats 1 and 2) stay with the Trigger line + read-back
-**Recurred (4th):** 2026-09-26 ≈16:10 — a `node - <<'EOF'` script with `'$env:…; python D:\\Android\\…'` arrived as
-`D:\Android\…` and died on `\A` (Invalid Unicode escape); caught by the error, rewritten through the Write tool.
+**Recurred (4th):** 2026-09-26 ≈16:10 — a `node - <<'EOF'` script with `'$env:…; python C:\\Android\\…'` arrived as
+`C:\Android\…` and died on `\A` (Invalid Unicode escape); caught by the error, rewritten through the Write tool.
 **Guard written:** `tools/hooks/no-backslash-heredoc.mjs` (the logic of the owner's KUMM guard), self-test
 `node tools/test-hook-guards.mjs` 14/14, proven red on a pass-all mutant (7/14, exit 1). Wired: 2026-09-26 by the owner's
 script `F:\kast-maintenance\kast_wire_hooks.cmd` (plan 05, step 2); live, the harness refused a heredoc with

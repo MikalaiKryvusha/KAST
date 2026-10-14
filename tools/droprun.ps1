@@ -19,7 +19,7 @@ param(
     [int]$Seconds = 20,
     [string]$Serial = '100.99.111.48:36713',
     [string]$Package = 'com.limelight.kastdebug',
-    [string]$EvidenceRoot = 'D:\Android\private\evidence',
+    [string]$EvidenceRoot = 'C:\Android\private\evidence',
     [int]$SettleSeconds = 8,
     # Seconds after the start of the loss at which the DEVICE itself takes a screenshot (adb is down during the
     # loss); 0 = none. The file is pulled after the run straight into WebP and removed from the device.
@@ -27,7 +27,7 @@ param(
 )
 
 $ErrorActionPreference = 'Continue'
-$adb = 'D:\Android\Sdk\platform-tools\adb.exe'
+$adb = 'C:\Android\Sdk\platform-tools\adb.exe'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $dir = Join-Path $EvidenceRoot ((Get-Date -Format 'yyyyMMdd-HHmmss') + "-drop$Seconds")
 New-Item -ItemType Directory -Force $dir | Out-Null
