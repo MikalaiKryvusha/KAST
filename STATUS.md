@@ -49,7 +49,8 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
   `control_peer_timeout = 60000`); копия официального файла — `C:\Program Files\Apollo\sunshine.exe.official-2.0.0-beta.3`;
 - откат: `Stop-Service ApolloService` → копия официального файла на место `sunshine.exe` → `Start-Service ApolloService`;
 - исходники: клон `D:\work\ai_sandbox\Vibepollo`, ветка `kast/control-peer-timeout`, коммит `9ad4e7e`; сборка — `build-kast2`
-  (MSYS2 в `D:\msys64`); все грабли сборки и установщика — план 01;
+  (MSYS2 был в `D:\msys64` — удалён владельцем 2026-10-15, перед пересборкой поставить заново по шагу 1 плана 01);
+  все грабли сборки и установщика — план 01;
 - **каждое обновление Vibepollo затирает наш `sunshine.exe`** — пересборка и подмена по плану 01 (до ответа автора в #522);
 - строка `Control peer timeout set to 60000 ms` появляется при каждом подключении; сессия с Mac продержалась 19+ минут
   без разрывов; сервер держит молчащего клиента ≈59,7 с (`Ping Timeout`, эталон Ф1); откат не проверялся;
