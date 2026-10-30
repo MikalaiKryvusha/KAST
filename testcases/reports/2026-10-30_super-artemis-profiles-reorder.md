@@ -63,7 +63,8 @@ none
 
 ## 6. Traces
 
-`reports/sa-profiles-reorder/`: `titan_before.webp`, `titan_after_drag.webp`, `titan_tap_opens_editor.webp`,
+`C:\Android\private\evidence\2026-10-30_sa-profiles-vibepollo\`: `titan_before.webp`, `titan_after_drag.webp`,
+`titan_tap_opens_editor.webp` (full screens with the status bar, outside git); `reports/sa-profiles-reorder/`:
 `titan_profiles_reorder_before_after.webp` (cropped pair for the PR); test results
 `D:\work\ai_sandbox\_forks\Super-Artemis\app\build\test-results\testNonRoot_gameDebugUnitTest\`.
 
