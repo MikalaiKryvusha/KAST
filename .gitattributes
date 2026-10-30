@@ -1,0 +1,2 @@
+# Shell scripts run in Git Bash: CRLF from core.autocrlf would break them
+*.sh text eol=lf
