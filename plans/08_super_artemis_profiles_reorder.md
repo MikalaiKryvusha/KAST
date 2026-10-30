@@ -2,7 +2,7 @@
 
 > **Created:** 2026-10-30 · **Parent:** Super Artemis issue https://github.com/Arora-Sir/Super-Artemis/issues/4 (maintainer:
 > "A PR for this would be very welcome"); owner's word in chat 2026-10-30 ≈22:25 +03:00 — «1 берем, делаем», «на все отдельный ПР делаем»
-> · **Status:** 🔧 in progress · **Outbound:** a PR to `Arora-Sir/Super-Artemis` from branch `feature/profiles-reorder` (pushed to
+> · **Status:** 🔧 steps 1–5 done 2026-10-30 22:50 +03:00 (commit 8100a6d8 in the fork, run report testcases/reports/2026-10-30_super-artemis-profiles-reorder.md); PR — awaiting the maintainer · **Outbound:** a PR to `Arora-Sir/Super-Artemis` from branch `feature/profiles-drag-reorder` (pushed to
 > the `kast` remote, like PR #8)
 
 ## Goal vector (Achieve)
@@ -38,13 +38,14 @@ the drag in the middle. The order is saved once per drag, as the special keys ma
 
 ## Steps
 
-- [ ] 1. `ProfilesManager.move(int from, int to)` — rebuild the `LinkedHashMap` in the new order via `DragReorder.moveItem`.
-- [ ] 2. `row_profile.xml` — a drag handle (`ic_sa_drag_indicator`, description `@string/game_menu_editor_drag`) at the start of
+- [x] 1. `ProfilesManager.move(int from, int to)` — rebuild the `LinkedHashMap` in the new order via `DragReorder.moveItem`.
+- [x] 2. `row_profile.xml` — a drag handle (`ic_sa_drag_indicator`, description `@string/game_menu_editor_drag`) at the start of
       the row, as in `custom_key_row.xml`; no new strings.
-- [ ] 3. `ProfilesAdapter` — handle touch starts the drag; `ProfilesActivity` attaches `DragReorder` (long press on) and saves on
+- [x] 3. `ProfilesAdapter` — handle touch starts the drag; `ProfilesActivity` attaches `DragReorder` (long press on) and saves on
       drag end.
-- [ ] 4. Unit test in `ProfilesManagerTest` (order survives save + reload; move to the end), proven red on a no-op `move`.
-- [ ] 5. Build the debug APK, install on Titan and S21 FE, walk criteria 1, 2, 4; screenshots WebP; run report in `testcases/reports/`.
+- [x] 4. Unit test in `ProfilesManagerTest` (order survives save + reload; move to the end), proven red on a no-op `move`.
+- [x] 5. Build the debug APK, install on Titan and S21 FE, walk criteria 1, 2, 4; screenshots WebP; run report in `testcases/reports/`.
+      Done on Titan only: S21 FE was not connected (2026-10-30, the owner on the road).
 - [ ] 6. Commit in the fork branch, push to `kast`, open the PR (references #4), English text, screenshots.
 
 ## Risks
