@@ -294,6 +294,25 @@ public class ControllerHandler implements InputManager.InputDeviceListener, UsbD
         deviceVibrator.cancel();
     }
 
+    // A resumed session on the host is a new session: every controller that has a number tells the host again what it is
+    public void announceControllersAgain() {
+        if (stopped) {
+            return;
+        }
+        for (int i = 0; i < inputDeviceContexts.size(); i++) {
+            InputDeviceContext deviceContext = inputDeviceContexts.valueAt(i);
+            if (deviceContext.assignedControllerNumber) {
+                deviceContext.sendControllerArrival();
+            }
+        }
+        for (int i = 0; i < usbDeviceContexts.size(); i++) {
+            UsbDeviceContext deviceContext = usbDeviceContexts.valueAt(i);
+            if (deviceContext.assignedControllerNumber) {
+                deviceContext.sendControllerArrival();
+            }
+        }
+    }
+
     public void destroy() {
         if (!stopped) {
             stop();

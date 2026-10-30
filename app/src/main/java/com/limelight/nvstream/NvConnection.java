@@ -51,6 +51,7 @@ public class NvConnection {
     private static Semaphore connectionAllowed = new Semaphore(1);
     private final boolean isMonkey;
     private final Context appContext;
+    private volatile boolean started; // start() ran at least once, so a later start needs a new remote input key
 
     public NvConnection(Context appContext, ComputerDetails.AddressTuple host, int httpsPort, String uniqueId, StreamConfiguration config, LimelightCryptoProvider cryptoProvider, X509Certificate serverCert)
     {
@@ -389,6 +390,14 @@ public class NvConnection {
     {
         new Thread(new Runnable() {
             public void run() {
+                // NOTE: A fresh remote input key for every start. The resume loop in Game starts the same NvConnection again, and the core
+                // NOTE: restarts its AES-GCM IV counter with every connection, so one key with the same IVs in two sessions would let an
+                // NOTE: observer of both forge input messages. The first start keeps the key made in the constructor.
+                if (started) {
+                    context.riKey = generateRiAesKey();
+                    context.riKeyId = generateRiKeyId();
+                }
+                started = true;
                 context.connListener = connectionListener;
                 context.videoCapabilities = videoDecoderRenderer.getCapabilities();
 

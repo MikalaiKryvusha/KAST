@@ -16,6 +16,7 @@ import com.limelight.menu.QuickActionBar;
 import com.limelight.session.BackgroundPolicy;
 import com.limelight.session.CallModeWatcher;
 import com.limelight.session.PipGuard;
+import com.limelight.session.ResumePolicy;
 import com.limelight.session.ResumeStore;
 import com.limelight.binding.audio.AndroidAudioRenderer;
 import com.limelight.binding.audio.MicrophoneCaptureManager;
@@ -259,6 +260,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
     private TextView performanceOverlayBig;
 
     private MediaCodecDecoderRenderer decoderRenderer;
+    // The inputs of the first decoder, kept for the decoders of resume attempts
+    private boolean decoderMetered;
+    private boolean decoderHdr;
+    private boolean decoderInvertResolution;
+    private String decoderGlRenderer;
     private boolean reportedCrash;
     private MicrophoneCaptureManager microphoneCaptureManager;
     private MicrophoneStateStore microphoneStateStore;
@@ -375,6 +381,69 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             }
         }
     };
+
+    // NOTE: Builds the video decoder with the inputs onCreate worked out. A stopped MediaCodecDecoderRenderer cannot start again,
+    // NOTE: so the resume loop calls this for every attempt.
+    private MediaCodecDecoderRenderer createDecoderRenderer() {
+        MediaCodecDecoderRenderer renderer = new MediaCodecDecoderRenderer(
+                this,
+                prefConfig,
+                new CrashListener() {
+                    @Override
+                    public void notifyCrash(Exception e) {
+                        // The MediaCodec instance is going down due to a crash
+                        // let's tell the user something when they open the app again
+
+                        // We must use commit because the app will crash when we return from this function
+                        tombstonePrefs.edit().putInt("CrashCount", tombstonePrefs.getInt("CrashCount", 0) + 1).commit();
+                        reportedCrash = true;
+                    }
+                },
+                tombstonePrefs.getInt("CrashCount", 0),
+                decoderMetered,
+                decoderHdr,
+                decoderInvertResolution,
+                decoderGlRenderer,
+                this);
+
+// --- Force tight thresholds (prefConfig.forceTightThresholds) ---
+        try {
+            boolean forceTight = false;
+            if (prefConfig != null) {
+                try {
+                    java.lang.reflect.Field f = prefConfig.getClass().getDeclaredField("forceTightThresholds");
+                    f.setAccessible(true);
+                    Object v = f.get(prefConfig);
+                    if (v instanceof Boolean) forceTight = (Boolean) v;
+                } catch (Throwable ignored) {}
+            }
+            try { renderer.setForceTightThresholds(forceTight); } catch (Throwable ignored) {}
+            if (forceTight) {
+                LimeLog.info("ForceTightThresholds enabled: using vsync-based thresholds on all devices");
+            }
+        } catch (Throwable ignored) {}
+
+// --- latency profile selection ---
+        // NB: this must not touch prefConfig.framePacing. Forcing BALANCED sent every
+        // stream through the Choreographer path, which delivers vsync callbacks at 60 Hz
+        // on some devices and rendered 120 FPS streams at exactly 60. v20.2.6 only ever
+        // overrides framePacing in the CAP_FPS fallback below, and the user's choice is
+        // otherwise honoured.
+        try {
+            if (prefConfig != null && prefConfig.preferLowerDelays) {
+                // Intermediate: more responsive than Balanced but not 0 µs
+                renderer.setPreferLowerDelays(true);
+                renderer.setPreferLowerDelaysTimeoutUs(500);  // 0.5 ms
+                LimeLog.info("PreferLowerDelays: preferLowerDelays=true, timeout=500us");
+            } else {
+                renderer.setPreferLowerDelays(false);
+                renderer.setPreferLowerDelaysTimeoutUs(2000); // 2 ms
+                LimeLog.info("PreferLowerDelays: preferLowerDelays=false, timeout=2000us");
+            }
+            LimeLog.info("Frame pacing: " + prefConfig.framePacing);
+        } catch (Throwable ignored) {}
+        return renderer;
+    }
 
     private final Runnable backgroundPing = () -> {
         if (connected) {
@@ -695,63 +764,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             }
         }
 
-        decoderRenderer = new MediaCodecDecoderRenderer(
-                this,
-                prefConfig,
-                new CrashListener() {
-                    @Override
-                    public void notifyCrash(Exception e) {
-                        // The MediaCodec instance is going down due to a crash
-                        // let's tell the user something when they open the app again
-
-                        // We must use commit because the app will crash when we return from this function
-                        tombstonePrefs.edit().putInt("CrashCount", tombstonePrefs.getInt("CrashCount", 0) + 1).commit();
-                        reportedCrash = true;
-                    }
-                },
-                tombstonePrefs.getInt("CrashCount", 0),
-                connMgr.isActiveNetworkMetered(),
-                willStreamHdr,
-                shouldInvertDecoderResolution,
-                glPrefs.glRenderer,
-                this);
-
-// --- Force tight thresholds (prefConfig.forceTightThresholds) ---
-        try {
-            boolean forceTight = false;
-            if (prefConfig != null) {
-                try {
-                    java.lang.reflect.Field f = prefConfig.getClass().getDeclaredField("forceTightThresholds");
-                    f.setAccessible(true);
-                    Object v = f.get(prefConfig);
-                    if (v instanceof Boolean) forceTight = (Boolean) v;
-                } catch (Throwable ignored) {}
-            }
-            try { decoderRenderer.setForceTightThresholds(forceTight); } catch (Throwable ignored) {}
-            if (forceTight) {
-                LimeLog.info("ForceTightThresholds enabled: using vsync-based thresholds on all devices");
-            }
-        } catch (Throwable ignored) {}
-
-// --- latency profile selection ---
-        // NB: this must not touch prefConfig.framePacing. Forcing BALANCED sent every
-        // stream through the Choreographer path, which delivers vsync callbacks at 60 Hz
-        // on some devices and rendered 120 FPS streams at exactly 60. v20.2.6 only ever
-        // overrides framePacing in the CAP_FPS fallback below, and the user's choice is
-        // otherwise honoured.
-        try {
-            if (prefConfig != null && prefConfig.preferLowerDelays) {
-                // Intermediate: more responsive than Balanced but not 0 µs
-                decoderRenderer.setPreferLowerDelays(true);
-                decoderRenderer.setPreferLowerDelaysTimeoutUs(500);  // 0.5 ms
-                LimeLog.info("PreferLowerDelays: preferLowerDelays=true, timeout=500us");
-            } else {
-                decoderRenderer.setPreferLowerDelays(false);
-                decoderRenderer.setPreferLowerDelaysTimeoutUs(2000); // 2 ms
-                LimeLog.info("PreferLowerDelays: preferLowerDelays=false, timeout=2000us");
-            }
-            LimeLog.info("Frame pacing: " + prefConfig.framePacing);
-        } catch (Throwable ignored) {}
+        // The resume loop builds a fresh decoder for every attempt from the same inputs
+        decoderMetered = connMgr.isActiveNetworkMetered();
+        decoderHdr = willStreamHdr;
+        decoderInvertResolution = shouldInvertDecoderResolution;
+        decoderGlRenderer = glPrefs.glRenderer;
+        decoderRenderer = createDecoderRenderer();
 
 // Don't stream HDR if the decoder can't support it
         if (willStreamHdr && !decoderRenderer.isHevcMain10Hdr10Supported() && !decoderRenderer.isAv1Main10Supported()) {
@@ -3810,7 +3828,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             notificationOverlayView.animate().cancel();
             notificationOverlayView.setVisibility(View.GONE);
         }
-        if (connecting || connected) {
+        // Leaving ends the resume loop too. Between attempts the core holds no connection, so only the stream end notice and the quit run.
+        final boolean wasResuming = cancelResume();
+        stopPhoneNetworkWatch();
+        if (connecting || connected || wasResuming) {
+            final boolean holdsConnection = connecting || connected;
             connecting = connected = false;
             updatePipAutoEnter();
 
@@ -3826,7 +3848,9 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
             // during the process of stopping this one.
             new Thread() {
                 public void run() {
-                    conn.stop();
+                    if (holdsConnection) {
+                        conn.stop();
+                    }
                     if (httpConn != null && quitOnStop) {
                         try {
                             sleep(1000);
@@ -3984,12 +4008,29 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public boolean stageFailed(final String stage, final int portFlags, final int errorCode) {
+        // A failed resume attempt (the host refused /resume, did not answer, RTSP failed) is not the end while the grace period lasts.
+        // NvConnection has released the core by itself on this path, so the connection is not stopped here.
+        if (resuming || resumeAttemptInFlight) {
+            LimeLog.info(RESUME_TAG + ": attempt=" + resumeAttempt + " failed stage=" + stage + " code=" + errorCode +
+                    (resuming ? "" : " after the loop ended"));
+            runOnUiThread(() -> {
+                resumeAttemptInFlight = false;
+                if (resuming) {
+                    connecting = false;
+                    scheduleResumeAttempt();
+                }
+            });
+            return false;
+        }
+
         // Perform a connection test if the failure could be due to a blocked port
         // This does network I/O, so don't do it on the main thread.
         final int portTestResult = MoonBridge.testClientConnectivity(ServerHelper.CONNECTION_TEST_SERVER, 443, portFlags);
 
         if (errorCode == 0 && portFlags != 0 && (portTestResult == MoonBridge.ML_TEST_RESULT_INCONCLUSIVE || portTestResult == 0)) {
-            spinner.setMessage(getResources().getString(R.string.unlocking_or_starting));
+            if (spinner != null) {
+                spinner.setMessage(getResources().getString(R.string.unlocking_or_starting));
+            }
             return true;
         }
 
@@ -4068,6 +4109,12 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // A transport death inside the grace period is resumed, and nothing below runs
+                LimeLog.info(RESUME_TAG + ": end code=" + errorCode + " silentBefore=" + (networkDropStartMs != 0));
+                if (resumeOnTermination(errorCode)) {
+                    return;
+                }
+
                 // Let the display go to sleep now
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -4082,7 +4129,8 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                     displayedFailureDialog = true;
                     LimeLog.severe("Connection terminated: " + errorCode);
                     // Reconnect is offered only when a stream was running, not when the first connection failed
-                    final boolean wasStreaming = connected;
+                    // A stream that the resume loop gave up on was running too
+                    final boolean wasStreaming = connected || resumeGaveUp;
                     stopConnection();
 
                     // Display the error dialog if it was an unexpected termination.
@@ -4188,6 +4236,208 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
         }
     }
 
+    // NOTE: The resume loop. When the transport dies inside the grace period, the stream screen stays with the last frame and the drop label,
+    // NOTE: the dead connection is released and the same NvConnection starts again with a fresh decoder. NvConnection.startApp picks /resume,
+    // NOTE: because the host keeps the app running. An attempt waits ResumePolicy.retryDelayMs, or starts at once when the phone's network
+    // NOTE: comes back. Past the grace period the usual end runs with the first cause. The controller handler is not stopped on this path,
+    // NOTE: because its stop() cannot be undone (based on KAST, MikalaiKryvusha/KAST).
+    private static final String RESUME_TAG = "ResumeLoop";
+    private static final int RESUME_TICK_MS = 500;
+    private volatile boolean resuming;
+    // conn.start of an attempt runs and has not reported yet. With resuming false it is an attempt that outlived its loop.
+    private volatile boolean resumeAttemptInFlight;
+    private boolean resumeGaveUp;
+    private int resumeAttempt;
+    private int resumeCause;
+    private final java.util.Random resumeRandom = new java.util.Random();
+    private ConnectivityManager.NetworkCallback phoneNetworkCallback;
+
+    // The grace clock and the label while resuming
+    private final Runnable resumeTick = new Runnable() {
+        @Override
+        public void run() {
+            if (!resuming) {
+                return;
+            }
+            long elapsed = android.os.SystemClock.elapsedRealtime() - networkDropStartMs;
+            if (!ResumePolicy.withinGrace(elapsed, prefConfig.networkGraceSeconds)) {
+                giveUpResume();
+                return;
+            }
+            notificationOverlayView.setText(getString(R.string.network_drop_waiting, (int) (elapsed / 1000)));
+            if (!isHidingOverlays) {
+                fadeStatusLabel(true, null);
+            }
+            timerHandler.postDelayed(this, RESUME_TICK_MS);
+        }
+    };
+
+    // One attempt: a fresh decoder on the same surface, the same NvConnection started again
+    private final Runnable resumeAttemptRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!resuming || resumeAttemptInFlight) {
+                return;
+            }
+            Surface surface = streamContainer.getSurface();
+            if (surface == null || !surface.isValid()) {
+                LimeLog.info(RESUME_TAG + ": no surface for an attempt");
+                giveUpResume();
+                return;
+            }
+            resumeAttempt++;
+            resumeAttemptInFlight = true;
+            connecting = true; // stopConnection stops this attempt if the user leaves
+            LimeLog.info(RESUME_TAG + ": attempt=" + resumeAttempt +
+                    " elapsed=" + (android.os.SystemClock.elapsedRealtime() - networkDropStartMs));
+            decoderRenderer = createDecoderRenderer();
+            decoderRenderer.setRenderTarget(surface);
+            conn.start(new AndroidAudioRenderer(Game.this, prefConfig.enableAudioFx), decoderRenderer, Game.this);
+        }
+    };
+
+    private void scheduleResumeAttempt() {
+        long delay = ResumePolicy.retryDelayMs(resumeAttempt + 1, resumeRandom.nextDouble());
+        timerHandler.removeCallbacks(resumeAttemptRunnable);
+        timerHandler.postDelayed(resumeAttemptRunnable, delay);
+        LimeLog.info(RESUME_TAG + ": next attempt in " + delay + " ms");
+    }
+
+    // The phone's network came back: try now instead of waiting
+    private void onPhoneNetworkAvailable() {
+        if (!resuming || resumeAttemptInFlight) {
+            return;
+        }
+        LimeLog.info(RESUME_TAG + ": network available, attempt now");
+        timerHandler.removeCallbacks(resumeAttemptRunnable);
+        timerHandler.post(resumeAttemptRunnable);
+    }
+
+    // Releases the connection that just ended off the UI thread, as stopConnection does, then plans the next attempt.
+    // connecting is cleared first, so a user leaving meanwhile never stops the same connection twice.
+    private void releaseAndRetry() {
+        connecting = false;
+        new Thread() {
+            public void run() {
+                conn.stop();
+                runOnUiThread(() -> {
+                    if (resuming) {
+                        scheduleResumeAttempt();
+                    }
+                });
+            }
+        }.start();
+    }
+
+    // UI thread, first thing in connectionTerminated. Returns true when the resume loop takes this end, so the stream screen stays.
+    private boolean resumeOnTermination(int errorCode) {
+        if (resuming) {
+            // The connection of an attempt ended (no video at start, or the transport died again): release it and try again
+            LimeLog.info(RESUME_TAG + ": attempt=" + resumeAttempt + " ended code=" + errorCode);
+            resumeAttemptInFlight = false;
+            releaseAndRetry();
+            return true;
+        }
+        boolean silentBefore = networkDropStartMs != 0;
+        long elapsed = silentBefore ? android.os.SystemClock.elapsedRealtime() - networkDropStartMs : 0;
+        if (resumeGaveUp || displayedFailureDialog || !ResumePolicy.isTransportDeath(errorCode, silentBefore)
+                || !ResumePolicy.withinGrace(elapsed, prefConfig.networkGraceSeconds)) {
+            return false;
+        }
+        resuming = true;
+        resumeCause = errorCode;
+        resumeAttempt = 0;
+        resumeAttemptInFlight = false;
+        timerHandler.removeCallbacksAndMessages(null); // the watchdog and the pings of the dead connection
+        connected = false;
+        stopMicrophoneCapture(); // started again by connectionStarted when the stream is back
+        LimeLog.info(RESUME_TAG + ": start cause=" + errorCode + " elapsed=" + elapsed);
+        timerHandler.post(resumeTick);
+        releaseAndRetry();
+        return true;
+    }
+
+    // The grace period ran out: the usual end takes over with the first cause
+    private void giveUpResume() {
+        LimeLog.info(RESUME_TAG + ": outcome=gave-up attempts=" + resumeAttempt +
+                " elapsed=" + (android.os.SystemClock.elapsedRealtime() - networkDropStartMs));
+        resuming = false;
+        resumeGaveUp = true;
+        timerHandler.removeCallbacks(resumeAttemptRunnable);
+        timerHandler.removeCallbacks(resumeTick);
+        leaveAttemptToFinish();
+        UiHelper.notifyStreamEnded(this);
+        final int cause = resumeCause;
+        new Thread() {
+            public void run() {
+                connectionTerminated(cause); // does network I/O (the port test), never on the UI thread
+            }
+        }.start();
+    }
+
+    // NOTE: The loop ended while an attempt still runs. The attempt is left to finish on its own and is disposed of where it reports
+    // NOTE: (stageFailed, connectionStarted). Stopping it from here would release the core's start semaphore that an attempt still in /resume
+    // NOTE: has not taken yet, and its late report must never reach the start-up handlers that expect the start spinner (a crash in KAST).
+    private void leaveAttemptToFinish() {
+        if (resumeAttemptInFlight) {
+            connecting = false; // stopConnection must not stop it
+            LimeLog.info(RESUME_TAG + ": attempt=" + resumeAttempt + " left to finish on its own");
+        }
+    }
+
+    // UI thread, first thing in stopConnection: the user left, or the activity stops, while resuming
+    private boolean cancelResume() {
+        if (!resuming) {
+            return false;
+        }
+        resuming = false;
+        timerHandler.removeCallbacks(resumeAttemptRunnable);
+        timerHandler.removeCallbacks(resumeTick);
+        leaveAttemptToFinish();
+        LimeLog.info(RESUME_TAG + ": outcome=cancelled attempts=" + resumeAttempt);
+        return true;
+    }
+
+    // The phone's default network: when it comes back during a resume, the next attempt starts at once
+    private void startPhoneNetworkWatch() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || phoneNetworkCallback != null) {
+            return;
+        }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return;
+        }
+        phoneNetworkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(android.net.Network network) {
+                timerHandler.post(Game.this::onPhoneNetworkAvailable);
+            }
+        };
+        try {
+            cm.registerDefaultNetworkCallback(phoneNetworkCallback);
+        }
+        catch (RuntimeException e) {
+            LimeLog.warning(RESUME_TAG + ": network watch failed: " + e);
+            phoneNetworkCallback = null;
+        }
+    }
+
+    private void stopPhoneNetworkWatch() {
+        if (phoneNetworkCallback == null) {
+            return;
+        }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        try {
+            if (cm != null) {
+                cm.unregisterNetworkCallback(phoneNetworkCallback);
+            }
+        }
+        catch (RuntimeException ignored) {
+            // Already unregistered
+        }
+        phoneNetworkCallback = null;
+    }
+
     // NOTE: The status label fades in and out over half a second instead of switching at once. textAfterHide is the text the label takes after a fade out, null keeps the text.
     private void fadeStatusLabel(boolean show, final CharSequence textAfterHide) {
         final View label = notificationOverlayView;
@@ -4251,6 +4501,18 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public void connectionStarted() {
+        if (resumeAttemptInFlight && !resuming) {
+            // An attempt that outlived its resume loop got through, after the end is on screen or the user left: stop the connection
+            // it holds and start nothing of the stream
+            LimeLog.info(RESUME_TAG + ": attempt=" + resumeAttempt + " started after the loop ended, stopped");
+            resumeAttemptInFlight = false;
+            new Thread() {
+                public void run() {
+                    conn.stop();
+                }
+            }.start();
+            return;
+        }
         // NOTE: The connection is up, but the PC can take a few seconds to send its first full frame, which left a plain black screen.
         // NOTE: A small status shows until the decoder outputs that frame, then the decoder thread hides it.
         decoderRenderer.setFirstFrameListener(() -> runOnUiThread(() -> {
@@ -4270,6 +4532,27 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 if (starting != null && decoderRenderer.getFramesOut() == 0) {
                     starting.setVisibility(View.VISIBLE);
                 }
+
+                // A resume attempt brought the stream back: the drop label goes, and the rest of the start below runs as for any start
+                if (resuming) {
+                    LimeLog.info(RESUME_TAG + ": outcome=resumed attempt=" + resumeAttempt +
+                            " elapsed=" + (android.os.SystemClock.elapsedRealtime() - networkDropStartMs));
+                    resuming = false;
+                    resumeAttemptInFlight = false;
+                    timerHandler.removeCallbacks(resumeAttemptRunnable);
+                    timerHandler.removeCallbacks(resumeTick);
+                    networkDropStartMs = 0;
+                    boolean poorStillShown = requestedNotificationOverlayVisibility == View.VISIBLE;
+                    if (isHidingOverlays || poorStillShown) {
+                        notificationOverlayView.setText(textBeforeNetworkDrop);
+                    }
+                    if (!isHidingOverlays) {
+                        fadeStatusLabel(poorStillShown, poorStillShown ? null : textBeforeNetworkDrop);
+                    }
+                    // The host of the new session learns the controllers again: type, motion, touchpad, LED
+                    controllerHandler.announceControllersAgain();
+                }
+                resumeGaveUp = false;
 
                 connected = true;
                 connecting = false;
@@ -4313,6 +4596,7 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
                 // The network drop watchdog runs while the stream is connected; stopConnection and connectionTerminated remove it
                 networkDropStartMs = 0;
                 timerHandler.postDelayed(networkDropWatchdog, NETWORK_DROP_POLL_MS);
+                startPhoneNetworkWatch();
             }
         });
 
@@ -4336,6 +4620,11 @@ public class Game extends AppCompatActivity implements SurfaceHolder.Callback,
 
     @Override
     public void displayMessage(final String message) {
+        if (resuming || resumeAttemptInFlight) {
+            // A failing attempt ("Failed to resume existing session") goes to the log, the drop label already says what happens
+            LimeLog.info(RESUME_TAG + ": attempt message: " + message);
+            return;
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
