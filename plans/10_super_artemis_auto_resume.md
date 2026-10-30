@@ -3,7 +3,8 @@
 > **Created:** 2026-10-31 · **Parent:** Super Artemis issue https://github.com/Arora-Sir/Super-Artemis/issues/7 (maintainer: «auto-resuming
 > during the grace period completes the KAST port nicely», «Two separate PRs (HUD overlay first, auto-resume second)»); owner's word in
 > chat 2026-10-31 ≈00:35 +03:00 — «1 делаем, раз крупное и ждут, раз в каст мы это сделали», «по каст пока не работаем, делаем Супер
-> Артемис»; source design: KAST plan 06 (F3) and its runs `testcases/reports/2026-09-26_F3_resume.md` · **Status:** 🔧 in progress ·
+> Артемис»; source design: KAST plan 06 (F3) and its runs `testcases/reports/2026-09-26_F3_resume.md` · **Status:** 🔧 steps 1–4 done 2026-10-31 00:33 +03:00 (fork commit `a7b7d335`
+> on `feature/auto-resume`, pushed to `kast`, WIP — no PR); step 5 partly — runs 2026-10-31 00:49–00:59 on Titan, see «Runs so far» ·
 > **Outbound:** a PR to `Arora-Sir/Super-Artemis` from `feature/auto-resume`, stacked on PR #11 (`feature/network-drop-label`)
 
 ## Goal vector (Achieve)
@@ -50,11 +51,11 @@ owner before the PR — if he rejects it, the kept codec joins this PR.
 
 ## Steps
 
-- [ ] 1. `com.limelight.session.ResumePolicy` (pure: end class, within grace, backoff) + `ResumePolicyTest`, red on a mutant.
-- [ ] 2. `Game`: decoder construction moved into `createDecoderRenderer()` (onCreate and every attempt use it).
-- [ ] 3. `NvConnection.start`: a fresh remote-input key and key id for every start (one key with restarted IV counters across two
+- [x] 1. `com.limelight.session.ResumePolicy` (pure: end class, within grace, backoff) + `ResumePolicyTest`, red on a mutant.
+- [x] 2. `Game`: decoder construction moved into `createDecoderRenderer()` (onCreate and every attempt use it).
+- [x] 3. `NvConnection.start`: a fresh remote-input key and key id for every start (one key with restarted IV counters across two
       sessions would let an observer forge control messages — KAST judge S2).
-- [ ] 4. `Game`: the resume loop — termination branch, attempts, backoff and network callback, give-up, cancel on leaving;
+- [x] 4. `Game`: the resume loop — termination branch, attempts, backoff and network callback, give-up, cancel on leaving;
       `stageFailed`, `connectionStarted`, `displayMessage` guards for attempts (an attempt that outlives the loop never reaches the
       start spinner — KAST bug 07, a crash); controllers announced again after a resume.
 - [ ] 5. Build, unit suite; a local test build with the client control timeout at 10 s (not committed); runs for criteria 1–3 on Titan.
@@ -64,4 +65,26 @@ owner before the PR — if he rejects it, the kept codec joins this PR.
 
 - (a) The host must keep the app running after it drops the client (Vibepollo does: «Session pausing», /resume) — checked in run 1.
 - (b) An attempt in flight when the loop ends — handled as in KAST (left to finish, disposed of where it reports).
-- (c) The owner's MacBook stream shares the host — he disconnects before each run.
+- (c) The owner's MacBook stream shares the host — solved 2026-10-31 00:48: `channels = 2` in `sunshine.conf` (owner: «разрешаю два
+  канала, да»; backup `sunshine.conf.bak-20261031-channels`); the drop is Titan's Wi-Fi off, his stream is not touched.
+
+## Runs so far (2026-10-31, Titan, test build with the client control timeout at 10 s; drop = Titan's Wi-Fi off by a script on the tablet)
+
+| Time | Drop / grace | Result | Evidence (private) |
+|---|---|---|---|
+| 00:49:32 | 20 s / 30 s | death at 10.1 s; attempts 1–2 failed (no network); attempt 3 reached the host at 28 s and connected at 30.4 s, just past the grace: gave up, the usual dialog; the late attempt was stopped, no crash | `C:\Android\private\evidence\20261031-004901-wifi20-resume\` |
+| 00:51:57 | 20 s / 60 s | **resumed**: `outcome=resumed attempt=3 elapsed=32046`, the stream went on | `…\20261031-005125-wifi20-resume60\` |
+| 00:57:58 | 20 s / 60 s, with screen recording; the owner stopped the run | gave up at 60 s: Titan's link through Tailscale took > 40 s to come back — no attempt request reached Vibepollo 00:58:09–00:58:55; attempt 1 hung 21 s on HTTPS («unexpected end of stream»), attempt 2 «Read timed out», attempt 3 no connect in 5 s; frames and audio were already dropping before the cut | `…\20261031-rec-interrupted\client_full.log`; recording `/sdcard/sa_resume.mp4` still on Titan |
+
+The owner watched the resume (chat 2026-10-31 ≈01:00 +03:00): «выглядело четко, только они зачем-то виджет стартинг стримминг прямо в
+центре кадра показывают - оно будет мешать», «я бы это тоже вынес в верхний левый виджет-плашту состояний».
+
+## Next — the next session starts here
+
+- [ ] 5a. Short timeouts for attempts: one attempt must not eat 21 s of the grace on a hung HTTPS read. Port KAST's short probe for
+      resume attempts (`NvConnection.setKastResumeAttempt` → `getServerInfo` with the 3 s connect timeout) and check the read timeout.
+- [ ] 5b. The «starting stream» overlay (`streamStartingOverlay`, centre of the frame) moves into the top-left status label — on a resume
+      and, by the owner's word, as the rule; show him the screens before the PR.
+- [ ] 5c. Repeat 20 s / 60 s on a steady Wi-Fi; a 75 s run for the give-up; the user ending the session during a resume (criterion 3).
+      Test build: in `Game.java` replace `.setControlPeerTimeoutMs(prefConfig.networkGraceSeconds * 1000)` by `10000` locally, never commit;
+      the run script is the scratch `wifi_drop.sh` pattern (Titan Wi-Fi off/on by `cmd wifi set-wifi-enabled` in a `nohup` on the tablet).

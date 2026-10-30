@@ -56,7 +56,7 @@
 > <!-- classes: question-already-answered, guard-not-proven-against-threat, shown-as-link,
 >      claim-before-evidence, owner-decision-not-applied, text-in-agents-world,
 >      etalon-from-dirty-tree, shell-lied, escaping-layer, twins-missed,
->      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit -->
+>      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit, ui-shipped-unseen -->
 >
 > | Class slug | The failure it names |
 > |---|---|
@@ -73,6 +73,7 @@
 > | `field-dropped-in-rebuild` | a field or section silently lost when an artifact was regenerated |
 > | `line-endings` | a shell rewrite changed the line endings of a tracked file, so the whole file shows as changed |
 | `state-overwritten-on-exit` | a running program wrote its own copy of a setting on exit, over the value the agent had just set |
+| `ui-shipped-unseen` | a change the user sees went out (a PR, a release) before the owner saw its screens |
 >
 > The `#tags` are **trigger-tags**: before a task, grep by the task's tags and QUOTE the relevant
 > lessons in your report (id + one line) — or state "no relevant lessons". An unquoted recall is
@@ -81,6 +82,20 @@
 > Skill: `/experience` (capture a lesson · recall relevant lessons).
 
 ## Entries
+
+### EXP-0010 · 2026-10-31 · ❌→✅ · #ui #pr #owner #taste
+class: ui-shipped-unseen
+**Context:** two PRs to Super Artemis changed what a user sees (a drag handle in the Profiles list; the status label moved top left with a fade).
+**Tried / did:** built, tested on Titan, put screenshots INTO the PRs — and opened them without showing the owner a single screen.
+**Result:** ❌ the owner: «а как ты так делаешь, что макеты мне не показываешь? там же UI». ✅ the screens on one local HTML page in a
+new Chrome window (`chrome.exe --new-window file:///…`), the window confirmed by its title; he answered «годится». The slider and the
+resolution input then went mockup-first — two variants each, his choice recorded (`ideas/16`, `ideas/17`) before any code.
+**Lesson:** look and feel is the owner's call; a screenshot inside a PR is not a show — the show comes before the PR and waits for his word.
+**Repro:** before `gh pr create` on a change that touches a layout, a string the user reads or a visual state — open the before/after
+page for the owner and wait for his verdict; separate image windows (`Start-Process x.webp`) did not reach his screen, the Chrome window did.
+**Trigger:** a diff touching `res/layout`, `res/values*/strings.xml`, `res/drawable` or a `setVisibility`/animation → show first, PR second.
+**Not for:** changes the user never sees (logs, tests, internal rules).
+none-cheap: the show needs the owner's eyes; the memory rule `show-ui-before-pr.md` and this Trigger line carry it
 
 ### EXP-0009 · 2026-10-30 · ❌→✅ · #windows #explorer #owner-machine
 class: state-overwritten-on-exit
