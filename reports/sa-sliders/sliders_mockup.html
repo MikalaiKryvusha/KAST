@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Super Artemis — макеты ползунков (идея 16)</title>
+<style>
+:root{--bg:#121318;--card:#1e2027;--card2:#262932;--on:#e3e2e9;--sub:#a9abb8;--acc:#a8c7fa;--acc2:#2b4a78;--line:#3a3d48}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--on);font:16px/1.4 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px}
+h1{font-weight:500;margin:0 0 6px}
+.lead{color:var(--sub);max-width:1200px;margin:0 0 24px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.variant{width:420px}
+.variant h2{font-size:19px;font-weight:500;margin:0 0 4px}
+.variant .note{color:var(--sub);font-size:14px;margin:0 0 12px;min-height:60px}
+.phone{background:var(--bg);border-radius:26px;padding:18px 14px;border:1px solid #2a2d36}
+.section{color:var(--acc);font-size:14px;margin:4px 6px 10px}
+.pref{background:var(--card);border-radius:18px;padding:14px 16px 12px;margin-bottom:10px}
+.title{font-size:17px}
+.summary{color:var(--sub);font-size:13.5px;margin:2px 0 10px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+.btn{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card2);color:var(--on);font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none}
+.btn:active{background:var(--acc2)}
+.field{display:flex;align-items:baseline;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:6px 12px}
+.field input{width:84px;background:transparent;border:0;color:var(--on);font-size:22px;text-align:center;outline:none}
+.field span{color:var(--sub);font-size:15px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}
+.ticks{display:none;justify-content:space-between;color:var(--sub);font-size:11.5px;margin:0 6px;position:relative;height:16px}
+.ticks i{position:absolute;transform:translateX(-50%);font-style:normal}
+.inline{display:flex;align-items:center;gap:8px}
+.inline input[type=range]{flex:1}
+.small .btn{width:36px;height:36px;font-size:20px}
+.tag{display:inline-block;background:var(--acc2);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:12px;margin-left:6px;vertical-align:middle}
+.wide{margin-top:34px}
+.wide .phone{width:860px;border-radius:20px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+table{border-collapse:collapse;margin-top:10px;font-size:14px}
+td,th{border-bottom:1px solid #2a2d36;padding:6px 10px;text-align:left}
+th{color:var(--sub);font-weight:500}
+</style></head><body>
+<h1>Ползунки Super Artemis — макеты</h1>
+<p class="lead">Тёмная тема Super Artemis, ширина телефона. Ползунки живые: двигайте, нажимайте «−» и «+», вводите число. У битрейта шкала логарифмическая: 1, 2, 3 Мбит/с внизу ставятся так же легко, как 50 и 100 вверху; шаг кнопок растёт с числом (0,5 до 5 Мбит/с, 1 до 20, 2 до 50, 5 до 100, 10 выше).</p>
+
+<div class="row">
+  <div class="variant">
+    <h2>A. Как вы сказали <span class="tag">выбран</span></h2>
+    <p class="note">«−» и «+» над ползунком, по бокам от поля ввода. Число по центру поля, ползунок во всю ширину под ним, без подписей шкалы.</p>
+    <div class="phone">
+      <div class="section">Настройки видео</div>
+      <div class="pref" data-kind="bitrate">
+        <div class="title">Битрейт видео</div>
+        <div class="summary">Больше — чище картинка, меньше — устойчивее на слабой сети</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>Мбит/с</span></label><div class="btn plus">+</div></div>
+        <input type="range" class="rng" min="0" max="1000"><div class="ticks"></div>
+      </div>
+      <div class="pref" data-kind="grace">
+        <div class="title">Время ожидания сети</div>
+        <div class="summary">Сколько стрим ждёт пропавшую сеть, прежде чем сессия закончится</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>с</span></label><div class="btn plus">+</div></div>
+        <input type="range" class="rng"><div class="ticks"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <h2>B. Компактно, в одну строку</h2>
+    <p class="note">Поле ввода справа от названия, «−» и «+» по краям ползунка. Ниже по высоте, но кнопки мельче и дальше от числа.</p>
+    <div class="phone">
+      <div class="section">Настройки видео</div>
+      <div class="pref small" data-kind="bitrate">
+        <div class="inline" style="justify-content:space-between"><div class="title">Битрейт видео</div><label class="field"><input class="num" style="width:64px;font-size:18px"><span>Мбит/с</span></label></div>
+        <div class="summary">Больше — чище картинка, меньше — устойчивее на слабой сети</div>
+        <div class="inline"><div class="btn minus">−</div><input type="range" class="rng" min="0" max="1000"><div class="btn plus">+</div></div>
+        <div class="ticks" style="margin:0 46px"></div>
+      </div>
+      <div class="pref small" data-kind="grace">
+        <div class="inline" style="justify-content:space-between"><div class="title">Время ожидания сети</div><label class="field"><input class="num" style="width:64px;font-size:18px"><span>с</span></label></div>
+        <div class="summary">Сколько стрим ждёт пропавшую сеть, прежде чем сессия закончится</div>
+        <div class="inline"><div class="btn minus">−</div><input type="range" class="rng"><div class="btn plus">+</div></div>
+        <div class="ticks" style="margin:0 46px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <h2>Сейчас в Super Artemis</h2>
+    <p class="note">Для сравнения: линейный ползунок битрейта от 0,5 до 300 Мбит/с, число только в подписи; 2 Мбит/с — это 0,5 % его длины.</p>
+    <div class="phone">
+      <div class="section">Настройки видео</div>
+      <div class="pref" data-kind="linear">
+        <div class="title">Битрейт видео</div>
+        <div class="summary">Увеличьте для лучшего качества изображения. Уменьшите, чтобы улучшить производительность при более медленных соединениях.</div>
+        <input type="range" class="rng" min="500" max="300000" step="500"><div class="summary lin" style="text-align:center;margin:4px 0 0"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wide">
+  <h2 style="font-weight:500">Вариант A на планшете, альбомная ориентация</h2>
+  <div class="phone"><div class="section">Настройки видео</div><div class="cols">
+    <div class="pref" data-kind="bitrate"><div class="title">Битрейт видео</div><div class="summary">Больше — чище картинка, меньше — устойчивее на слабой сети</div>
+      <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>Мбит/с</span></label><div class="btn plus">+</div></div><input type="range" class="rng" min="0" max="1000"><div class="ticks"></div></div>
+    <div class="pref" data-kind="grace"><div class="title">Время ожидания сети</div><div class="summary">Сколько стрим ждёт пропавшую сеть, прежде чем сессия закончится</div>
+      <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>с</span></label><div class="btn plus">+</div></div><input type="range" class="rng"><div class="ticks"></div></div>
+  </div></div>
+</div>
+
+<div class="wide">
+  <h2 style="font-weight:500">Где появится что</h2>
+  <table>
+    <tr><th>Сейчас</th><th>Станет</th><th>Примеры</th></tr>
+    <tr><td>только ползунок (21 штука)</td><td>«−», поле ввода, «+» над ползунком</td><td>битрейт, битрейт в тарифицируемых сетях, время ожидания сети, чувствительность касаний, прозрачность экранных кнопок</td></tr>
+    <tr><td>только поле ввода, где ползунок по смыслу удобен</td><td>добавляется ползунок</td><td>пользовательский битрейт, пользовательская частота обновления</td></tr>
+    <tr><td>логарифмическая шкала</td><td>где значения идут от единиц до сотен</td><td>битрейт (0,5–300 Мбит/с); время ожидания сети — до 300 с, если поднимем потолок</td></tr>
+  </table>
+</div>
+
+<script>
+// Bitrate: log scale 0.5..300 Mbps, button step grows with the value. Grace: linear 10..300 s, step 5.
+const B={min:0.5,max:300,ticks:[1,2,5,10,20,50,100,300]};
+const toVal=p=>roundB(B.min*Math.pow(B.max/B.min,p/1000));
+const toPos=v=>Math.round(1000*Math.log(v/B.min)/Math.log(B.max/B.min));
+const stepB=v=>v<5?0.5:v<20?1:v<50?2:v<100?5:10;
+function roundB(v){const s=stepB(v);return Math.min(B.max,Math.max(B.min,Math.round(v/s)*s));}
+const fmt=v=>(Math.round(v*10)/10).toString().replace('.',',');
+document.querySelectorAll('.pref').forEach(p=>{
+  const k=p.dataset.kind,r=p.querySelector('.rng'),n=p.querySelector('.num'),t=p.querySelector('.ticks');
+  if(k==='linear'){const l=p.querySelector('.lin');r.value=20000;const u=()=>l.textContent=fmt(r.value/1000)+' Мбит/с';r.oninput=u;u();return;}
+  let v=k==='bitrate'?15:60;
+  const set=x=>{if(k==='bitrate'){v=roundB(x);r.value=toPos(v);}else{v=Math.min(300,Math.max(10,Math.round(x/5)*5));r.value=v;}n.value=k==='bitrate'?fmt(v):v;};
+  if(k==='grace'){r.min=10;r.max=300;r.step=5;}
+  if(t){(k==='bitrate'?B.ticks:[10,60,120,180,240,300]).forEach(x=>{const i=document.createElement('i');i.textContent=x;i.style.left=(k==='bitrate'?toPos(x)/10:(x-10)/2.9)+'%';t.appendChild(i);});}
+  r.oninput=()=>set(k==='bitrate'?toVal(+r.value):+r.value);
+  n.onchange=()=>{const x=parseFloat(n.value.replace(',','.'));if(!isNaN(x))set(x);else set(v);};
+  p.querySelector('.minus').onclick=()=>set(k==='bitrate'?v-stepB(v-0.001):v-5);
+  p.querySelector('.plus').onclick=()=>set(k==='bitrate'?v+stepB(v):v+5);
+  set(v);
+});
+</script>
+</body></html>
