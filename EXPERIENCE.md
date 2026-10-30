@@ -56,7 +56,7 @@
 > <!-- classes: question-already-answered, guard-not-proven-against-threat, shown-as-link,
 >      claim-before-evidence, owner-decision-not-applied, text-in-agents-world,
 >      etalon-from-dirty-tree, shell-lied, escaping-layer, twins-missed,
->      field-dropped-in-rebuild, line-endings -->
+>      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit -->
 >
 > | Class slug | The failure it names |
 > |---|---|
@@ -72,6 +72,7 @@
 > | `twins-missed` | one of two layers/copies moved and the twin stayed behind |
 > | `field-dropped-in-rebuild` | a field or section silently lost when an artifact was regenerated |
 > | `line-endings` | a shell rewrite changed the line endings of a tracked file, so the whole file shows as changed |
+| `state-overwritten-on-exit` | a running program wrote its own copy of a setting on exit, over the value the agent had just set |
 >
 > The `#tags` are **trigger-tags**: before a task, grep by the task's tags and QUOTE the relevant
 > lessons in your report (id + one line) — or state "no relevant lessons". An unquoted recall is
@@ -80,6 +81,31 @@
 > Skill: `/experience` (capture a lesson · recall relevant lessons).
 
 ## Entries
+
+### EXP-0009 · 2026-10-30 · ❌→✅ · #windows #explorer #owner-machine
+class: state-overwritten-on-exit
+**Context:** hiding the owner's desktop icons for clean stream screenshots and restoring them after.
+**Tried / did:** `Set-ItemProperty … Advanced HideIcons 0` and then `Stop-Process explorer`.
+**Result:** ❌ the value read back as 1 — Explorer writes its own state to the registry on exit, over ours. ✅ stop Explorer
+first, then write `HideIcons`, then start Explorer.
+**Lesson:** a setting a running shell owns is written while that shell is down, never before stopping it.
+**Repro:** `Stop-Process -Name explorer -Force; Set-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced HideIcons 0; Start-Process explorer`, then read `HideIcons` back.
+**Trigger:** changing an Explorer/shell setting on the owner's machine → stop, write, start, read back.
+**Not for:** settings the shell does not cache (most HKLM policies).
+none-cheap: one-off machine tweak; the Repro line is the check
+
+### EXP-0008 · 2026-10-30 · ❌ · #report #verify #owner
+class: claim-before-evidence
+**Context:** comparing KAST reconnect with Super Artemis before filing an issue.
+**Tried / did:** saw a «KAST:» comment in their core by grep and REPORTED "looks like they ported our timeout, will check"
+to the owner instead of checking first.
+**Result:** ❌ the owner: «ну так … ты не проверил а говоришь мне это?» — the check took three commands and two minutes.
+**Lesson:** a finding that a few commands can confirm is confirmed BEFORE it is said; the owner hears facts, not
+"it looks like, I will check".
+**Repro:** before writing "looks like / похоже" in a report, run the grep/read that settles it and quote its output instead.
+**Trigger:** writing «похоже», «кажется», «проверю» about something on disk or in a repo → run the check first.
+**Not for:** facts that need the owner or a device that is not available — then say what is missing.
+mechanized: none — the line «похоже … проверю» in a reply is not on disk, no tool sees it
 
 ### EXP-0004 · 2026-09-26 · ❌→✅ · #i18n #strings #twins
 class: twins-missed
