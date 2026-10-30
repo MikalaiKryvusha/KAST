@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Super Artemis — макет ввода разрешения (идея 17)</title>
+<style>
+:root{--bg:#121318;--card:#1e2027;--card2:#262932;--on:#e3e2e9;--sub:#a9abb8;--acc:#a8c7fa;--acc2:#2b4a78;--line:#3a3d48}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--on);font:16px/1.4 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px}
+h1{font-weight:500;margin:0 0 6px}
+.lead{color:var(--sub);max-width:1100px;margin:0 0 24px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.variant{width:420px}
+.variant h2{font-size:19px;font-weight:500;margin:0 0 4px}
+.variant .note{color:var(--sub);font-size:14px;margin:0 0 12px;min-height:60px}
+.phone{background:var(--bg);border-radius:26px;padding:18px 14px;border:1px solid #2a2d36}
+.section{color:var(--acc);font-size:14px;margin:4px 6px 10px}
+.pref{background:var(--card);border-radius:18px;padding:14px 16px 12px;margin-bottom:10px}
+.title{font-size:17px}
+.summary{color:var(--sub);font-size:13.5px;margin:2px 0 10px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+.btn{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card2);color:var(--on);font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none}
+.btn:active{background:var(--acc2)}
+.field{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:6px 8px}
+.field input{width:70px;background:transparent;border:0;color:var(--on);font-size:22px;text-align:center;outline:none}
+.times{color:var(--sub);font-size:24px;padding:0 2px}
+.preset{text-align:center;color:var(--acc);font-size:14px;min-height:20px;margin:2px 0 4px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}
+.tag{display:inline-block;background:var(--acc2);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:12px;margin-left:6px;vertical-align:middle}
+table{border-collapse:collapse;margin-top:10px;font-size:14px}
+td,th{border-bottom:1px solid #2a2d36;padding:5px 10px;text-align:left}
+th{color:var(--sub);font-weight:500}
+</style></head><body>
+<h1>Ввод разрешения — макет</h1>
+<p class="lead">Два поля под числа, между ними «×», который нельзя стереть. Под ними ползунок по стандартным разрешениям: двигаете — числа в полях меняются; вводите свои числа — ползунок встаёт на ближайшее стандартное, а над ним написано «своё». Всё живое, можно трогать.</p>
+
+<div class="row">
+  <div class="variant">
+    <h2>R1. Как вы сказали</h2>
+    <p class="note">Ширина × высота, под ними ползунок стандартных разрешений. Под полями — имя стандарта (1080p, родное) или «своё».</p>
+    <div class="phone"><div class="section">Настройки видео</div>
+      <div class="pref" data-btns="0">
+        <div class="title">Разрешение</div>
+        <div class="summary">Больше — чётче картинка, меньше — легче для сети и устройства</div>
+        <div class="ctl"><label class="field"><input class="w" inputmode="numeric"></label><span class="times">×</span><label class="field"><input class="h" inputmode="numeric"></label></div>
+        <div class="preset"></div>
+        <input type="range" class="rng" min="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <h2>R2. То же с «−» и «+» <span class="tag">рекомендую</span></h2>
+    <p class="note">Как ползунки варианта A: «−» и «+» по бокам от полей, шаг — на соседнее стандартное разрешение. Все ползунки настроек выглядят одинаково.</p>
+    <div class="phone"><div class="section">Настройки видео</div>
+      <div class="pref" data-btns="1">
+        <div class="title">Разрешение</div>
+        <div class="summary">Больше — чётче картинка, меньше — легче для сети и устройства</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="w" inputmode="numeric"></label><span class="times">×</span><label class="field"><input class="h" inputmode="numeric"></label><div class="btn plus">+</div></div>
+        <div class="preset"></div>
+        <input type="range" class="rng" min="0" step="1">
+      </div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <h2>Сейчас в Super Artemis</h2>
+    <p class="note">Список готовых разрешений и отдельное поле «Пользовательское разрешение», где числа пишутся через латинскую «x» без пробелов: 1680x1050.</p>
+    <div class="phone"><div class="section">Настройки видео</div>
+      <div class="pref"><div class="title">Разрешение</div><div class="summary">Пользовательский (1680x1050)</div></div>
+      <div class="pref"><div class="title">Пользовательское разрешение</div><div class="summary">Введите ширину и высоту через «x»</div>
+        <label class="field" style="display:block"><input value="1680x1050" style="width:100%;text-align:left" readonly></label></div>
+    </div>
+  </div>
+</div>
+
+<h2 style="font-weight:500;margin-top:30px">Стандартные разрешения на ползунке</h2>
+<table id="list"><tr><th>Позиция</th><th>Разрешение</th><th>Имя под полями</th></tr></table>
+
+<script>
+// Standard resolutions on the slider. "Родное" is the device's own screen (Titan 1: 2560x1600).
+const P=[[640,360,'360p'],[854,480,'480p'],[1280,720,'720p'],[1280,800,'16:10'],[1440,900,'16:10'],[1600,900,''],[1680,1050,'16:10'],[1920,1080,'1080p'],[1920,1200,'16:10'],[2560,1440,'1440p'],[2560,1600,'Родное (Titan 1)'],[3840,2160,'4K']];
+const list=document.getElementById('list');
+P.forEach((p,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td>${p[0]} × ${p[1]}</td><td>${p[2]||'—'}</td>`;list.appendChild(tr);});
+const nearest=(w,h)=>{let b=0,d=1e18;P.forEach((p,i)=>{const x=Math.abs(p[0]*p[1]-w*h)+Math.abs(p[0]/p[1]-w/h)*1e6;if(x<d){d=x;b=i;}});return b;};
+document.querySelectorAll('.pref[data-btns]').forEach(c=>{
+  const W=c.querySelector('.w'),H=c.querySelector('.h'),R=c.querySelector('.rng'),L=c.querySelector('.preset');
+  R.max=P.length-1;
+  const show=(w,h)=>{W.value=w;H.value=h;const i=P.findIndex(p=>p[0]==w&&p[1]==h);
+    if(i>=0){R.value=i;L.textContent=P[i][2]?P[i][2]:'стандартное';}else{R.value=nearest(w,h);L.textContent='своё';}};
+  R.oninput=()=>{const p=P[+R.value];show(p[0],p[1]);};
+  const typed=()=>{const w=parseInt(W.value),h=parseInt(H.value);if(w>0&&h>0)show(w,h);};
+  W.onchange=typed;H.onchange=typed;
+  [W,H].forEach(f=>f.oninput=()=>{f.value=f.value.replace(/\D/g,'').slice(0,4);});
+  const m=c.querySelector('.minus'),p=c.querySelector('.plus');
+  if(m)m.onclick=()=>{const i=Math.max(0,+R.value-1);show(P[i][0],P[i][1]);};
+  if(p)p.onclick=()=>{const i=Math.min(P.length-1,+R.value+1);show(P[i][0],P[i][1]);};
+  show(1680,1050);
+});
+</script>
+</body></html>
