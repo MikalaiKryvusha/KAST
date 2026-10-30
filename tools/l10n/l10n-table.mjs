@@ -6,9 +6,10 @@
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const [res, lang, out, ...jsons] = process.argv.slice(2);
-const tool = path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1')), 'l10n.mjs');
+const tool = path.join(path.dirname(fileURLToPath(import.meta.url)), 'l10n.mjs');
 const proposed = Object.assign({}, ...jsons.filter(f => fs.existsSync(f)).map(f => JSON.parse(fs.readFileSync(f, 'utf8'))));
 
 // Base entries (in base order) and existing locale entries — read through the extractor of the main tool.
