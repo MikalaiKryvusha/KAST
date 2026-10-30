@@ -58,7 +58,8 @@ path (pairing, app list, a stream, the menus), the screen text read from the UI 
 | Pairing and access-denied dialogs | pass | «Сопряжение … PIN», «Доступ запрещён (Запустить приложения)» |
 | In-stream menus (S21 FE, Titan) | pass | Quick Menu, Advanced Menu, Send special keys, More keys, Server commands, menu editor, bar editor in Russian |
 | Profiles, profile editor, special keys, key editor, gestures (S21 FE) | pass | all texts in Russian |
-| Backup dialog, About | skipped | not opened before the owner's 18:15 deadline for the PR |
+| Backup dialog (S21 FE, ≈ 18:11, after the PR) | pass | «Создать резервную копию настроек», the pairing-keys warning and the password option in Russian; cancelled without saving |
+| About | skipped | not opened before the owner's 18:15 deadline |
 | KAST over 3G, 20 s data drop (Titan) | pass | session held 23.5 s, picture back ≈ 10 s after the data returned |
 
 ## 5. Found
@@ -78,5 +79,4 @@ path (pairing, app list, a stream, the menus), the screen text read from the UI 
 
 ## 7. Verdict
 
-partial — the translation, the locale fix and the in-stream menus pass on both devices; the backup dialog and About
-were not opened before the PR deadline, and 2 unit tests fail on Windows on clean upstream as well.
+partial — the translation, the locale fix and the in-stream menus pass on both devices; About was not opened before the deadline (the backup dialog passed after the PR was sent), and 2 unit tests fail on Windows on clean upstream as well.
