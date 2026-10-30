@@ -120,6 +120,12 @@ function checkText(en, tr, lang, where) {
   if ((en.match(/\\n/g) || []).length !== (tr.match(/\\n/g) || []).length) warns.push(`${where}: \\n count differs`);
   for (const b of BRANDS) if (en.includes(b) && !tr.includes(b) && !BRANDS.some(o => o !== b && o.includes(b) && tr.includes(o)))
     warns.push(`${where}: brand "${b}" missing`);
+  // A word mixing alphabets ("Пairing", a Latin "C" inside «Сопряжение») reads as a typo and breaks search; checked
+  // after removing \n escapes and format specifiers, which legally touch letters ("\nЭто", "%1$dмс"). The owner 2026-10-30.
+  for (const w of tr.replace(TAG_IN_TEXT_RE, ' ').replace(/\\[nt]/g, ' ').replace(FMT_RE, ' ').match(/\p{L}+/gu) || []) {
+    const scripts = ['Latin', 'Cyrillic', 'Greek'].filter(s => new RegExp(`\\p{Script=${s}}`, 'u').test(w));
+    if (scripts.length > 1) errs.push(`${where}: word "${w}" mixes ${scripts.join(' and ')} letters`);
+  }
   const ve = visible(en), vt = visible(tr);
   if (ve === vt && /[a-z]{3}/i.test(ve) && !BRANDS.includes(ve)) warns.push(`${where}: identical to English`);
   if (ve.length <= SHORT_LABEL_MAX && vt.length > ve.length * LONG_RATIO && vt.length - ve.length > 4)
