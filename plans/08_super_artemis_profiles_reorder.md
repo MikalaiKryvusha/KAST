@@ -46,7 +46,8 @@ the drag in the middle. The order is saved once per drag, as the special keys ma
 - [x] 4. Unit test in `ProfilesManagerTest` (order survives save + reload; move to the end), proven red on a no-op `move`.
 - [x] 5. Build the debug APK, install on Titan and S21 FE, walk criteria 1, 2, 4; screenshots WebP; run report in `testcases/reports/`.
       Done on Titan only: S21 FE was not connected (2026-10-30, the owner on the road).
-- [ ] 6. Commit in the fork branch, push to `kast`, open the PR (references #4), English text, screenshots.
+- [x] 6. Commit in the fork branch, push to `kast`, open the PR (references #4), English text, screenshots.
+      PR https://github.com/Arora-Sir/Super-Artemis/pull/10 opened 2026-10-30 ≈22:55 +03:00 (commit 8100a6d8, mergeable).
 
 ## Risks
 
