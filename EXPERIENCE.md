@@ -108,6 +108,13 @@ first, then write `HideIcons`, then start Explorer.
 **Trigger:** changing an Explorer/shell setting on the owner's machine → stop, write, start, read back.
 **Not for:** settings the shell does not cache (most HKLM policies).
 none-cheap: one-off machine tweak; the Repro line is the check
+**Correction 2026-10-31 07:40 (from the KUMM session):** `HideIcons 0` alone did NOT bring the icons back — the owner saw an empty
+desktop the next morning. Windows 11 also keeps the "Show desktop icons" state in the desktop view bag:
+`HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop` → `FFlags` bit `0x1000` (FWF_NOICONS; read `0x40201224`). Explorer wrote it on the
+18:00 restart and came up with no icon list at all (no `SysListView32` under `SHELLDLL_DefView`). Fixed live, without restarting Explorer,
+by the context-menu command itself: `SendMessage(<SHELLDLL_DefView under Progman>, WM_COMMAND 0x111, 0x7402, 0)` — a TOGGLE, so send it
+only when the icon list is absent or hidden; the owner confirmed «появились значки». To hide/restore icons: use that toggle both ways,
+never the registry.
 
 ### EXP-0008 · 2026-10-30 · ❌ · #report #verify #owner
 class: claim-before-evidence
