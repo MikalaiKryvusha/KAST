@@ -13,6 +13,7 @@ HERE=$(cd "$(dirname "$0")" && pwd -W)
 UI="node $HERE/../ui.mjs"
 STAND="node $HERE/stand.mjs"
 
+# The app starts in the asked rotation: once the settings are open, Titan does not rotate them (seen 2026-11-07)
 $STAND apply "$PROFILE" "$ORIENT" || exit 1
 if [ -n "$LOCALE" ]; then $A -s "$STAND_SERIAL" shell cmd locale set-app-locales $PKG --locales "$LOCALE"; fi
 $A -s "$STAND_SERIAL" shell am force-stop $PKG
@@ -30,6 +31,12 @@ else
   sleep 1
   $A -s "$STAND_SERIAL" shell input text "$QUERY"
   sleep 1.5
+  # On a short landscape screen the keyboard covers the results: hide it with Back, only while it is shown (a Back
+  # without the keyboard would leave the settings)
+  if $A -s "$STAND_SERIAL" shell dumpsys input_method | grep -q "mInputShown=true"; then
+    $A -s "$STAND_SERIAL" shell input keyevent 4
+    sleep 1
+  fi
   $UI tap "$ROW" >/dev/null || exit 1
   sleep 1.5
   # Rotation again BEFORE the dialog opens: the dialog picks its layout from the screen height at opening

@@ -23,7 +23,10 @@ function dump() {
 }
 const texts = nodes => nodes.flatMap(n => [n.text, n.desc]).filter(Boolean);
 
-const [cmd, arg, out] = process.argv.slice(2);
+const [cmd, rawArg, out] = process.argv.slice(2);
+// "@<file>" reads the text from a UTF-8 file: a Cyrillic argument passed through the Windows command line arrives broken
+// (AGENT_GUIDE → text travels through files; Russian sweep of plan 12, 2026-11-07)
+const arg = rawArg && rawArg.startsWith('@') ? fs.readFileSync(rawArg.slice(1), 'utf8').trim() : rawArg;
 if (cmd === 'tap') {
   const n = dump().find(n => n.text === arg || n.desc === arg) || dump().find(n => n.text.includes(arg) || n.desc.includes(arg));
   if (!n) { console.log(`NOT FOUND: ${arg}`); process.exit(1); }

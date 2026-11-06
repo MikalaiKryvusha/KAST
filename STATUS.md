@@ -31,6 +31,23 @@ PR, экраны владельцу до PR. Задачи KAST ниже (Ф3, п
   английский макет `reports/sa-sliders/custom_resolution_v3_en.html`, снимки `reports/sa-sliders/en/`, текст `reports/sa-sliders/en/issue_14_body.md`.
   Метки `enhancement`/`ui` не встали (у нас нет прав ставить метки в чужом репозитории). **Ждём ответа мейнтейнера.**
 
+## Чат 2026-11-06 ≈23:20 – 2026-11-07 ≈01:00 — issue #14 одобрен, окно своего разрешения сделано
+
+- Мейнтейнер одобрил issue #14 целиком (направление и набор соотношений), просил вид для портрета телефона и ландшафта планшета.
+  План — `plans/12_super_artemis_custom_resolution.md`. Слова владельца о подписях снимков — там же, раздел «Caption rule».
+- **PR-B, окно своего разрешения** — клон `_forks/Super-Artemis`, ветка `feature/custom-resolution-dialog`, коммит `70097fd8` (не запушен):
+  пять одинаковых кнопок соотношений с прямоугольником внутри (макет принят владельцем), «−» · ширина × высота · «+», шкала ступеней
+  с круглым бегунком; без строк пояснения и «recommended»; на низком экране (< 480 dp) элементы меньше. Подпись строки вместо
+  «separated by x» и 4 строки проверки — на 21 язык (`l10n validate`: 0 ошибок). Вид принят владельцем 2026-11-07 ≈00:35 («вот теперь хорошо»).
+  Проверка на Титане (`tools/stand/check-crd.sh s24u`): 6/6 PASS, контрольный случай первым. Юнит-тесты 530/532 (2 — известный `BackupRestoreTest` на Windows).
+- **PR-A, концы шкал** — ветка `feature/slider-ends-inset`, коммит `a1f9da92` (не запушен): `StepperViews.barParams` поля 16 dp;
+  снимки до/после и текст PR — `reports/sa-slider-ends/`.
+- **Стенд профилей устройств** — `tools/stand/` (`stand.mjs`, `open-dialog.sh`, `sweep-crd.sh`, `check-crd.sh`), 14 профилей из
+  `researches/04` (плотность без источника — расчёт по слову владельца). Снимки — `reports/sa-custom-resolution/devices/`;
+  не сняты: русские (Galaxy A03, Teclast P85T — кириллица в `ui.mjs seek`, разбор идёт), RedMagic Astra (es).
+- Владелец заказал автономно: проверенный коммит и оформленный PR в апстрим в этом чате, иначе — передача дел.
+- Замечено, не наше: настройки мейнтейнера на Pixel 9 Pro и Flip6 в портрете открываются в две колонки и зажимают правую — спросить владельца, заводить ли issue.
+
 Прошлые сессии — `PROJECT_HISTORY.md` (утренний чат 2026-11-06 перенесён туда 2026-11-06 22:10).
 
 ## Где мы сейчас (KAST — состояние на момент паузы)
@@ -144,7 +161,13 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 
 ## С чего начать следующей сессии
 
-0. **Сначала — ответ мейнтейнера на issue #14:** `gh issue view 14 -R Arora-Sir/Super-Artemis --comments`; пересказать владельцу
+0. **Сейчас (2026-11-07):** довести снимки (ru ×2, Astra), отчёт прогона `testcases/reports/2026-11-07_super-artemis-custom-resolution.md`,
+   закоммитить снимки в KAST и запушить (картинки PR берутся с raw.githubusercontent KAST), `git push kast` обеих веток,
+   `gh pr create -R Arora-Sir/Super-Artemis` для PR-A (текст `reports/sa-slider-ends/pr_body.md`) и PR-B (подписи — «устройство —
+   разрешение, плотность», список Screenshots, без строки Tested on). Разрешение на PR — слово владельца 2026-11-07 ≈00:50
+   «протестированный качественно, красиво оформленный ПР, отправленный в апстрим».
+   Ниже — прежняя запись про issue #14 (выполнена: одобрен).
+   **Было:** ответ мейнтейнера на issue #14: `gh issue view 14 -R Arora-Sir/Super-Artemis --comments`; пересказать владельцу
    с цитатой. Согласие → план в `plans/` (П9, со схемой), ветка от свежего `origin/HEAD` клона `D:\work\ai_sandbox\_forks\Super-Artemis`
    (`git fetch origin`; окно открывается со строки `edit_diy_w_h`; рядом его `ResolutionListPreference` и `StepperViews` из `dec0ca54`),
    макет — `reports/sa-sliders/custom_resolution_v3.html`, строки — на все `values-*` (`tools/l10n/`), экраны владельцу до PR,
