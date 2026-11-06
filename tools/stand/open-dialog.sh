@@ -25,6 +25,8 @@ sleep 1.5
 if [ "$QUERY" = "-" ]; then
   # A title adb cannot type (Cyrillic): scroll the list to the row instead of searching
   $STAND apply "$PROFILE" "$ORIENT" >/dev/null || exit 1
+  # On a phone the settings open as a list of sections: enter the section first (CATEGORY_TEXT), then scroll to the row
+  if [ -n "${CATEGORY_TEXT:-}" ]; then $UI tap "$CATEGORY_TEXT" >/dev/null; sleep 1.5; fi
   $UI seek "$ROW" >/dev/null || exit 1
 else
   $UI tap "${SEARCH_TEXT:-Search settings}" >/dev/null || exit 1

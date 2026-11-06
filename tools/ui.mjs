@@ -37,7 +37,16 @@ if (cmd === 'tap') {
   adb('shell', 'input', 'swipe', '800', '2000', '800', '700', '400'); sleep(800);
 } else if (cmd === 'seek') {
   // Scroll the current list (down, then back up) until an element with this exact text shows, then tap it.
-  const moves = [...Array(8).fill(['900', '850', '900', '350']), ...Array(16).fill(['900', '350', '900', '850'])];
+  // The swipe is placed by the screen size: a fixed x of 900 fell outside a 720 px wide screen (stand profile Galaxy A03,
+  // 2026-11-07); x at 70 % of the width also lands in the right pane of a two-pane settings screen
+  const size = (adb('shell', 'wm', 'size').match(/Override size: (\d+)x(\d+)/) || adb('shell', 'wm', 'size').match(/(\d+)x(\d+)/)).slice(1).map(Number);
+  // Display 0 only: Titan also holds a virtual display, whose "cur=" comes first in the dump
+  const disp = adb('shell', 'dumpsys', 'window', 'displays');
+  const d0 = disp.slice(disp.indexOf('mDisplayId=0'));
+  const rot = d0.slice(0, (d0.indexOf('mDisplayId=', 5) + 1 || d0.length + 1) - 1).match(/cur=(\d+)x(\d+)/);
+  const [sw, sh] = rot ? [Number(rot[1]), Number(rot[2])] : size;
+  const X = String(Math.round(sw * 0.7)), Y1 = String(Math.round(sh * 0.7)), Y2 = String(Math.round(sh * 0.3));
+  const moves = [...Array(8).fill([X, Y1, X, Y2]), ...Array(16).fill([X, Y2, X, Y1])];
   for (const m of [null, ...moves]) {
     if (m) { adb('shell', 'input', 'swipe', ...m, '300'); sleep(700); }
     const n = dump().find(n => n.text === arg || n.desc === arg);
