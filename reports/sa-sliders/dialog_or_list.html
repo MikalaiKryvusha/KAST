@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Super Artemis 1.1.0 — где ставить «−» и «+»</title>
+<style>
+:root{--bg:#121318;--card:#1e2027;--card2:#262932;--on:#e3e2e9;--sub:#a9abb8;--acc:#a8c7fa;--acc2:#2b4a78;--line:#3a3d48;--dlg:#2b2d35}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--on);font:17px/1.45 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px 28px}
+h1{font-weight:500;margin:0 0 6px}
+h2{font-weight:500;margin:34px 0 6px}
+.lead{color:var(--sub);max-width:1300px;margin:0 0 18px}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.col{width:430px}
+.col h3{font-size:19px;font-weight:500;margin:0 0 4px}
+.col .note{color:var(--sub);font-size:14.5px;margin:0 0 12px;min-height:44px}
+.shot{width:430px;border-radius:14px;border:1px solid #2a2d36;display:block}
+.phone{background:var(--bg);border-radius:26px;padding:18px 14px;border:1px solid #2a2d36;position:relative}
+.section{color:var(--acc);font-size:14px;margin:4px 6px 10px}
+.pref{background:var(--card);border-radius:18px;padding:14px 16px 12px;margin-bottom:10px}
+.title{font-size:17px}
+.summary{color:var(--sub);font-size:13.5px;margin:2px 0 8px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0}
+.btn{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card2);color:var(--on);font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.btn:active{background:var(--acc2)}
+.field{display:flex;align-items:baseline;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:6px 12px}
+.field input{width:84px;background:transparent;border:0;color:var(--on);font-size:22px;text-align:center;outline:none}
+.field span{color:var(--sub);font-size:15px}
+.times{color:var(--sub);font-size:24px}
+input[type=range]{width:100%;accent-color:var(--acc);height:28px}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.55);border-radius:26px}
+.dialog{position:relative;background:var(--dlg);border-radius:24px;padding:22px 20px 14px;margin:70px 6px 90px;box-shadow:0 8px 30px #000}
+.dialog .dt{font-size:22px;margin-bottom:6px}
+.dialog .dm{color:var(--sub);font-size:14px;margin-bottom:8px}
+.acts{display:flex;justify-content:flex-end;gap:26px;color:var(--acc);font-size:15px;margin-top:10px;padding-right:6px}
+.preset{text-align:center;color:var(--acc);font-size:14px;min-height:20px}
+.tag{display:inline-block;background:var(--acc2);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:12px;margin-left:6px;vertical-align:middle}
+</style></head><body>
+<h1>Super Artemis 1.1.0 — где ставить «−», поле и «+»</h1>
+<p class="lead">Слева — настоящая 1.1.0 на Титане. Посередине и справа — два варианта; всё живое: нажимайте «−» и «+», двигайте ползунок, вводите число. Ответ — в окне вопроса (интервью 003).</p>
+
+<h2>Вопрос 1 · Битрейт видео</h2>
+<div class="row">
+  <div class="col"><h3>Сейчас в 1.1.0</h3><p class="note">Снимок 1: строка в списке. Снимок 2: окно по нажатию — число и ползунок от 0 до 300 Мбит/с.</p>
+    <img class="shot" src="shots/110_list.webp" alt="список"><br><img class="shot" src="shots/110_bitrate_dialog.webp" alt="окно битрейта"></div>
+  <div class="col"><h3>A. В окне <span class="tag">рекомендую</span></h3><p class="note">Список не меняется. В окне — «−», поле, «+» над ползунком, как в варианте A; «OK» сохраняет.</p>
+    <div class="phone"><div class="section">Настройки видео</div>
+      <div class="pref"><div class="title">Битрейт видео</div><div class="summary">15 Мбит/с</div></div>
+      <div class="pref"><div class="title">Битрейт в тарифицируемых сетях</div><div class="summary">5 Мбит/с</div></div>
+      <div class="dim"></div>
+      <div class="dialog" data-kind="bitrate"><div class="dt">Битрейт видео</div><div class="dm">Больше — чище картинка, меньше — устойчивее на слабой сети</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>Мбит/с</span></label><div class="btn plus">+</div></div>
+        <input type="range" class="rng" min="0" max="1000"><div class="acts"><span>ОТМЕНА</span><span>OK</span></div></div>
+    </div></div>
+  <div class="col"><h3>B. Прямо в списке</h3><p class="note">Как на макете: каждая карточка с ползунком раскрыта, значение сохраняется сразу. Карточки втрое выше.</p>
+    <div class="phone"><div class="section">Настройки видео</div>
+      <div class="pref" data-kind="bitrate"><div class="title">Битрейт видео</div><div class="summary">Больше — чище картинка, меньше — устойчивее на слабой сети</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>Мбит/с</span></label><div class="btn plus">+</div></div><input type="range" class="rng" min="0" max="1000"></div>
+      <div class="pref" data-kind="bitrate"><div class="title">Битрейт в тарифицируемых сетях</div><div class="summary">Когда сеть платная</div>
+        <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="num"><span>Мбит/с</span></label><div class="btn plus">+</div></div><input type="range" class="rng" min="0" max="1000"></div>
+    </div></div>
+</div>
+
+<h2>Вопрос 2 · Разрешение</h2>
+<div class="row">
+  <div class="col"><h3>Сейчас в 1.1.0</h3><p class="note">Снимок 3: окно со списком разрешений. Снимок 4: «Пользовательское разрешение» — числа через латинскую «x», а клавиатура открывается русская.</p>
+    <img class="shot" src="shots/110_resolution_list.webp" alt="список разрешений"><br><img class="shot" src="shots/110_custom_resolution.webp" alt="своё разрешение"></div>
+  <div class="col"><h3>A. Список приложения <span class="tag">рекомендую</span></h3><p class="note">360p · 480p · 720p · 1080p · 1440p · Нативное (2560 × 1600) · 4K, и своё, если введено.</p>
+    <div class="phone"><div class="dialog" style="margin:10px 6px" data-res="app"><div class="dt">Разрешение</div><div class="dm">Больше — чётче картинка, меньше — легче для сети и устройства</div>
+      <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="w" style="width:66px"></label><span class="times">×</span><label class="field"><input class="h" style="width:66px"></label><div class="btn plus">+</div></div>
+      <div class="preset"></div><input type="range" class="rng" min="0" step="1"><div class="acts"><span>ОТМЕНА</span><span>OK</span></div></div></div></div>
+  <div class="col"><h3>B. 12, как на макете</h3><p class="note">Плюс 1280 × 800, 1440 × 900, 1600 × 900, 1680 × 1050, 1920 × 1200 — новые пункты и в обычном списке.</p>
+    <div class="phone"><div class="dialog" style="margin:10px 6px" data-res="12"><div class="dt">Разрешение</div><div class="dm">Больше — чётче картинка, меньше — легче для сети и устройства</div>
+      <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="w" style="width:66px"></label><span class="times">×</span><label class="field"><input class="h" style="width:66px"></label><div class="btn plus">+</div></div>
+      <div class="preset"></div><input type="range" class="rng" min="0" step="1"><div class="acts"><span>ОТМЕНА</span><span>OK</span></div></div></div></div>
+</div>
+
+<script>
+// Bitrate: log scale 0.5..300 Mbps; the button step grows with the value (as in the accepted variant A).
+const B={min:0.5,max:300};
+const stepB=v=>v<5?0.5:v<20?1:v<50?2:v<100?5:10;
+const roundB=v=>{const s=stepB(v);return Math.min(B.max,Math.max(B.min,Math.round(v/s)*s));};
+const toVal=p=>roundB(B.min*Math.pow(B.max/B.min,p/1000));
+const toPos=v=>Math.round(1000*Math.log(v/B.min)/Math.log(B.max/B.min));
+const fmt=v=>(Math.round(v*10)/10).toFixed(1).replace('.',',');
+document.querySelectorAll('[data-kind=bitrate]').forEach((p,i)=>{
+  const r=p.querySelector('.rng'),n=p.querySelector('.num');let v=i%2?5:15;
+  const set=x=>{v=roundB(x);r.value=toPos(v);n.value=fmt(v);};
+  r.oninput=()=>set(toVal(+r.value));
+  n.onchange=()=>{const x=parseFloat(n.value.replace(',','.'));set(isNaN(x)?v:x);};
+  p.querySelector('.minus').onclick=()=>set(v-stepB(v-0.001));
+  p.querySelector('.plus').onclick=()=>set(v+stepB(v));
+  set(v);
+});
+// Resolution stops, sorted by pixel count. "app" = the list of Super Artemis on Titan; "12" = the R2 mockup.
+const APP=[[640,360,'360p'],[854,480,'480p'],[1280,720,'720p'],[1920,1080,'1080p'],[2560,1440,'1440p'],[2560,1600,'Нативное'],[3840,2160,'4K']];
+const TWELVE=[[640,360,'360p'],[854,480,'480p'],[1280,720,'720p'],[1280,800,'16:10'],[1440,900,'16:10'],[1600,900,'16:9'],[1680,1050,'16:10'],[1920,1080,'1080p'],[1920,1200,'16:10'],[2560,1440,'1440p'],[2560,1600,'Нативное'],[3840,2160,'4K']];
+document.querySelectorAll('[data-res]').forEach(c=>{
+  const P=c.dataset.res==='app'?APP:TWELVE,W=c.querySelector('.w'),H=c.querySelector('.h'),R=c.querySelector('.rng'),L=c.querySelector('.preset');
+  R.max=P.length-1;
+  const near=(w,h)=>{let b=0,d=1e18;P.forEach((p,i)=>{const x=Math.abs(p[0]*p[1]-w*h);if(x<d){d=x;b=i;}});return b;};
+  const show=(w,h)=>{W.value=w;H.value=h;const i=P.findIndex(p=>p[0]==w&&p[1]==h);if(i>=0){R.value=i;L.textContent=P[i][2];}else{R.value=near(w,h);L.textContent='своё';}};
+  R.oninput=()=>{const p=P[+R.value];show(p[0],p[1]);};
+  const typed=()=>{const w=parseInt(W.value),h=parseInt(H.value);if(w>0&&h>0)show(w,h);};
+  W.onchange=typed;H.onchange=typed;[W,H].forEach(f=>f.oninput=()=>{f.value=f.value.replace(/\D/g,'').slice(0,4);});
+  c.querySelector('.minus').onclick=()=>{const i=Math.max(0,+R.value-1);show(P[i][0],P[i][1]);};
+  c.querySelector('.plus').onclick=()=>{const i=Math.min(P.length-1,+R.value+1);show(P[i][0],P[i][1]);};
+  show(1920,1080);
+});
+</script>
+</body></html>
