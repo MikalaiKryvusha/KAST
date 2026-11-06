@@ -56,7 +56,8 @@
 > <!-- classes: question-already-answered, guard-not-proven-against-threat, shown-as-link,
 >      claim-before-evidence, owner-decision-not-applied, text-in-agents-world,
 >      etalon-from-dirty-tree, shell-lied, escaping-layer, twins-missed,
->      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit, ui-shipped-unseen -->
+>      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit, ui-shipped-unseen,
+>      design-before-recon, owner-word-narrowed -->
 >
 > | Class slug | The failure it names |
 > |---|---|
@@ -74,6 +75,8 @@
 > | `line-endings` | a shell rewrite changed the line endings of a tracked file, so the whole file shows as changed |
 | `state-overwritten-on-exit` | a running program wrote its own copy of a setting on exit, over the value the agent had just set |
 | `ui-shipped-unseen` | a change the user sees went out (a PR, a release) before the owner saw its screens |
+| `design-before-recon` | design variants drafted from the agent's head while the recon that should shape them was still running |
+| `owner-word-narrowed` | the owner's order about a UI element applied to the one text he quoted, the element's other states left standing |
 >
 > The `#tags` are **trigger-tags**: before a task, grep by the task's tags and QUOTE the relevant
 > lessons in your report (id + one line) — or state "no relevant lessons". An unquoted recall is
@@ -82,6 +85,29 @@
 > Skill: `/experience` (capture a lesson · recall relevant lessons).
 
 ## Entries
+
+### EXP-0014 · 2026-11-06 · ❌→✅ · #ui #owner #mockup
+class: owner-word-narrowed
+**Context:** Super Artemis Custom Resolution mockup V3.2; the hint line under the fields showed «Заполнит весь экран», «Полосы сверху и снизу» or «Полосы по бокам».
+**Tried / did:** the owner wrote «Заполнит весь экран - нахуй эту строку»; the agent blanked only that one text and kept the bar texts.
+**Result:** ❌ the owner, on his own screenshot of «Полосы сверху и снизу»: «Я СКАЗАЛ НАХУЙ!!!!» · «СТРОКУ БЛЯТЬ!». ✅ the whole line was removed in every state.
+**Lesson:** an order to remove a line of the UI removes the ELEMENT — every text and state it can show; the quoted text only points at it.
+**Repro:** after a removal order, grep the page for every text the element can render and screenshot each state (`node clip.mjs` with a state script) before reporting.
+**Trigger:** the owner says «убери / нахуй эту строку / этот блок» about a UI element → list the element's texts, remove all, show each state.
+**Not for:** an order that names one value of a list («убери 67%») — that removes the value, the list stays.
+mechanized: none — the order lives in chat text; the Repro screenshot step is the carrier
+
+### EXP-0013 · 2026-11-06 · ❌→✅ · #ui #recon #owner #mockup
+class: design-before-recon
+**Context:** the owner asked for mockup variants of the Super Artemis Custom Resolution dialog, «с вариантами», and then «погуглить разведку в интернете, лучшие практики».
+**Tried / did:** launched the web recon in the background and, meanwhile, wrote three variants from the agent's own head.
+**Result:** ❌ the owner: «а как ты можешь это делать без результатов разведки?». ✅ the draft was set aside; after the recon (`researches/03`) the variants were
+rebuilt FROM it, each with a «Где так» line and links; one variant was honestly tagged «примера нет».
+**Lesson:** when recon is ordered for a design, the variants are derived from its findings; waiting for the recon is the work, not idle time.
+**Repro:** before opening a variants page, `ls researches/` shows the recon doc of this question, and every variant on the page carries a source line.
+**Trigger:** a variants/mockup task with recon in flight → do non-design chores or wait for the notification; no variant before the findings.
+**Not for:** a mockup of a choice the owner has already made (taste iterations on his chosen variant).
+mechanized: none — the order of work is a judgment call; the Repro check before showing is the carrier
 
 ### EXP-0012 · 2026-11-06 · ✅ · #android #ui #preferences
 **Context:** Super Artemis PR #13 — custom slider and resolution dialogs inside an AppCompat `AlertDialog` (Settings theme).
