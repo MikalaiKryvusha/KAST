@@ -1,12 +1,192 @@
 {
   "titanBaseline": {
-    "note": "Titan 1 as found 2026-11-06 23:25: panel 1600x2560 physical 320 dpi, density override 480 (set before this session), auto-rotate on",
+    "note": "Titan 1 as found 2026-11-06 23:25: panel 1600x2560 physical 320 dpi, density override 480 (the owner's maximum display size), auto-rotate on",
     "size": null,
     "density": 480,
     "userRotation": 0,
     "accelerometerRotation": 1
   },
+  "note": "size/density = the pair applied on Titan; realSize/realDensity = the device's own pair for the caption. A device larger than Titan's panel is applied with px and density scaled by one factor, so its dp layout is the device's. Sources per number: researches/04_device_display_specs.md",
   "profiles": [
-    { "id": "probe", "name": "tool self-test (not a device)", "size": "1200x1920", "density": 320, "orientations": ["port", "land"] }
+    {
+      "id": "probe",
+      "name": "tool self-test (not a device)",
+      "size": "1200x1920",
+      "density": 320,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "s24u",
+      "name": "Galaxy S24 Ultra",
+      "size": "1080x2340",
+      "density": 450,
+      "realSize": "1080x2340",
+      "realDensity": 450,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "tabs10u",
+      "name": "Galaxy Tab S10 Ultra",
+      "size": "1596x2556",
+      "density": 259,
+      "realSize": "1848x2960",
+      "realDensity": 300,
+      "orientations": [
+        "land",
+        "port"
+      ]
+    },
+    {
+      "id": "fold6",
+      "name": "Galaxy Z Fold6 (inner)",
+      "size": "1590x1852",
+      "density": 360,
+      "realSize": "1856x2160",
+      "realDensity": 420,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "pixelfold",
+      "name": "Pixel 9 Pro Fold (inner)",
+      "size": "1596x1656",
+      "density": 300,
+      "realSize": "2076x2152",
+      "realDensity": 390,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "pixel9pro",
+      "name": "Pixel 9 Pro",
+      "size": "1120x2499",
+      "density": 420,
+      "realSize": "1280x2856",
+      "realDensity": 480,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "flip6",
+      "name": "Galaxy Z Flip6 (inner)",
+      "size": "1044x2552",
+      "density": 464,
+      "realSize": "1080x2640",
+      "realDensity": 480,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "xperia10v",
+      "name": "Xperia 10 V",
+      "size": "1080x2520",
+      "density": 450,
+      "realSize": "1080x2520",
+      "realDensity": 450,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "a03",
+      "name": "Galaxy A03",
+      "size": "720x1600",
+      "density": 300,
+      "realSize": "720x1600",
+      "realDensity": 300,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "taba7lite",
+      "name": "Galaxy Tab A7 Lite",
+      "size": "800x1340",
+      "density": 213,
+      "realSize": "800x1340",
+      "realDensity": 213,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "tabextreme",
+      "name": "Lenovo Tab Extreme",
+      "size": "1594x2550",
+      "density": 272,
+      "realSize": "1876x3000",
+      "realDensity": 320,
+      "orientations": [
+        "land",
+        "port"
+      ]
+    },
+    {
+      "id": "yogatab13",
+      "name": "Lenovo Yoga Tab 13",
+      "size": "1350x2160",
+      "density": 240,
+      "realSize": "1350x2160",
+      "realDensity": 240,
+      "orientations": [
+        "land",
+        "port"
+      ]
+    },
+    {
+      "id": "edge50pro",
+      "name": "Motorola Edge 50 Pro",
+      "size": "1148x2552",
+      "density": 424,
+      "realSize": "1220x2712",
+      "realDensity": 450,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    },
+    {
+      "id": "astra",
+      "name": "RedMagic Astra",
+      "size": "1504x2400",
+      "density": 388,
+      "realSize": "1504x2400",
+      "realDensity": 388,
+      "densityComputed": true,
+      "orientations": [
+        "land",
+        "port"
+      ]
+    },
+    {
+      "id": "teclastp85t",
+      "name": "Teclast P85T",
+      "size": "800x1280",
+      "density": 234,
+      "realSize": "800x1280",
+      "realDensity": 234,
+      "densityComputed": true,
+      "orientations": [
+        "port",
+        "land"
+      ]
+    }
   ]
 }

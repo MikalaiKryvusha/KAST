@@ -75,7 +75,11 @@ flowchart LR
 - [ ] 4. **PR-B, the dialog** — branch `feature/custom-resolution-dialog` from `origin/unified-main`. `CustomResolutionModel` + test;
       `CustomResolutionDialog` reusing `StepperViews`; the row `edit_diy_w_h` opens it instead of the `EditTextPreference` text dialog;
       new strings (recommended line, four validation reasons) into every `values-*` (`tools/l10n/`). Exit: criteria 1–4, 8.
-- [ ] 5. **Device sweep** — every profile, portrait + landscape (tablets: landscape two-pane settings first), the four states of the
+- [ ] 4b. **Owner's look check BEFORE the sweep** — the working dialog on Titan (2–3 profiles, the four states) on one page in Chrome
+      on this PC; his remarks applied, round after round; the sweep starts only after his agreement. [OWNER] «прежде чем для ПР будем
+      снимать скриншоты диалога разрешения на разных девайсах и языках - покажешь мне, как он получится, согласуем. Может будут правки
+      от меня» · «только когда согласуем. сделаем его красиво - тогда будем снимать скриншоты для ПР» · chat 2026-11-06 ≈23:50.
+- [ ] 5. **Device sweep** (languages: English first; 1–2 shots each in Russian, Spanish, French, German — owner 2026-11-06 ≈23:39–23:40) — every profile, portrait + landscape (tablets: landscape two-pane settings first), the four states of the
       dialog (Native open, 16:9 stop, typed custom, validation error). Read each WebP; a clipped control is a defect fixed before the show.
       Exit: criterion 5.
 - [ ] 6. **Show the owner** — one page in a new Chrome window on this PC, all devices, before/after for PR-A; wait for his word.
@@ -88,8 +92,9 @@ flowchart LR
 ПРОСТО ПИШЕМ Xiaomi 16» · chat 2026-11-06 ≈23:27–23:28.
 1. Each screenshot is captioned with the device name and its screen pair: «Galaxy S24 Ultra — 1080×2340, 450 dpi».
 2. The PR text carries no word about how the screenshots were produced.
-3. `[AI]` The PR text does not state that the dialog was tested ON a device we do not have; the «Tested on» line names the devices the
-   build actually ran on (Titan 1; S21 FE when it is connected). Said to the owner in chat 2026-11-06 ≈23:28. `[/AI]`
+3. The PR carries a «Screenshots» list: one line per screenshot — device name · screen pair · orientation. [OWNER] «а скриншотов
+   список напишешь на каких девайсах сняли!» · chat 2026-11-06 ≈23:39.
+4. The PR text has no «Tested on» line at all. [OWNER] «проверяно на можешь НЕ ПИСАТЬ!» · chat 2026-11-06 ≈23:38.
 
 ## Risks
 
