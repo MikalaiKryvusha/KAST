@@ -21,14 +21,24 @@ sleep 2.5
 # The settings button and the search bar are found by their content descriptions / hints in the current language
 $UI tap "${SETTINGS_TEXT:-Settings}" >/dev/null || exit 1
 sleep 1.5
-$UI tap "${SEARCH_TEXT:-Search settings}" >/dev/null || exit 1
-sleep 1
-$A -s "$STAND_SERIAL" shell input text "$QUERY"
+if [ "$QUERY" = "-" ]; then
+  # A title adb cannot type (Cyrillic): scroll the list to the row instead of searching
+  $STAND apply "$PROFILE" "$ORIENT" >/dev/null || exit 1
+  $UI seek "$ROW" >/dev/null || exit 1
+else
+  $UI tap "${SEARCH_TEXT:-Search settings}" >/dev/null || exit 1
+  sleep 1
+  $A -s "$STAND_SERIAL" shell input text "$QUERY"
+  sleep 1.5
+  $UI tap "$ROW" >/dev/null || exit 1
+  sleep 1.5
+  # Rotation again BEFORE the dialog opens: the dialog picks its layout from the screen height at opening
+  $STAND apply "$PROFILE" "$ORIENT" >/dev/null || exit 1
+  $UI tap "$ROW" >/dev/null || exit 1
+fi
 sleep 1.5
-$UI tap "$ROW" >/dev/null || exit 1
-sleep 1.5
-# Rotation again BEFORE the dialog opens: the dialog picks its layout from the screen height at opening
-$STAND apply "$PROFILE" "$ORIENT" >/dev/null || exit 1
-$UI tap "$ROW" >/dev/null || exit 1
-sleep 1.5
+# STEP_TO_STOP=1: plus then minus, so the dialog stands on a stop and its label is bold
+if [ "${STEP_TO_STOP:-0}" = "1" ]; then
+  $UI tap "+" >/dev/null; sleep 0.5; $UI tap "-" >/dev/null; sleep 0.8
+fi
 $UI shot "$OUT"

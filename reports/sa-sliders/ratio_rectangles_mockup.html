@@ -11,10 +11,12 @@
  .land{width:720px}
  .dt{font-size:24px;margin-bottom:12px}
  .ds{font-size:14px;color:#c9c9c9;margin-bottom:14px;line-height:1.35}
- .seg{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.05);border-radius:14px;padding:10px 10px;gap:6px}
- .r{height:30px;border:1.5px solid #8e8e93;border-radius:5px;display:flex;align-items:center;justify-content:center;
-    font-size:12px;color:#c4c4c4;box-sizing:border-box;cursor:pointer;flex:none;white-space:nowrap}
- .r.on{background:#b4c5ff;border-color:#b4c5ff;color:#1b2b55;font-weight:600}
+ .seg{display:flex;align-items:center;background:rgba(255,255,255,.05);border-radius:14px;padding:4px;gap:4px}
+ .b{flex:1;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+ .b.on{background:rgba(180,197,255,.2)}
+ .r{height:26px;border:1.5px solid #8e8e93;border-radius:4px;display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:#c4c4c4;box-sizing:border-box;white-space:nowrap}
+ .b.on .r{background:#b4c5ff;border-color:#b4c5ff;color:#1b2b55;font-weight:700}
  .natv{text-align:center;font-size:12px;color:#a8a8a8;margin:8px 0 0}
  .ctl{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px}
  .btn{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px}
@@ -34,23 +36,23 @@
  .note{max-width:760px;color:#bdbdbd;font-size:14px;line-height:1.5;margin-top:22px}
 </style></head><body>
 <h1>Ratio row: each ratio is a rectangle of its own shape, the ratio written inside</h1>
-<p class="sub">Galaxy S24 Ultra screen (2340×1080, 19.5:9). Rectangles 30 px high; width = height × ratio; Native takes the screen's own ratio.</p>
+<p class="sub">Galaxy S24 Ultra screen (2340×1080, 19.5:9). Five equal buttons; inside each, a rectangle 26 px high, width = height × ratio, the ratio written in it; Native takes the screen's own ratio.</p>
 <div class="wrap" id="wrap"></div>
-<p class="note">Compared with the build on the tablet: the small frame and the label under it become one shape, so the row is about 20 px lower and every ratio is readable at a glance (21:9 is visibly wider than 4:3). Tap a rectangle to see the selection move.</p>
+<p class="note">Five equal buttons; inside each, a rectangle of its ratio with the ratio written in it. The selected button is tinted, its rectangle filled. Tap a button to move the selection. In the app the rectangle height shrinks together on a narrow screen, so 21:9 always fits its button.</p>
 <script>
 const RATIOS=[['Native',2340/1080],['16:9',16/9],['16:10',1.6],['21:9',21/9],['4:3',4/3]];
 const STOPS={Native:['25%','50%','75%','100%'],'16:9':['720p','900p','1080p','1440p','4K'],'16:10':['800p','900p','1200p','1600p','2400p'],'21:9':['720p','1080p','1440p','2160p'],'4:3':['720p','900p','1080p','1440p']};
 const SIZES={Native:['1752','808'],'16:9':['1920','1080'],'16:10':['1920','1200'],'21:9':['2560','1080'],'4:3':['1440','1080']};
 const CUR={Native:2,'16:9':2,'16:10':2,'21:9':1,'4:3':2};
-function seg(sel,on){return '<div class="seg">'+RATIOS.map(([n,k])=>{const w=Math.max(Math.round(30*k),n.length*7+12);
-  return `<div class="r${n===sel?' on':''}" style="width:${w}px" onclick="(${on})('${n}')">${n}</div>`}).join('')+'</div>'}
+// Equal buttons; inside each, a rectangle of the ratio's own shape (26 px high, width = 26 x ratio) with the ratio written in it
+function seg(sel,on){return '<div class="seg">'+RATIOS.map(([n,k])=>{const w=Math.round(26*k);
+  return `<div class="b${n===sel?' on':''}" onclick="(${on})('${n}')"><div class="r" style="width:${w}px">${n}</div></div>`}).join('')+'</div>'}
 function sizePart(sel){const L=STOPS[sel],i=CUR[sel],p=i/(L.length-1)*100,[w,h]=SIZES[sel];
   return `<div class="ctl"><div class="btn">−</div><div class="f">${w}</div><span class="x">×</span><div class="f">${h}</div><div class="btn">+</div></div>
-  <div class="chip">${sel} · ${L[i]}</div>
-  <div class="bar"><div class="tr"></div><div class="fl" style="width:${p}%"></div><div class="th" style="left:${p}%"></div></div>
+  <div class="bar" style="margin-top:22px"><div class="tr"></div><div class="fl" style="width:${p}%"></div><div class="th" style="left:${p}%"></div></div>
   <div class="lb">${L.map((l,j)=>j===i?'<b>'+l+'</b>':'<span>'+l+'</span>').join('')}</div>`}
 function natv(sel){return `<div class="natv">${sel==='Native'?'Device screen 2340×1080, recommended':'&nbsp;'}</div>`}
-const state={a:'Native',b:'16:9',c:'Native'};
+const state={a:'Native',b:'16:9',c:'4:3'};
 function render(){
  const W=document.getElementById('wrap');
  W.innerHTML=
@@ -58,8 +60,8 @@ function render(){
    ${seg(state.a,"n=>{state.a=n;render()}")}${natv(state.a)}${sizePart(state.a)}<div class="acts"><span class="a">Cancel</span><span class="a">OK</span></div></div></div>
   <div><div class="cap">Portrait — 16:9 selected</div><div class="dlg phone"><div class="dt">Custom Resolution</div><div class="ds">The new resolution applies when you leave Settings.</div>
    ${seg(state.b,"n=>{state.b=n;render()}")}${natv(state.b)}${sizePart(state.b)}<div class="acts"><span class="a">Cancel</span><span class="a">OK</span></div></div></div>
-  <div><div class="cap">Phone in landscape — two columns</div><div class="dlg land"><div class="dt">Custom Resolution</div><div class="ds">The new resolution applies when you leave Settings.</div>
-   <div class="cols"><div>${seg(state.c,"n=>{state.c=n;render()}")}${natv(state.c)}</div><div>${sizePart(state.c)}</div></div><div class="acts"><span class="a">Cancel</span><span class="a">OK</span></div></div></div>`;
+  <div><div class="cap">Portrait — 4:3 selected</div><div class="dlg phone"><div class="dt">Custom Resolution</div><div class="ds">The new resolution applies when you leave Settings.</div>
+   ${seg(state.c,"n=>{state.c=n;render()}")}${natv(state.c)}${sizePart(state.c)}<div class="acts"><span class="a">Cancel</span><span class="a">OK</span></div></div></div>`;
 }
 render();
 </script></body></html>
