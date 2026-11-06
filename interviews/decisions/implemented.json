@@ -7,12 +7,12 @@
   },
   "interviews/interview_003_sliders_dialog_or_list.md": {
     "Q1": {
-      "at": "2026-11-06T21:19:36+03:00",
-      "where": "829e3253"
+      "at": "2026-11-06T23:32:03+03:00",
+      "where": "Arora-Sir/Super-Artemis PR #13 (829e3253, merged 2861713f)"
     },
     "Q2": {
-      "at": "2026-11-06T21:19:36+03:00",
-      "where": "829e3253"
+      "at": "2026-11-06T23:32:03+03:00",
+      "where": "Arora-Sir/Super-Artemis PR #13 (829e3253, merged 2861713f; maintainer replaced the dialog with his picker dec0ca54)"
     }
   }
 }
