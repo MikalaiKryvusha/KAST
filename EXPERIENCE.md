@@ -83,6 +83,33 @@
 
 ## Entries
 
+### EXP-0012 · 2026-11-06 · ✅ · #android #ui #preferences
+**Context:** Super Artemis PR #13 — custom slider and resolution dialogs inside an AppCompat `AlertDialog` (Settings theme).
+**Tried / did:** three looks failed on the first build, each found on a screenshot of Titan 1.
+**Result:** ✅ all three fixed: (1) `EditText.setKeyListener(DigitsKeyListener…)` switches the IME to letters — call
+`setRawInputType(TYPE_CLASS_NUMBER|…)` AFTER it; (2) the dialog buttons are `MaterialButton`, which ignores `setBackground` —
+use `setBackgroundTintList` + `setCornerRadius`; (3) the theme's `dialogPreferredPadding` did not equal the title's real indent —
+measure `R.id.alertTitle` with `getLocationOnScreen` after `show()` (in `View.post`) and pad the content to it.
+**Lesson:** in a dialog built in code, what the theme promises and what the screen shows differ; read the screenshot, then fix.
+**Repro:** `dumpsys input_method | grep -A1 curEditorInfo` shows the field's real inputType; an `adb shell input keyevent 66`
+(hardware Enter) flips Gboard to letters by itself — tap the field again before judging the keyboard.
+**Trigger:** a custom view in an `AlertDialog` (fields, buttons, paddings) in Super Artemis or KAST.
+**Not for:** XML layouts inflated with the dialog theme.
+
+### EXP-0011 · 2026-11-06 · ❌→✅ · #ui #verify #owner #taste
+class: claim-before-evidence
+**Context:** look remarks of the owner on the slider dialogs (Super Artemis PR #13), one rebuild per remark.
+**Tried / did:** for «отступ описания поровнять с заголовком» set the indent from the theme value, installed the build and
+reported it done WITHOUT a screenshot.
+**Result:** ❌ the owner, on his own screenshot: «блять, ты видишь, что отступ малый???» — the theme value was 26 px short. ✅ The
+indent was measured on screen, and from then on every look fix was checked on a screenshot before a word was said.
+**Lesson:** a look fix is done when the agent has SEEN it on the device; the build installing is not the fix working.
+**Repro:** after each `adb install -r` of a look change: open the screen, `screencap` → WebP, read the image, compare with the remark.
+**Trigger:** reporting a UI change (padding, colour, size, text) to the owner → a fresh screenshot read in the same turn.
+**Not for:** changes the user never sees.
+<!-- class-ok: claim-before-evidence — the claim lives in chat text, which no tool reads; the price of each miss is one owner remark and one rebuild, and the carrier is the screenshot step in this Repro plus the memory rule show-ui-before-pr -->
+mechanized: none — the claim is chat text; the class is declared above
+
 ### EXP-0010 · 2026-10-31 · ❌→✅ · #ui #pr #owner #taste
 class: ui-shipped-unseen
 **Context:** two PRs to Super Artemis changed what a user sees (a drag handle in the Profiles list; the status label moved top left with a fade).

@@ -14,7 +14,7 @@
 [![Base](https://img.shields.io/badge/base-Artemis-6A5ACD.svg)](https://github.com/ClassicOldSong/moonlight-android)
 [![Host](https://img.shields.io/badge/host-Vibepollo-00A884.svg)](https://github.com/Nonary/Vibepollo)
 [![Platform](https://img.shields.io/badge/platform-Android-3DDC84.svg)](#english)
-[![Status](https://img.shields.io/badge/status-early%20development-orange.svg)](STATUS.md)
+[![Status](https://img.shields.io/badge/status-on%20hold-lightgrey.svg)](STATUS.md)
 [![Framework](https://img.shields.io/badge/framework-KAIF-7F52FF.svg)](https://github.com/MikalaiKryvusha/KAIF)
 
 ---
@@ -24,6 +24,10 @@
 ## English
 
 [Читать по-русски →](#russian)
+
+> **On hold since 2026-11-06.** Development continues as contributions to
+> [Super Artemis](https://github.com/Arora-Sir/Super-Artemis): the Russian translation, the app language fix, profile
+> reordering and the network drop label from KAST are part of Super Artemis 1.1.0, and new work goes there as pull requests.
 
 **KAST** is an Android client for streaming games and the desktop from a Windows PC. KAST is a fork of
 [Artemis](https://github.com/ClassicOldSong/moonlight-android) (Moonlight for Android) built specifically for the
@@ -102,6 +106,10 @@ gradlew.bat :app:assembleNonRoot_gameDebug
 ## Русский
 
 [Read in English →](#english)
+
+> **Проект на паузе с 6 ноября 2026 года.** Работа продолжается вкладом в
+> [Super Artemis](https://github.com/Arora-Sir/Super-Artemis): русский перевод, исправление языка приложения, перестановка
+> профилей и надпись о пропаже сети из KAST вошли в Super Artemis 1.1.0, а новые изменения уходят туда запросами на слияние.
 
 **KAST** — Android-клиент для стриминга игр и рабочего стола с компьютера на Windows. KAST — форк
 [Artemis](https://github.com/ClassicOldSong/moonlight-android) (Moonlight для Android), созданный специально для
