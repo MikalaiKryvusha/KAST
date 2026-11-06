@@ -98,14 +98,13 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 - 🚗 Итог поездки 2026-10-30 с KAST по LTE (владелец проверяет сам): держалась ли сессия в провалах, как быстро возвращалась картинка.
 - 🔧 **Super Artemis — вклад по тикетам, каждый отдельным PR** (владелец 2026-10-30 ≈22:25: «на все отдельный ПР делаем»; клон
   `D:\work\ai_sandbox\_forks\Super-Artemis`, push — `git push kast <ветка>`, PR — `gh pr create -R Arora-Sir/Super-Artemis`):
-  - PR #8 (ru + язык приложения, #3, #6) — мейнтейнер вольёт в ближайший выпуск, три мелочи уберёт сам;
-  - PR #10 (#4, перетаскивание профилей) и PR #11 (#7 часть 1, надпись о пропаже сети) — открыты, без конфликтов, ждут ревью;
-    строка `network_drop_waiting` на русском — после слияния #8;
-  - #7 часть 2, авто-возобновление — ветка `feature/auto-resume` (`a7b7d335`, поверх #11, WIP): шаги и прогоны — `plans/10_super_artemis_auto_resume.md`;
   - 2026-11-06: PR #8, #10, #11 влиты, нас вписали в `credits.json` и README; мейнтейнер САМ сделал #7 часть 2 (`f752f056`, свой
     `NetworkResumer`, наша ветка `feature/auto-resume` и `plans/10` не нужны) и переводы на 21 язык (`91e52999`); тег `v1.1.0`;
-  - #5 мастер-профиль — мейнтейнер вернётся сам; #3 — от нас только `dimens.xml` после его выпуска с размерами в ресурсах;
-  - ползунки (`ideas/16`, макет A) и ввод разрешения (`ideas/17`, макет R2) — макеты приняты 2026-10-31 ≈01:10 и ≈01:30, код — один PR после #7.
+    #7 закрыт нами 10:50 по слову владельца «закрывай #7»;
+  - **PR #13** (ползунки «−» · поле · «+», логарифмический битрейт, разрешение двумя полями, значения в списке; `ideas/16`, `ideas/17`,
+    интервью 003, `plans/11`) — открыт 2026-11-06 10:49 по слову «открывай PR», без конфликтов, ждёт ревью; ветка `feature/sliders-plus-minus`
+    (`829e3253`), отчёт `testcases/reports/2026-11-06_super-artemis-sliders.md`; то же в KAST — после слияния;
+  - #5 мастер-профиль — мейнтейнер вернётся сам; #3 — открыт мейнтейнером как трекер, от нас только `dimens.xml` после его выпуска.
 - ✅ Профили владельца (2026-10-30 ≈23:50): MAXQ, MIDQ, LOWQ, MINQ из Artemide (`com.limelight.perf`) — в его Super Artemis на
   Титане; каждый дошёл до Vibepollo с тем же битрейтом, FPS и разрешением (`testcases/reports/2026-10-30_super-artemis-profiles-vibepollo.md`).
   ❓ Владельцу: переносить ли остальные настройки профилей со звёздочкой (Fast V-Sync, апскейлинг и др.).
@@ -128,15 +127,12 @@ KAST Debug (`com.limelight.kastdebug`) собирается на D, стоит �
 
 ## С чего начать следующей сессии
 
-0. **Сначала — Super Artemis #7, авто-возобновление (2026-10-31):** `plans/10_super_artemis_auto_resume.md` → раздел «Next»: 5a короткие
-   таймауты у попыток (одна попытка съела 21 с срока), 5b плашку «запуск стрима» из центра кадра — в плашку состояний вверху слева
-   (слово владельца ≈01:00), 5c повторить прогоны на стабильном Wi-Fi. Затем экраны владельцу (страница в новом окне Chrome) → отчёт → PR.
-   Проверить ответы мейнтейнера: `gh pr list -R Arora-Sir/Super-Artemis --state all` и `gh issue list -R Arora-Sir/Super-Artemis`.
-   Стенд: Титан по Tailscale `adb connect 100.99.111.48:5555`; на нём отладочный Super Artemis — ТЕСТОВАЯ сборка (тайм-аут клиента 10 с),
-   срок ожидания в его настройках 60 с, хост добавлен по адресу Tailscale `100.80.125.66`; запись экрана `/sdcard/sa_resume.mp4` (10 МБ)
-   ещё лежит на Титане — забрать в `C:\Android\private\evidence\` и удалить. Обрыв — `bash tools/titan-wifi-drop.sh 20 <метка>` (только
-   Wi-Fi Титана; Vibepollo `channels = 2`, стрим владельца с MacBook не задевается). UI-агент Титана — `python -X utf8
-   C:/Android/private/ui-agent/ui.py --serial 100.99.111.48:5555 --start ping`, пока он запущен, `uiautomator dump` не работает.
+0. **Сначала — ответ мейнтейнера на PR #13 (ползунки):** `gh pr view 13 -R Arora-Sir/Super-Artemis --comments`; правки — в ветке
+   `feature/sliders-plus-minus` клона `D:\work\ai_sandbox\_forks\Super-Artemis`, push `git push kast feature/sliders-plus-minus`.
+   Стенд: Титан — `adb connect 192.168.1.3:<порт>` (отладка по Wi-Fi дома, порт даёт владелец) или по Tailscale `100.99.111.48:5555`;
+   на Титане отладочный Super Artemis 1.1.0 + PR #13 (`com.mohitarora.superartemis.debug`). UI-агент — `PATH` с `C:\Android\Sdk\platform-tools`
+   впереди, `python -X utf8 C:/Android/private/ui-agent/ui.py --serial <адрес> --start ping`. Запись экрана `/sdcard/sa_resume.mp4` (10 МБ)
+   ещё лежит на Титане — забрать в `C:\Android\private\evidence\` и удалить.
 1. Прочитать `GOAL.md` → этот файл → `plans/06_epic02_F3_resume.md` → раздел 7 отчёта `testcases/reports/2026-09-26_F3_resume.md`.
 2. Спросить владельца о взгляде на прогон 15: держался ли весь провал родной чёткий кадр и чисто ли вернулся поток (шаг 10 —
    прежний декодер через переподключение, в журнале `decoder kept` → `decoder reused`).

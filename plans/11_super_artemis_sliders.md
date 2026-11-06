@@ -2,7 +2,7 @@
 
 > **Created:** 2026-11-06 · **Parent:** `ideas/16` (variant A), `ideas/17` (variant R2), `interviews/interview_003_sliders_dialog_or_list.md`
 > (owner 2026-11-06 09:54: Q1 A — in the dialog, Q2 A — the app's own resolution list); owner's word 09:43 «делаем», 09:44 «и красиво ПР
-> оформим, со скриншотами, как мы любим» · **Status:** 🔧 2026-11-06 10:25 — steps 1–5 done (fork commit 3ad4cbac; criteria 1–6 passed on Titan; owner's look fixes 10:03–10:19: mockup styling, bar spacing and colour, values in the list for resolution and frame rate); step 6 — the owner's word on the page `reports/sa-sliders/before_after.html` ·
+> оформим, со скриншотами, как мы любим» · **Status:** 🔧 2026-11-06 10:25 — steps 1–5 done (fork commit 3ad4cbac; criteria 1–6 passed on Titan; owner's look fixes 10:03–10:19: mockup styling, bar spacing and colour, values in the list for resolution and frame rate); step 6 done 10:49 — PR https://github.com/Arora-Sir/Super-Artemis/pull/13 (squashed `829e3253`) on the owner's word «открывай PR»; awaiting the maintainer ·
 > **Outbound:** one PR to `Arora-Sir/Super-Artemis` from branch `feature/sliders-plus-minus` (base `unified-main` = tag `v1.1.0`),
 > screenshots before/after; shown to the owner BEFORE the PR (EXP-0010); the same later in KAST
 
@@ -51,7 +51,7 @@ flowchart TD
 - [x] 3. `preferences.xml`: `seekbar:scale="log"` on `seekbar_bitrate_kbps` and `seekbar_metered_bitrate_kbps`.
 - [x] 4. `ResolutionPreference` + `preferences.xml` class swap + `StreamSettings` hook for a typed custom resolution.
 - [x] 5. Build, unit suite, install on Titan, criteria 1–6 by `ui.py`, screenshots before/after, run report.
-- [ ] 6. The page for the owner (before/after in Chrome) → his word → CHANGELOG → PR with screenshots.
+- [x] 6. The page for the owner (before/after in Chrome) → his word → CHANGELOG → PR with screenshots.
 
 ## Risks
 
