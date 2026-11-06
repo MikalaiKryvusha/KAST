@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Super Artemis — своё разрешение: варианты окна</title>
+<style>
+:root{--dlg:#2b2d35;--card2:#363944;--on:#e3e2e9;--sub:#b4b6c2;--acc:#a8c7fa;--acc2:#2b4a78;--line:#4a4d58}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--on);font:16px/1.4 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px}
+a{color:var(--acc)}
+h1{font-weight:500;margin:0 0 6px}
+.lead{color:var(--sub);max-width:1300px;margin:0 0 14px}
+.recon{background:#16181f;border:1px solid #2a2d36;border-radius:14px;padding:12px 18px;max-width:1300px;margin:0 0 18px;font-size:14.5px}
+.recon h3{margin:0 0 6px;font-weight:500;font-size:16px}
+.recon ul{margin:4px 0 0;padding-left:20px;color:var(--sub)}
+.recon li{margin:3px 0}
+.recon b{color:var(--on);font-weight:500}
+.dev{margin:0 0 20px;color:var(--sub)}
+.dev button{background:var(--card2);color:var(--on);border:1px solid var(--line);border-radius:10px;padding:6px 12px;margin-left:6px;cursor:pointer;font-size:14px}
+.dev button.on{background:var(--acc2);color:var(--acc);border-color:var(--acc)}
+.row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.variant{width:410px}
+.variant h2{font-size:19px;font-weight:500;margin:0 0 4px}
+.variant .note{color:var(--sub);font-size:14px;margin:0 0 6px}
+.variant .src{font-size:13px;color:var(--sub);margin:0 0 12px;min-height:58px}
+.tag{display:inline-block;background:var(--acc2);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:12px;margin-left:6px;vertical-align:middle}
+.tag.warn{background:#4a2a28;color:#f2b8b5}
+.screen{background:#08090c;border-radius:26px;padding:26px 10px;border:1px solid #2a2d36;min-height:470px;display:flex;align-items:center}
+.dialog{background:var(--dlg);border-radius:28px;padding:22px 18px 16px;width:100%}
+.dt{font-size:23px;margin:0 0 8px}
+.ds{color:var(--sub);font-size:14px;margin:0 0 14px}
+.seg{display:flex;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin:0 0 6px}
+.seg span{flex:1;text-align:center;padding:7px 2px;font-size:13.5px;cursor:pointer;user-select:none;border-left:1px solid var(--line)}
+.seg span:first-child{border-left:0}
+.seg span.on{background:var(--acc2);color:var(--acc)}
+.natv{color:var(--sub);font-size:12.5px;text-align:center;margin:0 0 12px;min-height:17px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px}
+.btn{width:44px;height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card2);color:var(--on);font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none}
+.btn:active{background:var(--acc2)}
+.field{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:8px 6px}
+.field input{width:72px;background:transparent;border:0;color:var(--on);font-size:22px;text-align:center;outline:none}
+.field input::placeholder{color:#6f7280}
+.times{color:var(--sub);font-size:24px}
+.lock{width:40px;height:40px;border-radius:20px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;user-select:none}
+.lock.on{background:var(--acc2);border-color:var(--acc)}
+.name{text-align:center;color:var(--acc);font-size:14px;min-height:20px;margin:2px 0 4px}
+.hint{text-align:center;color:#f2b8b5;font-size:13px;min-height:18px}
+.ticks{position:relative;height:56px;margin:6px 14px 4px}
+.track{position:absolute;left:0;right:0;top:12px;height:4px;background:#4a4d58;border-radius:2px}
+.fill{position:absolute;left:0;top:12px;height:4px;background:var(--acc);border-radius:2px}
+.tick{position:absolute;top:10px;width:8px;height:8px;margin-left:-4px;border-radius:4px;background:#6a6d78}
+.tick.lit{background:#0b2a55}
+.thumb{position:absolute;top:4px;width:20px;height:20px;margin-left:-10px;border-radius:10px;background:var(--acc)}
+.tl{position:absolute;top:28px;transform:translateX(-50%);font-size:11px;color:var(--sub);white-space:nowrap;cursor:pointer;line-height:1.15;text-align:center}
+.tl.cur{color:var(--acc);font-weight:600}
+.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
+.act{border-radius:20px;padding:9px 18px;background:#3a3f52;color:var(--acc);font-size:15px}
+.act.off{color:#6f7280;background:#30323b}
+.shot img{width:100%;border-radius:18px;display:block}
+.cmp{margin-top:30px;max-width:1300px}
+.cmp table{border-collapse:collapse;font-size:14px;width:100%}
+.cmp td,.cmp th{border-bottom:1px solid #2a2d36;padding:6px 10px;text-align:left;vertical-align:top}
+.cmp th{color:var(--sub);font-weight:500}
+</style></head><body>
+<h1>Своё разрешение: варианты окна</h1>
+<p class="lead">Список «Разрешение» остаётся, как хочет мейнтейнер: 360p…4K и строки «Нативное». Меняется только окно строки
+«Пользовательское разрешение», где сейчас одно текстовое поле и нужно вписать «1920x1080» латинской «x». Окна живые: жмите
+соотношения, «−» и «+», засечки, замок, вписывайте свои числа.</p>
+
+<div class="recon">
+<h3>Что показала разведка (подробно с источниками — researches/03)</h3>
+<ul>
+<li><b>Ни один клиент стриминга не выбирает разрешение шкалой.</b> Moonlight для ПК, Parsec, Shadow, GeForce NOW, PS Remote Play,
+Steam Link, Windows App: везде список готовых, «как у устройства» и «своё». Тут мейнтейнер прав.</li>
+<li><b>Moonlight для ПК вводит своё разрешение двумя полями с неизменной «x» между ними</b>: только цифры, от 256 до 8192, «OK» не
+нажимается, пока числа неверные (<a href="https://github.com/moonlight-stream/moonlight-qt/blob/master/app/gui/SettingsView.qml">SettingsView.qml</a>).
+Это родитель Super Artemis, такой довод мейнтейнеру сильнее любого нашего.</li>
+<li><b>Соотношение сторон сначала, потом размер</b>: так в RetroArch, Winlator, в меню многих игр. В Moonlight для Android уже лежит
+неотвеченный запрос на своё разрешение по соотношению экрана телефона 20:9 (<a href="https://github.com/moonlight-stream/moonlight-android/pull/1349">PR #1349</a>).
+Когда удалённый рабочий стол Microsoft на Android давал только соотношение экрана устройства, пользователи жаловались: значит,
+«Нативное» должно быть одним из вариантов, а не единственным.</li>
+<li><b>Замок пропорций между двумя полями</b>: Photoshop, Canva, Figma. Вписали ширину, высота считается сама.</li>
+<li><b>Числа должны быть чётными</b>, лучше кратными 8: кодеки кодируют блоками 16×16 и 32×32. Android умеет спросить у декодера
+телефона, какие размеры он примет.</li>
+<li><b>Шкала с подписями</b> в Android возможна, но подписи под засечками придётся рисовать самим, и засечек не больше восьми.
+Примера среди клиентов стриминга нет.</li>
+</ul>
+</div>
+
+<div class="dev">Устройство (меняет «Нативное»):
+  <button data-dev="titan" class="on">Titan 1 · 2560×1600</button>
+  <button data-dev="s24">Galaxy S24 Ultra · 3120×1440</button>
+</div>
+
+<div class="row">
+
+  <div class="variant">
+    <h2>В1. Как в Moonlight для ПК</h2>
+    <p class="note">Два поля только под цифры, между ними «×». «OK» не нажимается, пока числа пустые, нечётные или вне 256…8192.
+    Ничего больше.</p>
+    <p class="src">Где так: Moonlight для ПК (дословно). Самый маленький PR и самый сильный довод для мейнтейнера. Соотношения сторон нет.</p>
+    <div class="screen"><div class="dialog" data-v="1">
+      <div class="dt">Пользовательское разрешение</div>
+      <div class="ds">Новое разрешение применится после выхода из настроек.</div>
+      <div class="ctl"><label class="field"><input class="w" inputmode="numeric"></label><span class="times">×</span><label class="field"><input class="h" inputmode="numeric"></label></div>
+      <div class="name"></div><div class="hint"></div>
+      <div class="acts"><span class="act">Отмена</span><span class="act ok">OK</span></div>
+    </div></div>
+  </div>
+
+  <div class="variant">
+    <h2>В2. Соотношение и замок <span class="tag">рекомендую</span></h2>
+    <p class="note">Сверху соотношение сторон, по умолчанию «Нативное» (экран устройства). Замок закрыт: вписали ширину, высота
+    посчиталась по соотношению и округлилась до кратного 8. Открыли замок — поля свободны.</p>
+    <p class="src">Где так: RetroArch и Winlator (сначала соотношение), Photoshop, Canva, Figma (замок), поля и проверка — Moonlight для ПК.
+    Решает случай телефона 20:9 из PR #1349.</p>
+    <div class="screen"><div class="dialog" data-v="2">
+      <div class="dt">Пользовательское разрешение</div>
+      <div class="ds">Новое разрешение применится после выхода из настроек.</div>
+      <div class="seg ratio"></div><div class="natv"></div>
+      <div class="ctl"><label class="field"><input class="w" inputmode="numeric"></label><div class="lock on" title="Сохранять соотношение">🔒</div><label class="field"><input class="h" inputmode="numeric"></label></div>
+      <div class="name"></div><div class="hint"></div>
+      <div class="acts"><span class="act">Отмена</span><span class="act ok">OK</span></div>
+    </div></div>
+  </div>
+
+  <div class="variant">
+    <h2>В3. Соотношение и шкала с подписями <span class="tag warn">примера нет</span></h2>
+    <p class="note">Ваша идея: соотношение сверху, под ним «−», ширина × высота, «+», ниже шкала. Засечки и подписи меняются вместе
+    с соотношением. Шкала только заполняет поля.</p>
+    <p class="src">Где так: среди клиентов стриминга нигде. Части есть: соотношение сначала (RetroArch, игры), шкала рядом с полем
+    для точного числа (Material). Мейнтейнер может снова сказать «нет» шкале.</p>
+    <div class="screen"><div class="dialog" data-v="3">
+      <div class="dt">Пользовательское разрешение</div>
+      <div class="ds">Новое разрешение применится после выхода из настроек.</div>
+      <div class="seg ratio"></div><div class="natv"></div>
+      <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="w" inputmode="numeric"></label><span class="times">×</span><label class="field"><input class="h" inputmode="numeric"></label><div class="btn plus">+</div></div>
+      <div class="name"></div>
+      <div class="ticks"><div class="track"></div><div class="fill"></div></div>
+      <div class="hint"></div>
+      <div class="acts"><span class="act">Отмена</span><span class="act ok">OK</span></div>
+    </div></div>
+  </div>
+
+  <div class="variant">
+    <h2>Сейчас в Super Artemis 1.1.0</h2>
+    <p class="note">Одно текстовое поле, буквенная клавиатура, ширина и высота через латинскую «x». Русская «х» с той же
+    клавиатуры даёт ошибку.</p>
+    <p class="src">Снимок с Титана.</p>
+    <div class="screen shot"><img src="shots/110_custom_resolution.webp" alt="Сейчас"></div>
+  </div>
+</div>
+
+<div class="cmp">
+<h2 style="font-weight:500">Чем варианты отличаются</h2>
+<table>
+<tr><th></th><th>В1 как в Moonlight для ПК</th><th>В2 соотношение и замок</th><th>В3 соотношение и шкала</th></tr>
+<tr><td>Заполнить экран S24 Ultra (19.5:9)</td><td>посчитать самому и вписать два числа</td><td>«Нативное», вписать высоту 1080 → 2336×1080</td><td>«Нативное», засечка ¾ или «+»</td></tr>
+<tr><td>1920×1200 на Титане</td><td>вписать два числа</td><td>«16:10», вписать 1920</td><td>«16:10», засечка 1200p</td></tr>
+<tr><td>Совсем своё, 1800×1000</td><td>вписать два числа</td><td>открыть замок, вписать два числа</td><td>вписать два числа</td></tr>
+<tr><td>Пример в других приложениях</td><td>Moonlight для ПК, один в один</td><td>RetroArch, Winlator, Photoshop, Canva</td><td>нет</td></tr>
+<tr><td>Риск отказа мейнтейнера</td><td>низкий</td><td>низкий: список не тронут, шкалы нет</td><td>средний: снова шкала</td></tr>
+<tr><td>Объём кода в PR</td><td>малый</td><td>малый</td><td>средний: шкала из PR #13 уже есть</td></tr>
+</table>
+</div>
+
+<script>
+// Ladders per aspect ratio for variant 3: [width, height, tick label]; at most 6 stops (recon: labels are ours, keep stops few).
+const R={
+ '16:9':[[1280,720,'720p'],[1600,900,'900p'],[1920,1080,'1080p'],[2560,1440,'1440p'],[3200,1800,'1800p'],[3840,2160,'4K']],
+ '16:10':[[1280,800,'800p'],[1440,900,'900p'],[1680,1050,'1050p'],[1920,1200,'1200p'],[2560,1600,'1600p'],[3840,2400,'2400p']],
+ '21:9':[[1720,720,'720p'],[2560,1080,'1080p'],[3440,1440,'1440p'],[3840,1600,'1600p'],[5120,2160,'2160p']],
+ '4:3':[[960,720,'720p'],[1024,768,'768p'],[1440,1080,'1080p'],[1600,1200,'1200p'],[2048,1536,'1536p']]
+};
+const DEV={titan:{w:2560,h:1600},s24:{w:3120,h:1440}};
+let dev='titan';
+const r8=x=>Math.max(8,Math.round(x/8)*8);
+// "Нативное": the device screen and its ½, ⅔, ¾ scales, rounded to multiples of 8
+function nativeLadder(){const d=DEV[dev];return [[0.5,'½'],[2/3,'⅔'],[0.75,'¾'],[1,'экран']].map(([k,l])=>[r8(d.w*k),r8(d.h*k),l]);}
+function ladder(r){return r==='Нативное'?nativeLadder():R[r];}
+function ratioOf(r){if(r==='Нативное'){const d=DEV[dev];return d.w/d.h;}const [a,b]=r.split(':');return a/b;}
+const RATIOS=['Нативное','16:9','16:10','21:9','4:3'];
+const MIN=256,MAX=8192;
+
+document.querySelectorAll('.dialog').forEach(D=>{
+  const v=+D.dataset.v,W=D.querySelector('.w'),H=D.querySelector('.h'),N=D.querySelector('.name'),HINT=D.querySelector('.hint'),OK=D.querySelector('.ok');
+  const RC=D.querySelector('.ratio'),NV=D.querySelector('.natv');let ratio='Нативное',idx=-1,lock=true,rounded=false;
+  function drawRatios(){if(!RC)return;RC.innerHTML='';RATIOS.forEach(r=>{const c=document.createElement('span');c.className=r===ratio?'on':'';c.textContent=r;
+    c.onclick=()=>{ratio=r;if(v===3){const L=ladder(r),h=+H.value||1080;let b=0;L.forEach((p,i)=>{if(Math.abs(p[1]-h)<Math.abs(L[b][1]-h))b=i;});set(L[b][0],L[b][1]);}
+      else{const h=+H.value||1080;rounded=false;set(r8(h*ratioOf(r)),h,true);}};RC.appendChild(c);});
+    NV.textContent=ratio==='Нативное'?`экран этого устройства ${DEV[dev].w}×${DEV[dev].h}, рекомендуется`:'';}
+  function check(){const w=+W.value,h=+H.value;let msg='';
+    if(!w||!h)msg='Впишите ширину и высоту';else if(w<MIN||h<MIN||w>MAX||h>MAX)msg=`От ${MIN} до ${MAX}`;else if(w%2||h%2)msg='Нужны чётные числа';
+    HINT.textContent=msg||(rounded?'Округлено до кратного 8':'');OK.classList.toggle('off',!!msg);}
+  function set(w,h,keepRatio){W.value=w;H.value=h;
+    if(v!==1){const L=v===3?ladder(ratio):[];idx=L.findIndex(p=>p[0]==w&&p[1]==h);
+      if(v===3)N.textContent=idx>=0?(ratio==='Нативное'?`Нативное ${L[idx][2]}`:`${ratio} · ${L[idx][2]}`):'своё';
+      if(v===2){const exact=Math.abs(w/h-ratioOf(ratio))<0.002;N.textContent=lock?(exact?ratio:'≈ '+ratio):'своё';}
+      drawRatios();}
+    check();draw();}
+  function draw(){if(v!==3)return;const T=D.querySelector('.ticks');T.querySelectorAll('.tick,.tl,.thumb').forEach(e=>e.remove());const L=ladder(ratio),n=L.length;
+    const pos=i=>(i/(n-1)*100)+'%';let t=idx;
+    if(t<0){const px=(+W.value)*(+H.value);t=0;for(let i=0;i<n;i++){if(L[i][0]*L[i][1]<=px)t=i;}
+      if(t<n-1){const a=L[t][0]*L[t][1],b=L[t+1][0]*L[t+1][1];t=t+Math.max(0,Math.min(1,(px-a)/(b-a)));}}
+    L.forEach((p,i)=>{const k=document.createElement('div');k.className='tick'+(i<=t?' lit':'');k.style.left=pos(i);T.appendChild(k);
+      const l=document.createElement('div');l.className='tl'+(i===idx?' cur':'');l.style.left=pos(i);l.innerHTML=p[2]+'<br>'+p[0]+'×'+p[1];l.onclick=()=>set(p[0],p[1]);T.appendChild(l);});
+    const th=document.createElement('div');th.className='thumb';th.style.left=(t/(n-1)*100)+'%';T.appendChild(th);T.querySelector('.fill').style.width=(t/(n-1)*100)+'%';}
+  const m=D.querySelector('.minus'),p=D.querySelector('.plus');
+  if(m)m.onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx-1:L.filter(q=>q[0]*q[1]<(+W.value)*(+H.value)).length-1;i=Math.max(0,i);set(L[i][0],L[i][1]);};
+  if(p)p.onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx+1:L.filter(q=>q[0]*q[1]<=(+W.value)*(+H.value)).length;i=Math.min(L.length-1,i);set(L[i][0],L[i][1]);};
+  const lk=D.querySelector('.lock');if(lk)lk.onclick=()=>{lock=!lock;lk.classList.toggle('on',lock);lk.textContent=lock?'🔒':'🔓';set(+W.value,+H.value);};
+  [W,H].forEach(f=>f.oninput=()=>{f.value=f.value.replace(/\D/g,'').slice(0,4);rounded=false;
+    if(v===2&&lock&&f.value){const k=ratioOf(ratio);if(f===W){const x=+W.value/k;H.value=r8(x);rounded=H.value!=x;}else{const x=+H.value*k;W.value=r8(x);rounded=W.value!=x;}}
+    check();});
+  [W,H].forEach(f=>f.onchange=()=>{set(+W.value,+H.value);});
+  D._reset=()=>{ratio='Нативное';rounded=false;if(v===1){W.placeholder='1920';H.placeholder='1080';set(1920,1080);}else if(v===2){const h=1080;set(r8(h*ratioOf('Нативное')),h);}else{const L=nativeLadder();set(L[2][0],L[2][1]);}};
+  D._reset();
+});
+document.querySelectorAll('.dev button').forEach(b=>b.onclick=()=>{dev=b.dataset.dev;document.querySelectorAll('.dev button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.dialog').forEach(D=>D._reset());});
+</script>
+</body></html>
