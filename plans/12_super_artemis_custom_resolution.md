@@ -2,7 +2,9 @@
 
 > **Created:** 2026-11-06 · **Parent:** `ideas/17` (V3.2 compact, owner's choice), issue https://github.com/Arora-Sir/Super-Artemis/issues/14
 > (maintainer's reply: direction approved, ratio set approved, «Looking forward to your PR»); owner's word 2026-11-06 ≈23:20 «Делаем!»
-> · **Status:** 📝 2026-11-06 23:31 — plan written; device recon `researches/04` in flight
+> · **Status:** 🔧 2026-11-07 01:48 — steps 1–7 done: recon 04, stand, PR-A https://github.com/Arora-Sir/Super-Artemis/pull/15,
+> PR-B https://github.com/Arora-Sir/Super-Artemis/pull/16 (look accepted by the owner 00:35; check-crd 6/6; run report
+> `testcases/reports/2026-11-07_super-artemis-custom-resolution.md`); awaiting the maintainer. Plan 2026-11-06 23:31.
 > · **Outbound:** two PRs to `Arora-Sir/Super-Artemis` (base `unified-main`), each shown to the owner on one page BEFORE `gh pr create`
 > (EXP-0010): PR-A slider ends, PR-B Custom Resolution dialog; device screenshots in PR-B
 

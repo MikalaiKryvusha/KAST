@@ -57,7 +57,7 @@
 >      claim-before-evidence, owner-decision-not-applied, text-in-agents-world,
 >      etalon-from-dirty-tree, shell-lied, escaping-layer, twins-missed,
 >      field-dropped-in-rebuild, line-endings, state-overwritten-on-exit, ui-shipped-unseen,
->      design-before-recon, owner-word-narrowed -->
+>      design-before-recon, owner-word-narrowed, fit-by-removal -->
 >
 > | Class slug | The failure it names |
 > |---|---|
@@ -85,6 +85,18 @@
 > Skill: `/experience` (capture a lesson · recall relevant lessons).
 
 ## Entries
+
+### EXP-0015 · 2026-11-07 · ❌→✅ · #ui #owner #layout
+class: fit-by-removal
+**Context:** Super Artemis Custom Resolution dialog did not fit a phone in landscape (≈300 dp available, ≈380 dp needed).
+**Tried / did:** first proposed hiding two lines, then built a full-screen dialog for compact height (read as Material practice).
+**Result:** ❌ the owner: «а меньше нельзя просто сделать??? В чем сложность-то» and, on the full-screen build, «полная хуйня». ✅ the same
+centred card with every part a little smaller (title 18 sp, buttons 34 dp, tighter gaps) fit whole; he later removed two lines himself.
+**Lesson:** when a UI does not fit, scale its parts down first; hiding content or changing the container is the owner's call, not the fix.
+**Repro:** for a compact-height case, list each part's height in dp, shrink sizes and gaps, screenshot on the short profile (`tools/stand/open-dialog.sh <profile> land …`) before proposing removals.
+**Trigger:** «не помещается» / content clipped on a small screen → shrink first, show the shot, then ask.
+**Not for:** a screen that cannot fit even at minimum touch sizes (48 dp targets) — then scrolling is the honest answer.
+mechanized: none — a design judgment; the Repro screenshot step is the carrier
 
 ### EXP-0014 · 2026-11-06 · ❌→✅ · #ui #owner #mockup
 class: owner-word-narrowed
