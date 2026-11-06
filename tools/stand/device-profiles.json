@@ -1,0 +1,12 @@
+{
+  "titanBaseline": {
+    "note": "Titan 1 as found 2026-11-06 23:25: panel 1600x2560 physical 320 dpi, density override 480 (set before this session), auto-rotate on",
+    "size": null,
+    "density": 480,
+    "userRotation": 0,
+    "accelerometerRotation": 1
+  },
+  "profiles": [
+    { "id": "probe", "name": "tool self-test (not a device)", "size": "1200x1920", "density": 320, "orientations": ["port", "land"] }
+  ]
+}
