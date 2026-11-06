@@ -60,13 +60,17 @@ h1{font-weight:500;margin:0 0 6px}
 .act.ok{background:var(--acc);color:var(--acc-on)}
 .act.ok.off{background:#3a3c44;color:#6f7280}
 .old img{width:100%;border-radius:18px;display:block}
+.variant.v4{width:345px}
+.row{gap:18px}
+.variant.v4 .note{min-height:42px}
+.v4 .field input{width:64px}
+.v4 .dialog{padding:20px 16px 14px}
 .list{max-width:1250px;margin-top:28px;color:var(--sub);font-size:14px}
 .list li{margin:4px 0}
 </style></head><body>
 <h1>В3, развитие: окно «Пользовательское разрешение»</h1>
-<p class="lead">Два вида одного окна. В обоих сверху соотношение сторон с маленькой рамкой своей формы, «−» и «+» шагают по
-засечкам, засечки и подписи меняются с соотношением, «OK» не нажимается при неверных числах. В первом виде ещё окошко: как кадр
-ляжет на экран этого устройства, с полосами по бокам или сверху. Всё живое.</p>
+<p class="lead">В3.2 компактный в четырёх состояниях. Сверху соотношение сторон с маленькой рамкой своей формы, «−» и «+» шагают по
+засечкам, засечки и подписи меняются с соотношением, «OK» не нажимается при неверных числах. Каждое окно живое.</p>
 
 <div class="dev">Устройство:
   <button data-dev="titan" class="on">Titan 1 · 2560×1600 (16:10)</button>
@@ -74,27 +78,31 @@ h1{font-weight:500;margin:0 0 6px}
 </div>
 
 <div class="row">
-  <div class="variant">
-    <h2>В3.1 С окошком кадра <span class="tag">рекомендую</span></h2>
-    <p class="note">Сразу видно, заполнит ли картинка экран: выбрали 16:9 на Титане, в окошке появились полосы сверху и снизу и
-    подпись. Без полос подписи нет.</p>
-    <div class="screen"><div class="dialog" data-pv="1"></div></div>
+  <div class="variant v4">
+    <h2>1. Открыли окно</h2>
+    <p class="note">«Нативное» выбрано, шкала на 75%.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="native"></div></div>
   </div>
-  <div class="variant">
-    <h2>В3.2 Компактный</h2>
-    <p class="note">То же без окошка: окно ниже, о полосах говорит одна строка под полями.</p>
-    <div class="screen"><div class="dialog" data-pv="0"></div></div>
+  <div class="variant v4">
+    <h2>2. Выбрали 16:9</h2>
+    <p class="note">Засечки и подписи стали 720p…4K.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="169"></div></div>
   </div>
-  <div class="variant">
-    <h2>Было: В3 с прошлой страницы</h2>
-    <p class="note">Для сравнения. Доли экрана были дробями (½, ⅔, ¾); теперь проценты.</p>
-    <div class="screen old"><img src="v3_before.webp" alt="Было" onerror="this.parentNode.innerHTML='<div style=&quot;color:#7d808c;padding:40px;text-align:center&quot;>снимок прошлого В3</div>'"></div>
+  <div class="variant v4">
+    <h2>3. Вписали своё</h2>
+    <p class="note">1800 × 1000: под полями «своё», шкала между засечками.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="own"></div></div>
+  </div>
+  <div class="variant v4">
+    <h2>4. Неверное число</h2>
+    <p class="note">Нечётная ширина: поля красные, «OK» серый.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="bad"></div></div>
   </div>
 </div>
 
 <ul class="list">
-<li>Ступени «Нативное» — доли экрана устройства в процентах: 50%, 67%, 75%, 100%; размер округляется до кратного 8
-(Titan 1: 1280×800, 1712×1072, 1920×1200, 2560×1600; S24 Ultra: 1560×720, 2088×968, 2344×1080, 3120×1440).</li>
+<li>Ступени «Нативное» — доли экрана устройства с шагом 25%: 25%, 50%, 75%, 100%; размер округляется до кратного 8
+(Titan 1: 640×400, 1280×800, 1920×1200, 2560×1600; S24 Ultra: 784×360, 1560×720, 2344×1080, 3120×1440).</li>
 <li>Свои числа: шкала встаёт между соседними засечками, над полями пишется «своё»; соотношение не переключается само.</li>
 <li>«OK» серый, пока числа пустые, нечётные или вне 256…8192, как в Moonlight для ПК; в приложении ещё проверим размер у декодера телефона.</li>
 </ul>
@@ -110,7 +118,7 @@ const DEV={titan:{w:2560,h:1600},s24:{w:3120,h:1440}};
 let dev='titan';
 const r8=x=>Math.max(8,Math.round(x/8)*8);
 // "Нативное": shares of the device screen, labelled in percent (owner 2026-11-06 21:35: «просто и лаконично указать процент»)
-function nativeLadder(){const d=DEV[dev];return [50,67,75,100].map(p=>[p===100?d.w:r8(d.w*p/100),p===100?d.h:r8(d.h*p/100),p+'%']);}
+function nativeLadder(){const d=DEV[dev];return [25,50,75,100].map(p=>[p===100?d.w:r8(d.w*p/100),p===100?d.h:r8(d.h*p/100),p+'%']);}
 const ladder=r=>r==='Нативное'?nativeLadder():R[r];
 const ratioOf=r=>{if(r==='Нативное'){const d=DEV[dev];return d.w/d.h;}const [a,b]=r.split(':');return a/b;};
 const RATIOS=['Нативное','16:9','16:10','21:9','4:3'];
@@ -141,10 +149,10 @@ function build(D){
   function bad(){const w=+W.value,h=+H.value;if(!w||!h)return 'Впишите ширину и высоту';if(w<MIN||h<MIN||w>MAX||h>MAX)return `Ширина и высота от ${MIN} до ${MAX}`;if(w%2||h%2)return 'Нужны чётные числа';return '';}
   function update(){const w=+W.value,h=+H.value,L=ladder(ratio);idx=L.findIndex(p=>p[0]==w&&p[1]==h);
     const msg=bad();const hint=$('.hint');
-    if(msg){hint.className='hint';hint.textContent=msg;}else if(!pv&&w&&h){const f=fit(w,h);hint.className='hint soft';hint.textContent=f==='full'?'':f==='tb'?'Полосы сверху и снизу':'Полосы по бокам';}else{hint.textContent='';}
+    hint.className='hint';hint.textContent=msg;
     D.querySelectorAll('.field').forEach(x=>x.classList.toggle('bad',!!msg&&!!(w||h)));
     $('.ok').classList.toggle('off',!!msg);
-    $('.name').innerHTML=idx>=0?`<b>${ratio} ·${L[idx][2]}</b>`:(w&&h?'<b class="own">своё</b>':'');
+    $('.name').innerHTML=idx>=0?`<b>${ratio} · ${L[idx][2]}</b>`:(w&&h?'<b class="own">своё</b>':'');
     $('.minus').classList.toggle('off',idx===0||(idx<0&&w*h<=L[0][0]*L[0][1]));$('.plus').classList.toggle('off',idx===L.length-1);
     drawSeg();drawBar();drawPreview(w,h);}
   function set(w,h){W.value=w;H.value=h;update();}
@@ -160,7 +168,8 @@ function build(D){
   $('.minus').onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx-1:L.filter(q=>q[0]*q[1]<(+W.value)*(+H.value)).length-1;i=Math.max(0,i);set(L[i][0],L[i][1]);};
   $('.plus').onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx+1:L.filter(q=>q[0]*q[1]<=(+W.value)*(+H.value)).length;i=Math.min(L.length-1,i);set(L[i][0],L[i][1]);};
   [W,H].forEach(f=>{f.oninput=()=>{f.value=f.value.replace(/\D/g,'').slice(0,4);update();};});
-  D._reset=()=>{ratio='Нативное';const L=nativeLadder();set(L[L.length-2][0],L[L.length-2][1]);};
+  D._reset=()=>{ratio='Нативное';const L=nativeLadder(),i=D.dataset.init;
+    if(i==='169'){ratio='16:9';set(1920,1080);}else if(i==='own'){set(1800,1000);}else if(i==='bad'){set(1921,1080);}else{set(L[L.length-2][0],L[L.length-2][1]);}};
   D._reset();
 }
 document.querySelectorAll('.dialog').forEach(build);
