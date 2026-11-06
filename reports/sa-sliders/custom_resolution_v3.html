@@ -77,7 +77,7 @@ h1{font-weight:500;margin:0 0 6px}
   <div class="variant">
     <h2>В3.1 С окошком кадра <span class="tag">рекомендую</span></h2>
     <p class="note">Сразу видно, заполнит ли картинка экран: выбрали 16:9 на Титане, в окошке появились полосы сверху и снизу и
-    подпись. «Нативное» всегда заполняет экран целиком.</p>
+    подпись. Без полос подписи нет.</p>
     <div class="screen"><div class="dialog" data-pv="1"></div></div>
   </div>
   <div class="variant">
@@ -137,11 +137,11 @@ function build(D){
     if(!(w>0&&h>0)){F.style.display='none';$('.pvcap').textContent='';return;}F.style.display='flex';
     const k=w/h;let fw=BW-4,fh=Math.round(fw/k);if(fh>BH-4){fh=BH-4;fw=Math.round(fh*k);}
     F.style.width=fw+'px';F.style.height=fh+'px';F.style.left=((BW-4-fw)/2)+'px';F.style.top=((BH-4-fh)/2)+'px';F.textContent=w+' × '+h;
-    const f=fit(w,h);$('.pvcap').textContent=f==='full'?'Картинка заполнит весь экран':f==='tb'?'Чёрные полосы сверху и снизу':'Чёрные полосы по бокам';}
+    const f=fit(w,h);$('.pvcap').textContent=f==='full'?'':f==='tb'?'Чёрные полосы сверху и снизу':'Чёрные полосы по бокам';}
   function bad(){const w=+W.value,h=+H.value;if(!w||!h)return 'Впишите ширину и высоту';if(w<MIN||h<MIN||w>MAX||h>MAX)return `Ширина и высота от ${MIN} до ${MAX}`;if(w%2||h%2)return 'Нужны чётные числа';return '';}
   function update(){const w=+W.value,h=+H.value,L=ladder(ratio);idx=L.findIndex(p=>p[0]==w&&p[1]==h);
     const msg=bad();const hint=$('.hint');
-    if(msg){hint.className='hint';hint.textContent=msg;}else if(!pv&&w&&h){const f=fit(w,h);hint.className='hint soft';hint.textContent=f==='full'?'Заполнит весь экран':f==='tb'?'Полосы сверху и снизу':'Полосы по бокам';}else{hint.textContent='';}
+    if(msg){hint.className='hint';hint.textContent=msg;}else if(!pv&&w&&h){const f=fit(w,h);hint.className='hint soft';hint.textContent=f==='full'?'':f==='tb'?'Полосы сверху и снизу':'Полосы по бокам';}else{hint.textContent='';}
     D.querySelectorAll('.field').forEach(x=>x.classList.toggle('bad',!!msg&&!!(w||h)));
     $('.ok').classList.toggle('off',!!msg);
     $('.name').innerHTML=idx>=0?`<b>${ratio} ·${L[idx][2]}</b>`:(w&&h?'<b class="own">своё</b>':'');
