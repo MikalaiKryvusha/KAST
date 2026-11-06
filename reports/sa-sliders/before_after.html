@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Super Artemis — ползунки и разрешение: было и стало</title>
+<style>
+body{margin:0;background:#0b0c10;color:#e3e2e9;font:17px/1.45 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px 28px}
+h1{font-weight:500;margin:0 0 6px}
+h2{font-weight:500;margin:30px 0 8px}
+.lead{color:#a9abb8;max-width:1300px;margin:0 0 14px}
+.row{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+figure{margin:0;width:400px}
+figure img{width:400px;border-radius:12px;border:1px solid #2a2d36;display:block}
+figcaption{color:#a9abb8;font-size:14.5px;margin-top:6px}
+.tag{display:inline-block;border-radius:8px;padding:1px 8px;font-size:12px;margin-right:6px}
+.was{background:#3a2b2b;color:#f2b8b5}.now{background:#2b4a78;color:#a8c7fa}
+</style></head><body>
+<h1>Super Artemis — ползунки и разрешение: было и стало</h1>
+<p class="lead">Снимки с Титана: слева настоящая 1.1.0, справа наша сборка из ветки <code>feature/sliders-plus-minus</code>. Пояснения в окнах взяты из Super Artemis как есть; новых строк для перевода нет.</p>
+
+<h2>Битрейт видео</h2>
+<div class="row">
+  <figure><img src="shots/110_bitrate_dialog.webp"><figcaption><span class="tag was">было</span>Линейный ползунок 0,5–300 Мбит/с: 3 Мбит/с занимают 1 % его длины; «−», «+» и поля нет.</figcaption></figure>
+  <figure><img src="shots/after_bitrate_dialog.webp"><figcaption><span class="tag now">стало</span>«−», поле с числом и «Мбит/с», «+»; логарифмический ползунок, 3 Мбит/с стоят на 28 % длины; шаг кнопок 0,5 до 5 Мбит/с, 1 до 20, 2 до 50, 5 до 100, 10 выше.</figcaption></figure>
+  <figure><img src="shots/new_bitrate_typed3.webp"><figcaption><span class="tag now">стало</span>Нажатие на число: цифровая клавиатура с «,» и «.»; число выделено, новое вводится сразу, ползунок встаёт сам.</figcaption></figure>
+</div>
+
+<h2>Список настроек</h2>
+<div class="row">
+  <figure><img src="shots/110_list.webp"><figcaption><span class="tag was">было</span>Под «Битрейт видео» только пояснение, значение видно лишь в окне.</figcaption></figure>
+  <figure><img src="shots/after_list.webp"><figcaption><span class="tag now">стало</span>Над пояснением текущее значение: «Пользовательский (1680x1050)», «60 FPS», «17,0 Мбит/с». Так у разрешения, частоты кадров и всех 21 ползунка.</figcaption></figure>
+  <figure><img src="shots/new_grace_dialog.webp"><figcaption><span class="tag now">стало</span>Тот же ряд у линейных ползунков: время обрыва сети, шаг 5 с; в списке «60 с».</figcaption></figure>
+</div>
+
+<h2>Разрешение</h2>
+<div class="row">
+  <figure><img src="shots/110_resolution_list.webp"><figcaption><span class="tag was">было</span>Список: 360p … 4K, «Нативное (2560x1600)».</figcaption></figure>
+  <figure><img src="shots/110_custom_resolution.webp"><figcaption><span class="tag was">было</span>Своё разрешение вводится отдельной строкой: «1920x1080» через латинскую «x» при русской клавиатуре.</figcaption></figure>
+</div>
+<div class="row" style="margin-top:18px">
+  <figure><img src="shots/new_resolution_dialog.webp"><figcaption><span class="tag now">стало</span>Два поля, неизменный «×», «−» и «+» шагают по списку приложения; под полями имя разрешения; ползунок по тем же пунктам от меньшего к большему.</figcaption></figure>
+  <figure><img src="shots/new_resolution_keyboard.webp"><figcaption><span class="tag now">стало</span>В полях цифровая клавиатура.</figcaption></figure>
+  <figure><img src="shots/after_resolution_dialog.webp"><figcaption><span class="tag now">стало</span>Введённое своё 1680 × 1050 встаёт в список как «Пользовательский (1680x1050)», тем же путём, что и строка «Пользовательское разрешение».</figcaption></figure>
+</div>
+</body></html>
