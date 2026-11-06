@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Super Artemis — Custom Resolution dialog proposal</title>
+<style>
+:root{--dlg:#2a2c34;--surf:#33363f;--surf2:#3b3e49;--on:#e4e2ea;--sub:#b3b5c1;--dim:#7d808c;--acc:#a8c7fa;--acc-on:#0a305f;--accC:#284777;--line:#4a4d58;--err:#f2b8b5}
+*{box-sizing:border-box}
+body{margin:0;background:#0b0c10;color:var(--on);font:16px/1.4 Roboto,"Segoe UI",system-ui,sans-serif;padding:24px}
+h1{font-weight:500;margin:0 0 6px}
+.lead{color:var(--sub);max-width:1250px;margin:0 0 14px}
+.dev{margin:0 0 22px;color:var(--sub)}
+.dev button{background:var(--surf);color:var(--on);border:1px solid var(--line);border-radius:10px;padding:6px 12px;margin-left:6px;cursor:pointer;font-size:14px}
+.dev button.on{background:var(--accC);color:var(--acc);border-color:var(--acc)}
+.row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.variant{width:420px}
+.variant h2{font-size:19px;font-weight:500;margin:0 0 4px}
+.variant .note{color:var(--sub);font-size:14px;margin:0 0 12px;min-height:84px}
+.tag{display:inline-block;background:var(--accC);color:var(--acc);border-radius:8px;padding:1px 8px;font-size:12px;margin-left:6px;vertical-align:middle}
+.screen{background:#08090c;border-radius:28px;padding:22px 10px;border:1px solid #23252d}
+.dialog{background:var(--dlg);border-radius:28px;padding:22px 20px 16px;box-shadow:0 8px 30px #0008}
+.dt{font-size:23px;margin:0 0 6px}
+.ds{color:var(--sub);font-size:13.5px;margin:0 0 16px}
+/* aspect selector: segmented, each segment has a little frame of its shape */
+.seg{display:flex;background:var(--surf);border-radius:16px;padding:4px;gap:4px;margin:0 0 4px}
+.seg span{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 0 6px;border-radius:12px;font-size:12.5px;color:var(--sub);cursor:pointer;user-select:none;transition:background .15s,color .15s}
+.seg span i{display:block;border:1.6px solid currentColor;border-radius:2px;height:13px}
+.seg span.on{background:var(--accC);color:var(--acc)}
+.seg span.on i{background:#a8c7fa33}
+.natv{color:var(--dim);font-size:12px;text-align:center;margin:2px 0 12px;min-height:16px}
+/* preview: the device screen and how the stream frame lands on it */
+.pv{display:flex;flex-direction:column;align-items:center;margin:2px 0 12px}
+.dev-screen{position:relative;background:#111216;border:2px solid #5a5d68;border-radius:9px;overflow:hidden;transition:width .25s,height .25s}
+.frame{position:absolute;background:linear-gradient(135deg,#3d5f94,#284777 60%,#1f3760);display:flex;align-items:center;justify-content:center;color:#dbe6ff;font-size:13px;font-weight:500;letter-spacing:.3px;transition:all .25s}
+.bars{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#1a1b21 0 6px,#121317 6px 12px)}
+.pvcap{font-size:12.5px;color:var(--sub);margin-top:6px;min-height:17px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 4px}
+.btn{width:46px;height:46px;border-radius:23px;background:var(--surf2);color:var(--on);font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;border:0}
+.btn:active{background:var(--accC);color:var(--acc)}
+.btn.off{opacity:.35;pointer-events:none}
+.field{background:var(--surf);border:1.5px solid transparent;border-radius:14px;padding:8px 4px;transition:border-color .15s}
+.field:focus-within{border-color:var(--acc)}
+.field.bad{border-color:var(--err)}
+.field input{width:74px;background:transparent;border:0;color:var(--on);font-size:23px;text-align:center;outline:none;font-variant-numeric:tabular-nums}
+.times{color:var(--dim);font-size:22px}
+.name{display:flex;justify-content:center;margin:6px 0 2px;min-height:26px}
+.name b{font-weight:500;font-size:13px;color:var(--acc);background:#a8c7fa1a;border-radius:13px;padding:3px 12px}
+.name b.own{color:var(--sub);background:#ffffff10}
+/* the bar: our own labelled stops (recon: Material ticks carry no labels) */
+.bar{position:relative;height:62px;margin:10px 16px 0}
+.track{position:absolute;left:0;right:0;top:13px;height:6px;background:#4a4d58;border-radius:3px}
+.fill{position:absolute;left:0;top:13px;height:6px;background:var(--acc);border-radius:3px;transition:width .2s}
+.tick{position:absolute;top:14px;width:4px;height:4px;margin-left:-2px;border-radius:2px;background:#8a8d99}
+.tick.lit{background:var(--acc-on)}
+.thumb{position:absolute;top:4px;width:6px;height:24px;margin-left:-3px;border-radius:3px;background:var(--acc);transition:left .2s;box-shadow:0 0 0 6px #a8c7fa22}
+.tl{position:absolute;top:34px;transform:translateX(-50%);font-size:12px;color:var(--dim);white-space:nowrap;cursor:pointer;user-select:none;padding:2px 4px;border-radius:6px}
+.tl:hover{color:var(--on)}
+.tl.cur{color:var(--acc);font-weight:600}
+.hint{text-align:center;color:var(--err);font-size:12.5px;min-height:18px;margin-top:2px}
+.hint.soft{color:var(--dim)}
+.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:10px}
+.act{border-radius:20px;padding:10px 20px;background:var(--surf2);color:var(--acc);font-size:15px;font-weight:500;user-select:none}
+.act.ok{background:var(--acc);color:var(--acc-on)}
+.act.ok.off{background:#3a3c44;color:#6f7280}
+.old img{width:100%;border-radius:18px;display:block}
+.variant.v4{width:345px}
+.row{gap:18px}
+.variant.v4 .note{min-height:42px}
+.v4 .field input{width:64px}
+.v4 .dialog{padding:20px 16px 14px}
+.list{max-width:1250px;margin-top:28px;color:var(--sub);font-size:14px}
+.list li{margin:4px 0}
+</style></head><body>
+<h1>Custom Resolution dialog — proposal</h1>
+
+
+<div class="dev">Device:
+  <button data-dev="titan" class="on">Titan 1 · 2560×1600 (16:10)</button>
+  <button data-dev="s24">Galaxy S24 Ultra · 3120×1440 (19.5:9)</button>
+</div>
+
+<div class="row">
+  <div class="variant v4">
+    <h2>1. Dialog opened</h2>
+    <p class="note">Native is selected, the slider is at 75 %.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="native"></div></div>
+  </div>
+  <div class="variant v4">
+    <h2>2. 16:9 tapped</h2>
+    <p class="note">The stops and their labels change to 720p…4K.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="169"></div></div>
+  </div>
+  <div class="variant v4">
+    <h2>3. Own size typed</h2>
+    <p class="note">1800 × 1000: "Custom" under the fields, the slider between two stops.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="own"></div></div>
+  </div>
+  <div class="variant v4">
+    <h2>4. Invalid size</h2>
+    <p class="note">Odd width: the fields turn red, OK is disabled.</p>
+    <div class="screen"><div class="dialog" data-pv="0" data-init="bad"></div></div>
+  </div>
+</div>
+
+
+
+<script>
+const R={
+ '16:9':[[1280,720,'720p'],[1600,900,'900p'],[1920,1080,'1080p'],[2560,1440,'1440p'],[3840,2160,'4K']],
+ '16:10':[[1280,800,'800p'],[1440,900,'900p'],[1920,1200,'1200p'],[2560,1600,'1600p'],[3840,2400,'2400p']],
+ '21:9':[[1720,720,'720p'],[2560,1080,'1080p'],[3440,1440,'1440p'],[5120,2160,'2160p']],
+ '4:3':[[960,720,'720p'],[1200,900,'900p'],[1440,1080,'1080p'],[1920,1440,'1440p']]
+};
+const DEV={titan:{w:2560,h:1600},s24:{w:3120,h:1440}};
+let dev='titan';
+const r8=x=>Math.max(8,Math.round(x/8)*8);
+// "Нативное": shares of the device screen, labelled in percent (owner 2026-11-06 21:35: «просто и лаконично указать процент»)
+function nativeLadder(){const d=DEV[dev];return [25,50,75,100].map(p=>[p===100?d.w:r8(d.w*p/100),p===100?d.h:r8(d.h*p/100),p+'%']);}
+const ladder=r=>r==='Нативное'?nativeLadder():R[r];
+const ratioOf=r=>{if(r==='Нативное'){const d=DEV[dev];return d.w/d.h;}const [a,b]=r.split(':');return a/b;};
+const RATIOS=['Нативное','16:9','16:10','21:9','4:3'];
+const MIN=256,MAX=8192;
+
+function build(D){
+  const pv=D.dataset.pv==='1';
+  D.innerHTML=`<div class="dt">Custom Resolution</div>
+  <div class="ds">The new resolution applies when you leave Settings.</div>
+  <div class="seg"></div><div class="natv"></div>
+  ${pv?'<div class="pv"><div class="dev-screen"><div class="bars"></div><div class="frame"></div></div><div class="pvcap"></div></div>':''}
+  <div class="ctl"><div class="btn minus">−</div><label class="field"><input class="w" inputmode="numeric"></label><span class="times">×</span><label class="field"><input class="h" inputmode="numeric"></label><div class="btn plus">+</div></div>
+  <div class="name"></div>
+  <div class="bar"><div class="track"></div><div class="fill"></div></div>
+  <div class="hint"></div>
+  <div class="acts"><span class="act">Cancel</span><span class="act ok">OK</span></div>`;
+  const $=s=>D.querySelector(s),W=$('.w'),H=$('.h');let ratio='Нативное',idx=-1;
+  function drawSeg(){const S=$('.seg');S.innerHTML='';RATIOS.forEach(r=>{const k=ratioOf(r);const s=document.createElement('span');s.className=r===ratio?'on':'';
+      s.innerHTML=`<i style="width:${Math.round(13*k)}px"></i>${r==='Нативное'?'Native':r}`;s.onclick=()=>pickRatio(r);S.appendChild(s);});
+    const d=DEV[dev];$('.natv').textContent=ratio==='Нативное'?`device screen ${d.w}×${d.h}, recommended`:'';}
+  function pickRatio(r){ratio=r;const L=ladder(r),h=+H.value||1080;let b=0;L.forEach((p,i)=>{if(Math.abs(p[1]-h)<Math.abs(L[b][1]-h))b=i;});set(L[b][0],L[b][1]);}
+  function fit(w,h){const d=DEV[dev],k=w/h,dk=d.w/d.h;return Math.abs(k-dk)<0.01?'full':k>dk?'tb':'lr';}
+  function drawPreview(w,h){if(!pv)return;const d=DEV[dev],box=$('.dev-screen'),F=$('.frame');const BW=240,BH=Math.round(BW*d.h/d.w);box.style.width=BW+'px';box.style.height=BH+'px';
+    if(!(w>0&&h>0)){F.style.display='none';$('.pvcap').textContent='';return;}F.style.display='flex';
+    const k=w/h;let fw=BW-4,fh=Math.round(fw/k);if(fh>BH-4){fh=BH-4;fw=Math.round(fh*k);}
+    F.style.width=fw+'px';F.style.height=fh+'px';F.style.left=((BW-4-fw)/2)+'px';F.style.top=((BH-4-fh)/2)+'px';F.textContent=w+' × '+h;
+    const f=fit(w,h);$('.pvcap').textContent=f==='full'?'':f==='tb'?'Чёрные полосы сверху и снизу':'Чёрные полосы по бокам';}
+  function bad(){const w=+W.value,h=+H.value;if(!w||!h)return 'Enter width and height';if(w<MIN||h<MIN||w>MAX||h>MAX)return `Width and height from ${MIN} to ${MAX}`;if(w%2||h%2)return 'Width and height must be even';return '';}
+  function update(){const w=+W.value,h=+H.value,L=ladder(ratio);idx=L.findIndex(p=>p[0]==w&&p[1]==h);
+    const msg=bad();const hint=$('.hint');
+    hint.className='hint';hint.textContent=msg;
+    D.querySelectorAll('.field').forEach(x=>x.classList.toggle('bad',!!msg&&!!(w||h)));
+    $('.ok').classList.toggle('off',!!msg);
+    $('.name').innerHTML=idx>=0?`<b>${ratio==='Нативное'?'Native':ratio} · ${L[idx][2]}</b>`:(w&&h?'<b class="own">Custom</b>':'');
+    $('.minus').classList.toggle('off',idx===0||(idx<0&&w*h<=L[0][0]*L[0][1]));$('.plus').classList.toggle('off',idx===L.length-1);
+    drawSeg();drawBar();drawPreview(w,h);}
+  function set(w,h){W.value=w;H.value=h;update();}
+  function drawBar(){const T=$('.bar');T.querySelectorAll('.tick,.tl,.thumb').forEach(e=>e.remove());const L=ladder(ratio),n=L.length,pos=i=>(i/(n-1)*100);
+    let t=idx;if(t<0){const px=(+W.value)*(+H.value);if(!px){t=0;}else{t=-1;for(let i=0;i<n;i++)if(L[i][0]*L[i][1]<=px)t=i;
+      if(t<0)t=0;else if(t<n-1){const a=L[t][0]*L[t][1],b=L[t+1][0]*L[t+1][1];t+=Math.max(0,Math.min(1,(px-a)/(b-a)));}}}
+    L.forEach((p,i)=>{const k=document.createElement('div');k.className='tick'+(i<=t?' lit':'');k.style.left=pos(i)+'%';T.appendChild(k);
+      const l=document.createElement('div');l.className='tl'+(i===idx?' cur':'');l.style.left=pos(i)+'%';l.textContent=p[2];l.onclick=()=>set(p[0],p[1]);T.appendChild(l);});
+    const th=document.createElement('div');th.className='thumb';th.style.left=pos(t)+'%';T.appendChild(th);$('.fill').style.width=pos(t)+'%';
+    // drag on the bar snaps to the nearest stop
+    T.onpointerdown=e=>{const go=ev=>{const r=T.getBoundingClientRect();const x=Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width));const i=Math.round(x*(n-1));set(L[i][0],L[i][1]);};
+      go(e);T.setPointerCapture(e.pointerId);T.onpointermove=go;T.onpointerup=()=>{T.onpointermove=null;};};}
+  $('.minus').onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx-1:L.filter(q=>q[0]*q[1]<(+W.value)*(+H.value)).length-1;i=Math.max(0,i);set(L[i][0],L[i][1]);};
+  $('.plus').onclick=()=>{const L=ladder(ratio);let i=idx>=0?idx+1:L.filter(q=>q[0]*q[1]<=(+W.value)*(+H.value)).length;i=Math.min(L.length-1,i);set(L[i][0],L[i][1]);};
+  [W,H].forEach(f=>{f.oninput=()=>{f.value=f.value.replace(/\D/g,'').slice(0,4);update();};});
+  D._reset=()=>{ratio='Нативное';const L=nativeLadder(),i=D.dataset.init;
+    if(i==='169'){ratio='16:9';set(1920,1080);}else if(i==='own'){set(1800,1000);}else if(i==='bad'){set(1921,1080);}else{set(L[L.length-2][0],L[L.length-2][1]);}};
+  D._reset();
+}
+document.querySelectorAll('.dialog').forEach(build);
+document.querySelectorAll('.dev button').forEach(b=>b.onclick=()=>{dev=b.dataset.dev;document.querySelectorAll('.dev button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.dialog').forEach(D=>D._reset());});
+</script>
+</body></html>
