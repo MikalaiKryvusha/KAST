@@ -1,0 +1,22 @@
+{
+  "kind": "interview",
+  "document": "interviews/interview_003_sliders_dialog_or_list.md",
+  "by": "Mikalai Kryvusha",
+  "at": "2026-11-06T06:54:11.663Z",
+  "atHuman": "6 ноября 2026, 09:54 (+03:00)",
+  "comment": "",
+  "answers": {
+    "Q1": {
+      "choice": "A",
+      "text": "",
+      "comment": ""
+    },
+    "Q2": {
+      "choice": "A",
+      "text": "",
+      "comment": ""
+    }
+  },
+  "rev": "ee6bf80a98ff43b7e6c1c9421dccf9606d22d544eebba8ee292986a54baa5f2c",
+  "revAfter": "67a13cdc97cc450c3d00d7718767970d43d21f50b9b443cadb8c33e02d159177"
+}
