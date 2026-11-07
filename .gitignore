@@ -80,3 +80,6 @@ assets/logo/*_upscayl_*
 keys/
 *.jks
 *.keystore
+
+# mockup screenshots (render checks; binary bytes trip the private-names guard)
+reports/distribution/*/shots/

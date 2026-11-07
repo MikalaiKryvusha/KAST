@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="KAST">
+  <!-- KAST icon, concept 1 "Signal": a play mark sends the stream out in two waves; the outer wave is broken,
+       yet the play holds. Krinik acid pink plate, white glyph (KrinikCam family). -->
+  <rect width="512" height="512" rx="112" fill="#FF1A8C"/>
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M118 168 L118 344 L258 256 Z"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round">
+    <path d="M289.1 183.2 A95 95 0 0 1 289.1 328.8"/>
+    <path d="M334.1 129.6 A165 165 0 0 1 384.9 205"/>
+    <path d="M384.9 307 A165 165 0 0 1 334.1 382.4"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="KAST">
+  <!-- KAST icon, concept 2 "Endless": one stroke draws an infinity sign whose right loop is the play mark.
+       The stream has no end: when the network drops, the session goes on. Black one-stroke line on acid pink
+       (the way Krinik Tribit draws its knot). -->
+  <rect width="512" height="512" rx="112" fill="#FF1A8C"/>
+  <g fill="none" stroke-linejoin="round">
+    <!-- the whole line: crossing C(226,256) → play loop (top, tip, bottom) → back through C → round left loop → C -->
+    <path d="M226 256 L276 146 L436 256 L276 366 L226 256 L194.9 187.7 C174.2 142.2 76 160 76 256 C76 352 174.2 369.8 194.9 324.3 Z"
+          stroke="#0D0D0D" stroke-width="38"/>
+    <!-- over/under at the crossing: the strand coming from the bottom of the play passes OVER the other one -->
+    <path d="M255 319.7 L226 256 L197 192.3" stroke="#FF1A8C" stroke-width="66" stroke-linecap="butt"/>
+    <path d="M256.6 323.3 L226 256 L195.4 188.7" stroke="#0D0D0D" stroke-width="38" stroke-linecap="butt"/>
+  </g>
+</svg>

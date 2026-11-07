@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="432" height="432">
+  <!-- KrinikCam launcher icon, drawn from app/src/main/res/drawable/ic_launcher_{background,foreground}.xml (mockup only) -->
+  <rect width="108" height="108" rx="24" fill="#FF1A8C"/>
+  <path fill="#FFFFFF" d="M30,38 L30,70 Q30,74 34,74 L74,74 Q78,74 78,70 L78,38 Q78,34 74,34 L60,34 L56,28 L52,28 L48,34 L34,34 Q30,34 30,38 Z"/>
+  <circle cx="54" cy="54" r="14" fill="#FF1A8C"/>
+  <circle cx="54" cy="54" r="8" fill="#FFFFFF"/>
+  <circle cx="66" cy="40" r="4" fill="#FF1A8C"/>
+</svg>

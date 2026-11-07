@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кнопка Obtainium</title>
+<style>
+:root { --page:#f3f0f2; --ink:#1f1a1d; --muted:#6b6168; --pink:#FF1A8C; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--page); color:var(--ink); font:16px/1.5 "Segoe UI", system-ui, sans-serif; }
+.wrap { max-width: 1760px; margin: 0 auto; padding: 32px 24px 64px; }
+h1.page { font-size: 30px; margin: 0 0 6px; }
+h1.page span { color: var(--pink); }
+p.lead { margin: 0 0 24px; color: var(--muted); max-width: 900px; }
+.hero { display:flex; flex-wrap:wrap; gap: 24px 40px; align-items:center; background:#fff; border-radius:16px; padding:24px; margin-bottom: 36px; }
+.hero figure { margin:0; text-align:center; }
+.hero figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.hero .src { flex: 1 1 320px; font-size: 14px; color: var(--muted); }
+.hero .src b { color: var(--ink); }
+section.app { margin: 0 0 48px; }
+section.app h2.app { font-size: 24px; margin: 0 0 2px; }
+section.app p.note { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.frames { display:flex; flex-wrap:wrap; gap: 20px; align-items:flex-start; }
+.gh { width: 830px; max-width: 100%; border-radius: 8px; overflow:hidden; border:1px solid; }
+.gh.phone { width: 390px; }
+.gh-bar { display:flex; justify-content:space-between; padding: 8px 16px; font: 600 13px/1.5 -apple-system, "Segoe UI", sans-serif; border-bottom:1px solid; }
+.gh-theme { font-weight: 400; opacity: .75; }
+.markdown-body { padding: 32px; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif; }
+.gh.phone .markdown-body { padding: 16px; }
+.markdown-body p { margin: 0 0 16px; }
+.markdown-body img { max-width: 100%; box-sizing: content-box; vertical-align: middle; }
+.markdown-body a img { border: 0; }
+.markdown-body .md-h1 { font-size: 2em; font-weight: 600; margin: 24px 0 16px; padding-bottom: .3em; border-bottom: 1px solid; line-height: 1.25; }
+.markdown-body .md-h2 { font-size: 1.5em; font-weight: 600; margin: 24px 0 16px; padding-bottom: .3em; border-bottom: 1px solid; line-height: 1.25; }
+.markdown-body [align=center] { text-align: center; }
+.lbl { font: 600 11px/1 "Segoe UI", sans-serif; letter-spacing: .08em; text-transform: uppercase; margin: 22px 0 10px; padding: 4px 8px; display: inline-block; border-radius: 4px; }
+.gh.dark { background:#0d1117; color:#e6edf3; border-color:#30363d; }
+.gh.dark .gh-bar { background:#151b23; border-color:#30363d; }
+.gh.dark .md-h1, .gh.dark .md-h2 { border-color:#3d444db3; }
+.gh.dark .lbl { background:#FF1A8C26; color:#FF6BBD; }
+.gh.light { background:#ffffff; color:#1f2328; border-color:#d1d9e0; }
+.gh.light .gh-bar { background:#f6f8fa; border-color:#d1d9e0; }
+.gh.light .md-h1, .gh.light .md-h2 { border-color:#d1d9e0b3; }
+.gh.light .lbl { background:#FF1A8C1a; color:#CC0070; }
+footer { color: var(--muted); font-size: 13px; }
+</style></head>
+<body><div class="wrap">
+<h1 class="page">Кнопка <span>Obtainium</span> в README четырёх приложений</h1>
+<p class="lead">Макет для решения. Кнопки сделаны по образцу кнопки DOWNLOAD APK из KARTUN: тот же размер, та же розовая пилюля, тот же шрифт.
+Слева алмаз Obtainium, перекрашенный в розовую гамму Криника на белом круге. В README кнопки стоят высотой 72 px внутри <code>&lt;p align="center"&gt;</code>.
+Для каждого приложения показаны тёмная и светлая тема GitHub, ряд и столбец, английский и русский разделы.</p>
+
+<div class="hero">
+  <figure><img src="get-it-on-obtainium-en.svg" width="440" alt="Get it on Obtainium"><figcaption>get-it-on-obtainium-en.svg, 440×96</figcaption></figure>
+  <figure><img src="get-it-on-obtainium-ru.svg" width="440" alt="Скачать через Obtainium"><figcaption>get-it-on-obtainium-ru.svg, 440×96</figcaption></figure>
+  <div class="src"><b>Алмаз.</b> Взят из репозитория Obtainium (assets/graphics/icon.svg, лицензия GPL-3.0). Форма не тронута, заменены только цвета:
+  фиолетовый градиент стал розовым, от #FF6BBD к #CC0070. Источник и лицензия записаны в OBTAINIUM-BADGE-NOTICE.md.</div>
+</div>
+
+<section class="app" id="kast">
+<h2 class="app">KAST</h2>
+<p class="note">Только кнопка Obtainium: своего APK-файла в README нет.</p>
+<div class="frames">
+<div class="gh dark ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">тёмная тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/kast-logo.webp" width="820" alt="KAST logo"></p>
+<h1 class="md-h1">KAST — KRINIK Artemis Streaming Tool</h1>
+<div class="lbl">Английский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Русский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh light ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">светлая тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/kast-logo.webp" width="820" alt="KAST logo"></p>
+<h1 class="md-h1">KAST — KRINIK Artemis Streaming Tool</h1>
+<div class="lbl">Английский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Русский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+
+</div></section>
+
+<section class="app" id="kcam">
+<h2 class="app">KrinikCam</h2>
+<p class="note">Кнопка «Download APK» осталась как есть (бейдж shields.io), Obtainium встаёт рядом. Бейдж высотой 28 px, он заметно меньше розовых кнопок. В README KrinikCam логотипа наверху нет: здесь показан значок приложения.</p>
+<div class="frames">
+<div class="gh dark ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">тёмная тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/krinikcam-icon.svg" width="160" alt="KrinikCam icon"></p>
+<h1 class="md-h1" align="center">KrinikCam</h1>
+<p align="center"><b>A mobile OBS for Android</b><br>Open source · For streamers and bloggers · Short name: KCam</p>
+<div class="lbl">Ряд, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-en.svg" alt="Download the APK (v0.9)"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Столбец, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-en.svg" alt="Download the APK (v0.9)"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Ряд, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-ru.svg" alt="Скачать APK (v0.9)"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+<div class="lbl">Столбец, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-ru.svg" alt="Скачать APK (v0.9)"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh light ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">светлая тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/krinikcam-icon.svg" width="160" alt="KrinikCam icon"></p>
+<h1 class="md-h1" align="center">KrinikCam</h1>
+<p align="center"><b>A mobile OBS for Android</b><br>Open source · For streamers and bloggers · Short name: KCam</p>
+<div class="lbl">Ряд, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-en.svg" alt="Download the APK (v0.9)"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Столбец, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-en.svg" alt="Download the APK (v0.9)"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Ряд, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-ru.svg" alt="Скачать APK (v0.9)"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+<div class="lbl">Столбец, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-ru.svg" alt="Скачать APK (v0.9)"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh dark phone">
+<div class="gh-bar"><span class="gh-file">телефон, 390 px</span><span class="gh-theme">ряд сам уходит в столбец</span></div>
+<article class="markdown-body">
+<div class="lbl">Разметка «ряд», английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/krinikcam-download-en.svg" alt="Download the APK (v0.9)"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+</article></div>
+</div></section>
+
+<section class="app" id="kartun">
+<h2 class="app">KARTUN</h2>
+<p class="note">Своя кнопка DOWNLOAD APK и новая кнопка Obtainium одного размера и одного стиля.</p>
+<div class="frames">
+<div class="gh dark ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">тёмная тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/kartun-icon.svg" width="160" alt="KARTUN icon"></p>
+<h2 class="md-h2" align="center">KARTUN</h2>
+<p align="center"><b>Krinik Android Restoration Tool for Upscaling with Neural Networks</b><br>Open source · Offline · AI on the device</p>
+<div class="lbl">Ряд, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-en.svg" height="72" alt="Download the KARTUN APK"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Столбец, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-en.svg" height="72" alt="Download the KARTUN APK"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Ряд, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-ru.svg" height="72" alt="Скачать APK KARTUN"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+<div class="lbl">Столбец, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-ru.svg" height="72" alt="Скачать APK KARTUN"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh light ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">светлая тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/kartun-icon.svg" width="160" alt="KARTUN icon"></p>
+<h2 class="md-h2" align="center">KARTUN</h2>
+<p align="center"><b>Krinik Android Restoration Tool for Upscaling with Neural Networks</b><br>Open source · Offline · AI on the device</p>
+<div class="lbl">Ряд, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-en.svg" height="72" alt="Download the KARTUN APK"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Столбец, английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-en.svg" height="72" alt="Download the KARTUN APK"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Ряд, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-ru.svg" height="72" alt="Скачать APK KARTUN"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+<div class="lbl">Столбец, русский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-ru.svg" height="72" alt="Скачать APK KARTUN"></a>
+</p>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh dark phone">
+<div class="gh-bar"><span class="gh-file">телефон, 390 px</span><span class="gh-theme">ряд сам уходит в столбец</span></div>
+<article class="markdown-body">
+<div class="lbl">Разметка «ряд», английский раздел</div>
+<p align="center">
+  <a href="#"><img src="img/kartun-download-en.svg" height="72" alt="Download the KARTUN APK"></a>
+  &nbsp;
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+</article></div>
+</div></section>
+
+<section class="app" id="tribit">
+<h2 class="app">Krinik Tribit</h2>
+<p class="note">Только кнопка Obtainium.</p>
+<div class="frames">
+<div class="gh dark ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">тёмная тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/krinik-tribit-icon.svg" width="160" alt="Krinik Tribit icon"></p>
+<h2 class="md-h2" align="center">Krinik Tribit</h2>
+<p align="center"><b>The Tribit speaker app, fixed — made by people, for people</b><br>Open source · No crashes · No location · Tablets and big screens · Proper translations</p>
+<div class="lbl">Английский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Русский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+<div class="gh light ">
+<div class="gh-bar"><span class="gh-file">README.md</span><span class="gh-theme">светлая тема GitHub</span></div>
+<article class="markdown-body">
+<p align="center"><img src="img/krinik-tribit-icon.svg" width="160" alt="Krinik Tribit icon"></p>
+<h2 class="md-h2" align="center">Krinik Tribit</h2>
+<p align="center"><b>The Tribit speaker app, fixed — made by people, for people</b><br>Open source · No crashes · No location · Tablets and big screens · Proper translations</p>
+<div class="lbl">Английский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+</p>
+<div class="lbl">Русский раздел</div>
+<p align="center">
+  <a href="#"><img src="get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+</p>
+</article></div>
+
+</div></section>
+
+<footer>Ссылки на кнопках в макете не ведут никуда. В README кнопка Obtainium откроет карточку приложения через apps.obtainium.imranr.dev.</footer>
+</div></body></html>

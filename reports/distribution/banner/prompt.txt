@@ -1,0 +1,6 @@
+Image 1 is the wide banner of our Android app KAST (the useful picture is the horizontal band in the middle; the white fields above and below are only padding, keep them plain white).
+Redraw this banner with the SAME composition, layout, perspective and illustration style, but recolor EVERYTHING into acid-pink tones instead of blue and cyan: hot pink #FF1A8C, light pink #FF6BBD, soft pink highlights #FFA3D1, and deep berry #250519 for the dark areas (sky, silhouettes, outlines).
+Keep: the desktop PC with the "Vibepollo" label plate on the left, the Wi-Fi signs, the arc of streamed game frames across the sky, the stars, mountains, lake and trees, and the tablet receiver on the right.
+Add a label plate with the text "KAST" under the tablet on the right, in exactly the same style and size as the "Vibepollo" plate on the left.
+In the center keep the big word "KAST" and place the icon from Image 2 to the left of it: a screen assembled from flying square frames (pink frame, pink screen, pink squares and one yellow square). Draw the icon WITHOUT its dark rounded square background plate.
+Return one image: the same square canvas, with the banner band in the middle and plain white above and below.
