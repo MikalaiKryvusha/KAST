@@ -43,31 +43,31 @@ Machinery: adb (SDK), `UI_SERIAL=<serial> node tools/ui.mjs texts|tap|seek|shot`
 
 | # | Case (steps → expected) | Technique | Status + evidence |
 |---|---|---|---|
-| FDW-0 | control: current debug build, `pm clear`, launch → NO FreeDroidWarn dialog (×4) | control (feature absent) | [NOT-TESTED] |
-| FDW-1 | new debug build, `pm clear`, launch → dialog with the library text in the system language, buttons Details / OK / Solution (×4) | use case | [NOT-TESTED] |
-| FDW-2 | after FDW-1 → OK → `am force-stop` → launch → no dialog (×4) | state transition | [NOT-TESTED] |
-| FDW-3 | after FDW-2 → `run-as <pkg>` set `versionCodeWarn` to versionCode−1 in default prefs → launch → dialog again (×4) | state transition (new version) | [NOT-TESTED] |
-| FDW-4 | dialog shown → Details → browser opens keepandroidopen.org → back → app alive, 0 crash lines (×4) | error guessing (#45) | [NOT-TESTED] |
-| FDW-5 | dialog shown → Solution → browser opens the library README → back → app alive, 0 crash lines (×4) | error guessing (#45) | [NOT-TESTED] |
-| FDW-6 | dialog shown → rotate (`settings put system user_rotation 1`) → at most one dialog, 0 crash lines (×4) | error guessing (lifecycle) | [NOT-TESTED] |
-| FDW-7 | after OK → the app's own first screen works: KrinikCam camera permission prompt, KrinikTribitApp Bluetooth prompt, KARTUN setup, KAST host list | regression | [NOT-TESTED] |
-| FDW-8 | locale: `cmd locale set-app-locales <pkg> --locales en` then `ru` → dialog text in that language (one app suffices — library-owned strings) | equivalence class | [NOT-TESTED] |
-| TRB-1 | KrinikTribitApp: `git ls-files` has none of the plan-14 list | inspection | [NOT-TESTED] |
-| TRB-2 | KrinikTribitApp: `gradlew :app:assembleDebug` green after removal | regression | [NOT-TESTED] |
-| TRB-3 | KrinikTribitApp: `git grep` of removed names in README, AGENT_GUIDE, HOUSE_RULES, maps → empty | inspection | [NOT-TESTED] |
-| TRB-4 | KrinikTribitApp README build section = Gradle build of `app/` (EN/RU/ZH) | inspection | [NOT-TESTED] |
-| OBT-1 | README on GitHub (EN and RU sections) shows the pink Obtainium button, image loads, link = redirect with the right JSON (×4) | inspection + rendering | [NOT-TESTED] |
-| OBT-2 | Titan with Obtainium: open README link → Obtainium add screen with id, name, author prefilled → Add (×4) | use case | [NOT-TESTED] |
-| OBT-3 | Obtainium installs the latest release; card shows X.Y.Z; no version-detection warning (×4) | use case | [NOT-TESTED] |
-| OBT-4 | installed version on Titan = release versionName (`dumpsys package <pkg> \| grep versionName`) (×4) | inspection | [NOT-TESTED] |
-| REL-1 | `gh release view vX.Y.Z` exists, not pre-release, marked latest; tag = versionName (×4) | inspection | [NOT-TESTED] |
-| REL-2 | `apksigner verify --print-certs <asset>` → own cert (KAST `O=KAST`, KARTUN `O=KARTUN`, KrinikCam / KrinikTribitApp their release keys), never `CN=Android Debug` (×4) | inspection | [NOT-TESTED] |
-| REL-3 | versionCode of the asset > previous release's (KrinikCam > 90001, KARTUN > 285, KAST > 57, KrinikTribitApp > 1) (×4) | boundary | [NOT-TESTED] |
-| REL-4 | KARTUN: GitHub 1.0 installed → Obtainium updates to 1.0.1 in place, data kept | state transition (update path) | [NOT-TESTED] |
-| REL-5 | KrinikCam: GitHub 0.9 installed → update to 0.9.1 is REFUSED (signature) — the release notes say «reinstall once» | negative (expected failure) | [NOT-TESTED] |
+| FDW-0 | control: current debug build, `pm clear`, launch → NO FreeDroidWarn dialog (×4) | control (feature absent) | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-1 | new debug build, `pm clear`, launch → dialog with the library text in the system language, buttons Details / OK / Solution (×4) | use case | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-2 | after FDW-1 → OK → `am force-stop` → launch → no dialog (×4) | state transition | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-3 | after FDW-2 → `run-as <pkg>` set `versionCodeWarn` to versionCode−1 in default prefs → launch → dialog again (×4) | state transition (new version) | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-4 | dialog shown → Details → browser opens keepandroidopen.org → back → app alive, 0 crash lines (×4) | error guessing (#45) | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-5 | dialog shown → Solution → browser opens the library README → back → app alive, 0 crash lines (×4) | error guessing (#45) | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-6 | dialog shown → rotate (`settings put system user_rotation 1`) → at most one dialog, 0 crash lines (×4) | error guessing (lifecycle) | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-7 | after OK → the app's own first screen works: KrinikCam camera permission prompt, KrinikTribitApp Bluetooth prompt, KARTUN setup, KAST host list | regression | **pass** 2026-11-07 ×4 — `testcases/reports/2026-11-07_distribution-fdw.md` |
+| FDW-8 | locale: `cmd locale set-app-locales <pkg> --locales en` then `ru` → dialog text in that language (one app suffices — library-owned strings) | equivalence class | not run (library-owned strings; Russian seen on all four) |
+| TRB-1 | KrinikTribitApp: `git ls-files` has none of the plan-14 list | inspection | **pass** 2026-11-07 — 0 removed paths in `git ls-files` (`7881dbc`) |
+| TRB-2 | KrinikTribitApp: `gradlew :app:assembleDebug` green after removal | regression | **pass** 2026-11-07 — debug and release builds green |
+| TRB-3 | KrinikTribitApp: `git grep` of removed names in README, AGENT_GUIDE, HOUSE_RULES, maps → empty | inspection | **pass** 2026-11-07 — `git grep` 0 hits in live docs |
+| TRB-4 | KrinikTribitApp README build section = Gradle build of `app/` (EN/RU/ZH) | inspection | **pass** 2026-11-07 — Gradle build block EN/RU/ZH |
+| OBT-1 | README on GitHub (EN and RU sections) shows the pink Obtainium button, image loads, link = redirect with the right JSON (×4) | inspection + rendering | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| OBT-2 | Titan with Obtainium: open README link → Obtainium add screen with id, name, author prefilled → Add (×4) | use case | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| OBT-3 | Obtainium installs the latest release; card shows X.Y.Z; no version-detection warning (×4) | use case | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| OBT-4 | installed version on Titan = release versionName (`dumpsys package <pkg> \| grep versionName`) (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-1 | `gh release view vX.Y.Z` exists, not pre-release, marked latest; tag = versionName (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-2 | `apksigner verify --print-certs <asset>` → own cert (KAST `O=KAST`, KARTUN `O=KARTUN`, KrinikCam / KrinikTribitApp their release keys), never `CN=Android Debug` (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-3 | versionCode of the asset > previous release's (KrinikCam > 90001, KARTUN > 285, KAST > 57, KrinikTribitApp > 1) (×4) | boundary | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-4 | KARTUN: GitHub 1.0 installed → Obtainium updates to 1.0.1 in place, data kept | state transition (update path) | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-5 | KrinikCam: GitHub 0.9 installed → update to 0.9.1 is REFUSED (signature) — the release notes say «reinstall once» | negative (expected failure) | shown by signatures (GitHub v0.9 asset `CN=Android Debug` vs 0.9.1 own key), not reproduced on Titan — same report |
 | BLD-1 | README build block followed literally on a temp clone → debug APK built (×4) | use case | [NOT-TESTED] |
 | BLD-2 | README build block identical in headings and order across the four (diff of headings) | inspection | [NOT-TESTED] |
-| KEY-1 | `git check-ignore -v` on each release keystore and its env file (×4) | inspection | [NOT-TESTED] |
+| KEY-1 | `git check-ignore -v` on each release keystore and its env file (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 
 ## 5. Control cases
 
