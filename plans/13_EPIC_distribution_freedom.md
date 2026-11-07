@@ -31,7 +31,8 @@ flowchart TD
   F1["Ф1 FreeDroidWarn<br/>×4, V1.14, onCreate точки входа<br/>debug на Titan: окно, кнопки"] --> F3
   F2["Ф2 Кнопка и блок сборки<br/>SVG-пилюля #FF1A8C + розовый алмаз<br/>макет владельцу → README ×4"] --> F3
   F3["Ф3 Версии и релизы<br/>x.x.+1, тег = versionName<br/>подпись своим ключом, APK в релиз"] --> F4
-  F4["Ф4 Приёмка на Titan 1<br/>Obtainium ставит и видит версию ×4<br/>FreeDroidWarn из релиза"] --> F5
+  F4["Ф4 Приёмка на Titan 1<br/>Obtainium ставит и видит версию ×4<br/>FreeDroidWarn из релиза"] --> F45
+  F45["Ф4.5 Картинка 9:16 (EN)<br/>логотипы ×4 с названиями,<br/>в центре бейджи Keep Android Open и FreeDroidWarn"] --> F5
   F5["Ф5 Судья и закрытие<br/>/fable-judge, STATUS, DONE"]
 ```
 
@@ -70,6 +71,10 @@ README / HOUSE_RULES / картах проекта переписать. **Ос�
 - **Ф3 Версии и релизы** — KAST 20.2.6→20.2.7 (code 58), KrinikCam 0.9→0.9.1 (`version.json`, CI больше не подписывает debug-ключом),
   KARTUN 1.0→1.0.1 (`versionName` чистый `1.0.1`), KrinikTribitApp 0.1→0.1.1 (code 2, первый релиз); сборка релиза своим ключом,
   `gh release create vX.Y.Z` с APK; имена APK под фильтр Obtainium.
+- **Ф4.5 Картинка 9:16** (владелец 2026-11-07: «В конце работы сверстать…») — вертикальная 9:16 на английском: в центре бейдж организации
+  Keep Android Open (https://keepandroidopen.org) и бейдж FreeDroidWarn, вокруг — логотипы KAST, KrinikCam, KARTUN, Krinik Tribit с
+  названиями под ними. Вёрстка HTML → снимок **WebP** (PNG не писать); официальные бейджи и условия их использования — с сайтов
+  keepandroidopen.org и github.com/woheller69/FreeDroidWarn; показать владельцу на этой машине.
 - **Ф4 Приёмка** — Titan 1 по Wi-Fi: поставить Obtainium, по кнопке из README добавить каждое приложение, поставить, увидеть окно FreeDroidWarn.
 
 ## Риски
