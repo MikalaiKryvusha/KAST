@@ -17,13 +17,15 @@
 PR, экраны владельцу до PR. Задачи KAST ниже (Ф3, пул, «С чего начать» 1–6) заморожены: браться только по слову владельца.
 Репозиторий KAST остаётся домом документов (`plans/`, `ideas/`, `reports/`, `testcases/`) для работы над Super Artemis.
 
-## Чат 2026-11-07 ≈08:45 — новый эпик «Свобода дистрибуции» (разведка идёт)
+## Чат 2026-11-07 ≈08:45 — эпик «Свобода дистрибуции» (`plans/13_EPIC_distribution_freedom.md`, план одобрен «ГОУ»)
 
-- Слова владельца дословно — `ideas/18_distribution_freedom_android_apps.md` (`be594cde`). Четыре Android-проекта: KAST, KrinikCam,
-  KARTUN, KrinikTribitApp (KrinikTribitNative и ndim-old исключены владельцем). В каждый: FreeDroidWarn; Obtainium и F-Droid с
-  большими кнопками в README (рядом, кислотно-розовый стиль Криника, алмаз и робот розовыми); релизы x.x.+1; проверка на Titan 1 по Wi-Fi.
-- Порядок от владельца: «сначала разведка и эпик план». Идут веб-разведка и разведка клонов → `researches/05_…`, `plans/13_EPIC_…`.
-  Код не трогать до мета-плана. Titan сейчас не подключён к adb (порт беспроводной отладки меняется).
+- Слова владельца дословно — `ideas/18_distribution_freedom_android_apps.md`. Четыре Android-проекта: KAST, KrinikCam,
+  KARTUN, KrinikTribitApp. В каждый: FreeDroidWarn; **только Obtainium** (F-Droid и IzzyOnDroid владелец отменил) — розовая кнопка
+  в README утверждена; блок «Как собрать»; релизы x.x.+1; проверка на Titan 1 по Wi-Fi (`192.168.1.3:37447`, adb только из SDK).
+- Ф1 FreeDroidWarn: код ×4 не закоммичен, debug ×4 зелёные, FDW-0..7 прошли на KrinikTribitApp, KARTUN, KrinikCam (KAST — см. отчёт);
+  судья по Ф1 начат. Ф0b (уборка KrinikTribitApp) не начата. KrinikTribitApp — MIT (`28820a7`). Ключ KAST — `keys/` вне git.
+- Новый логотип KAST — перекраска `assets/logo/kast-icon.svg` в розовое (`reports/distribution/kast-logo/`), правки владельца идут;
+  затем заставка через ChatGPT (`SvarogsDream/tools/gpt_edit.sh`, отладочный Chrome :9223). Перенос KAST на Super Artemis — `ideas/19`, отложен.
 
 ## Чат 2026-11-06 ≈21:15–22:10 — PR #13 влит, issue #14 о своём разрешении
 

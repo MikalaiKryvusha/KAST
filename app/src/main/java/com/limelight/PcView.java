@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import org.woheller69.freeDroidWarn.FreeDroidWarn;
 import com.limelight.binding.PlatformBinding;
 import com.limelight.binding.crypto.AndroidCryptoProvider;
 import com.limelight.computers.ComputerManagerListener;
@@ -214,6 +215,12 @@ public class PcView extends AppCompatActivity implements AdapterFragmentCallback
         // Assume we're in the foreground when created to avoid a race
         // between binding to CMS and onResume()
         inForeground = true;
+
+        // KAST: FreeDroidWarn - once per versionCode, the dialog about Google's developer verification (the owner
+        // 2026-11-07: «во все их нужно встроить FreeDroidWarn», plans/15). Not on re-creation - the user already saw it.
+        if (savedInstanceState == null) {
+            FreeDroidWarn.showWarningOnUpgrade(this, BuildConfig.VERSION_CODE);
+        }
 
         // Create a GLSurfaceView to fetch GLRenderer unless we have
         // a cached result already.
