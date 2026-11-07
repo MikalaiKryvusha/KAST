@@ -25,6 +25,14 @@ Avoid: hotlink на raw.githubusercontent чужого репозитория; �
   Build (`gradlew assembleDebug` / `assembleRelease`) → Signing (свой ключ вне git: где лежит, как сделать) → Project-specific notes
   (KAST: ndk-build, флейворы; KARTUN: `tools/build-ncnn.mjs`, модели; KrinikCam: JitPack; KrinikTribitApp: только Gradle). EN + RU (+ ZH у KrinikTribitApp).
 
+## Owner's additions 2026-11-07
+
+- Кнопка утверждена («вот теперь идеально»): `reports/distribution/mockup/get-it-on-obtainium-{en,ru}.svg`, алмаз `translate(50.9 48.4)`.
+- Шапка витрины — как у KrinikCam (иконка, название, черта, строка назначения, строка фактов); пустые подписи вроде «Short name: KCam» убрать
+  (из README KrinikCam тоже), «Open source» и главное назначение оставить.
+- **KAST:** такая же шапка + **новый логотип** в кислотно-розовом стиле Криника — 3 концепции (`reports/distribution/kast-logo/`), показ владельцу,
+  его выбор → README KAST (и финальная картинка Ф4.5). Иконку приложения KAST заменить тем же логотипом — предложить владельцу при показе.
+
 ## Steps
 
 - [ ] 1. Макет (агент-дизайнер, параллельно Ф1): SVG-кнопки EN/RU с розовым алмазом + страница `reports/distribution/mockup/index.html` — README-шапка
