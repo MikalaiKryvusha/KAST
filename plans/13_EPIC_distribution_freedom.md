@@ -27,13 +27,22 @@ Obtainium** по одной розовой кнопке в README, подпис�
 ```mermaid
 flowchart TD
   F0["Ф0 Ключи<br/>KAST: ключ + скрипт вне git<br/>(сделано 2026-11-07)"] --> F1
+  F0b["Ф0b KrinikTribitApp<br/>MIT (сделано 28820a7)<br/>убрать инструменты прежнего пути"] --> F3
   F1["Ф1 FreeDroidWarn<br/>×4, V1.14, onCreate точки входа<br/>debug на Titan: окно, кнопки"] --> F3
   F2["Ф2 Кнопка и блок сборки<br/>SVG-пилюля #FF1A8C + розовый алмаз<br/>макет владельцу → README ×4"] --> F3
   F3["Ф3 Версии и релизы<br/>x.x.+1, тег = versionName<br/>подпись своим ключом, APK в релиз"] --> F4
   F4["Ф4 Приёмка на Titan 1<br/>Obtainium ставит и видит версию ×4<br/>FreeDroidWarn из релиза"] --> F5
   F5["Ф5 Судья и закрытие<br/>/fable-judge, STATUS, DONE"]
-  Q{"Развилка владельцу:<br/>KrinikTribitApp — LICENSE,<br/>инструменты прежнего пути"} -.-> F3
 ```
+
+Развилка по KrinikTribitApp решена владельцем 2026-11-07: «Предлагаю MIT» и «убрать» инструменты прежнего пути.
+
+**Ф0b — что убирается из публичного KrinikTribitApp** (путь «патчить официальный APK»; отслеживаемые файлы на 2026-11-07):
+`build.sh`, `patches/` (apply.py, add_dex.py, java/ ×8, assets/ ×3), `tools/recon/` (×18), `tools/gen_r.py`, `tools/kotlin_defaults.py`,
+`tools/native_src_count.py`, `tools/native_src_guard.py`, `tools/decompile_clean.py`, `tools/test_decompile_clean.py`; ссылки на них в
+README / HOUSE_RULES / картах проекта переписать. **Остаются** инструменты нового приложения: `tools/fetch_speaker_images.py` и
+`tools/devices/` (каталог колонок и фото — решение владельца 2026-10-16 «зашиваем в наш апп»), `tools/screen_profile.py`, проверки.
+Файлы уходят из дерева; в истории git они остаются (переписывать историю публичного репозитория — только по отдельному слову владельца).
 
 Порядок и почему:
 - **Ф0** первым: без ключа нет подписанного релиза (сделано: `KAST/keys/`, `tools/make-release-key.py`, подпись в `app/build.gradle`).
@@ -47,7 +56,8 @@ flowchart TD
 |---|---|---|
 | Ф1 | клоны чистые по нашим файлам | debug-сборка ×4 зелёная; на Titan окно показано, OK запомнен, «Подробнее»/«Решение» без падения; снимки WebP |
 | Ф2 | бренд-цвета из разведки | владелец одобрил макет кнопки и блока; README ×4 закоммичены; рендер на GitHub проверен |
-| Ф3 | Ф1+Ф2 закрыты; развилка по KrinikTribitApp решена | релиз ×4: тег = versionName, APK подписан своим ключом (apksigner), versionCode вырос |
+| Ф0b | слово владельца «убрать» | файлы прежнего пути не в `git ls-files`; debug-сборка KrinikTribitApp зелёная; ссылок на них в README нет |
+| Ф3 | Ф0b, Ф1, Ф2 закрыты | релиз ×4: тег = versionName, APK подписан своим ключом (apksigner), versionCode вырос |
 | Ф4 | релизы опубликованы | К1–К3 на Titan по каждому приложению, снимки |
 | Ф5 | Ф4 | вердикт судьи VERIFIED, STATUS, `DONE` в имени файла |
 
