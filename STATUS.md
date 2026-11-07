@@ -17,7 +17,17 @@
 PR, экраны владельцу до PR. Задачи KAST ниже (Ф3, пул, «С чего начать» 1–6) заморожены: браться только по слову владельца.
 Репозиторий KAST остаётся домом документов (`plans/`, `ideas/`, `reports/`, `testcases/`) для работы над Super Artemis.
 
-## Чат 2026-11-07 ≈08:45 — эпик «Свобода дистрибуции» (`plans/13_EPIC_distribution_freedom.md`, план одобрен «ГОУ»)
+## Чат 2026-11-07 ≈14:30 — эпик «Свобода дистрибуции» ✅ DONE (`plans/13_DONE_EPIC_distribution_freedom.md`; независимый судья — VERIFIED WITH CAVEATS, найденное исправлено)
+
+- Релизы на GitHub, свои ключи, тег = versionName: KAST `v20.2.7` (4 APK по ABI), KrinikCam `v0.9.1`, KARTUN `v1.0.1`, Krinik Tribit `v0.1.1`.
+  Во всех — FreeDroidWarn; в README — утверждённая розовая кнопка Obtainium и блок «Build it yourself»; Obtainium по кнопке на Titan ×4 —
+  «Установлена/Последняя». Отчёты: `testcases/reports/2026-11-07_distribution-fdw.md`, `…_distribution-releases-obtainium.md`.
+- KAST: новый розовый логотип (иконка приложения тоже), розовая заставка от ChatGPT. Картинка 9:16 — `reports/distribution/final/kast-family-9x16.webp`.
+- Записано на будущее: `plans/18_titan_bootloader_unlock.md` (разблокировка Titan до Android 17; переключатель включён владельцем, загрузчик ещё заблокирован),
+  `ideas/19` (перенос KAST на Super Artemis).
+- Машина: рабочий adb — только SDK; `app/build/.cxx` KAST держал путь SDK до переезда (удалён); apksigner требует явный `JAVA_HOME` (JDK 21).
+
+## Чат 2026-11-07 ≈08:45 — эпик «Свобода дистрибуции» (`plans/13_DONE_EPIC_distribution_freedom.md`, план одобрен «ГОУ»)
 
 - Слова владельца дословно — `ideas/18_distribution_freedom_android_apps.md`. Четыре Android-проекта: KAST, KrinikCam,
   KARTUN, KrinikTribitApp. В каждый: FreeDroidWarn; **только Obtainium** (F-Droid и IzzyOnDroid владелец отменил) — розовая кнопка

@@ -1,6 +1,6 @@
 # Plan 16 (epic 13, Ф2) — розовая кнопка Obtainium и стандартный блок «Build it yourself» в README
 
-> **Created:** 2026-11-07 · **Parent:** `plans/13_EPIC_distribution_freedom.md` → «Ф2 Кнопка и блок — `docs/get-it-on-obtainium-{en,ru}.svg`…»
+> **Created:** 2026-11-07 · **Parent:** `plans/13_DONE_EPIC_distribution_freedom.md` → «Ф2 Кнопка и блок — `docs/get-it-on-obtainium-{en,ru}.svg`…»
 > · **Owner's words:** «большие красивые кнопки-ссылки на README»; «кнопки … рядом в горизонтальный список, или вертикальный, в кислом розовом
 > стиле Криника»; «лого Алмаза Обтейниума можно нарисовать розовым»; «только Обтейниум делаем»; «во все README … стандартный блок с руководством
 > по сборке» · **Tests:** `testcases/TC_distribution_freedom.md` → OBT-1, BLD-1, BLD-2 · **Owner gate:** макет показан до коммита в README

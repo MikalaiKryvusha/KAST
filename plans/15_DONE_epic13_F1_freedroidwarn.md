@@ -1,6 +1,6 @@
 # Plan 15 (epic 13, Ф1) — FreeDroidWarn во всех четырёх приложениях
 
-> **Created:** 2026-11-07 · **Parent:** `plans/13_EPIC_distribution_freedom.md` → «Ф1 FreeDroidWarn — JitPack…, V1.14, вызов в onCreate…»
+> **Created:** 2026-11-07 · **Parent:** `plans/13_DONE_EPIC_distribution_freedom.md` → «Ф1 FreeDroidWarn — JitPack…, V1.14, вызов в onCreate…»
 > · **Owner's word:** «во все их нужно встроить https://github.com/woheller69/FreeDroidWarn»; «ГОУ, план начинаем делать!»; цикл владельца:
 > «пишем код, ревьювим судьёй, чиним, собираем, тестируем, чиним, ревьювим, собираем стабильные релизы»
 > · **Tests:** `testcases/TC_distribution_freedom.md` → FDW-0…FDW-7 · **Device:** Titan 1 по Wi-Fi, adb только `C:\Android\Sdk\platform-tools\adb.exe`

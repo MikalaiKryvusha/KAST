@@ -1,6 +1,6 @@
 # Plan 17 (epic 13, Ф3) — релизы x.x.+1 всех четырёх приложений, подписанные своими ключами
 
-> **Created:** 2026-11-07 · **Parent:** `plans/13_EPIC_distribution_freedom.md` → «Ф3 Версии и релизы — KAST 20.2.6→20.2.7 (code 58), KrinikCam
+> **Created:** 2026-11-07 · **Parent:** `plans/13_DONE_EPIC_distribution_freedom.md` → «Ф3 Версии и релизы — KAST 20.2.6→20.2.7 (code 58), KrinikCam
 > 0.9→0.9.1…, KARTUN 1.0→1.0.1…, KrinikTribitApp 0.1→0.1.1…» · **Owner's words:** «всех приложений собрать релизы, поднять минорную версию на 1
 > x.x.+1», «повыпускать релизы», «собираем стабильные релизы», «работай автономно» · **Tests:** `testcases/TC_distribution_freedom.md` → REL-1…REL-5, KEY-1
 

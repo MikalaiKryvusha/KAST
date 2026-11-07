@@ -1,6 +1,6 @@
 # Run report — releases x.x.+1 and Obtainium for KAST, KrinikCam, KARTUN, KrinikTribitApp (epic 13, phases F3–F4)
 
-**Work:** plans 16 and 17 (`plans/16_epic13_F2_obtainium_button_build_block.md`, `plans/17_epic13_F3_releases.md`), cases REL-1…REL-5,
+**Work:** plans 16 and 17 (`plans/16_DONE_epic13_F2_obtainium_button_build_block.md`, `plans/17_DONE_epic13_F3_releases.md`), cases REL-1…REL-5,
 OBT-1…OBT-4, KEY-1 of `testcases/TC_distribution_freedom.md`; owner's words 2026-11-07 «всех приложений собрать релизы, поднять минорную
 версию на 1 x.x.+1», «повыпускать релизы», «только Обтейниум делаем», «работай автономно».
 
@@ -31,16 +31,20 @@ KAST `v20.2.7` (`c89ae2f6`), KrinikCam `v0.9.1` (`6fa5908`), KARTUN `v1.0.1` (`5
 | REL-1 latest release, not pre-release, tag = versionName | pass `v20.2.7` / 20.2.7, 4 APKs `KAST-20.2.7-nonRoot-<abi>.apk` | pass `v0.9.1` / 0.9.1 | pass `v1.0.1` / 1.0.1, `KARTUN.apk` | pass `v0.1.1` / 0.1.1 |
 | REL-2 own signer, never `CN=Android Debug` | pass `CN=Mikalai Kryvusha, O=KAST, C=BY` | pass `CN=KCAM, OU=KrinikCam, O=KOT KRINIK, C=BY` (control v0.9 asset: `CN=Android Debug`) | pass `CN=Mikalai Kryvusha, O=KARTUN, C=BY` | pass `CN=Krinik Tribit, O=Krinik` |
 | REL-3 versionCode grew | pass 57 → 58 | pass 90001 → 90002 | pass 285 → 298 | pass 1 → 2 |
-| REL-4 update in place | not applicable (no earlier release) | pass over the Titan's 0.9 (it was a local build with the own key) | pass 1.0 (285) → 1.0.1 (298), `adb install -r` Success | not applicable (first release) |
+| REL-4 update in place (by adb) | not applicable (no earlier release) | pass over the Titan's 0.9 (it was a local build with the own key) | pass 1.0 (285) → 1.0.1 (298), `adb install -r` Success | not applicable (first release) |
 | REL-5 GitHub v0.9 → 0.9.1 refused | — | not reproduced on Titan (no GitHub 0.9 there); proven by the signatures above; release notes say «reinstall once» | — | — |
 | First launch of the release: FreeDroidWarn | pass | (dialog checked on debug, same code) | pass (after update) | pass |
 | OBT-1 README on GitHub shows the pink button | pass | pass (next to Download APK) | pass (next to DOWNLOAD APK) | pass |
 | OBT-2 README link → Obtainium import with id/name/author | pass | pass | pass | pass |
-| OBT-3 after refresh: «Установлена/Последняя», asset picked | pass `v20.2.7`, `KAST-20.2.7-nonRoot-arm64-v8a.apk` | pass `v0.9.1`, `KrinikCam-v0.9.1.apk` | pass `v1.0.1`, `KARTUN.apk` (before refresh: «1.0.1 → Неизвестно», «Последняя проверка: Никогда») | pass `v0.1.1`, `Krinik-Tribit-v0.1.1.apk` |
+| OBT-3 after refresh: «Установлена/Последняя», asset picked (detection; real install by Obtainium — Krinik Tribit, see below) | pass `v20.2.7`, `KAST-20.2.7-nonRoot-arm64-v8a.apk` | pass `v0.9.1`, `KrinikCam-v0.9.1.apk` | pass `v1.0.1`, `KARTUN.apk` (before refresh: «1.0.1 → Неизвестно», «Последняя проверка: Никогда») | pass `v0.1.1`, `Krinik-Tribit-v0.1.1.apk` |
 | OBT-4 installed versionName = release | pass 20.2.7 | pass 0.9.1 | pass 1.0.1 | pass 0.1.1 |
 | KEY-1 key outside git | pass `keys/` ignored | pass `keystores/`, `.env` ignored | pass `*.jks`, `.env` ignored | pass `keys/`, `.env` ignored |
 
 Screenshots (WebP): `reports/distribution/rel/*.webp`, `reports/distribution/obt/{kartun-*,kast,kcam,tribit}/*.webp`, `reports/distribution/obt/github/*.webp`.
+
+**Obtainium install (≈14:15), after the independent judge found that OBT-3 had shown detection only:** `adb uninstall com.kriniks.tribit` → Obtainium list «Krinik Tribit · Не установлено» → card «Не установлено, v0.1.1 Последняя, Krinik-Tribit-v0.1.1.apk» → «Установить» → system dialog «Установить приложение?» → «Установить» → `dumpsys package`: versionName 0.1.1, `installerPackageName=dev.imranr.obtainium.fdroid`. Screens: `reports/distribution/obt/tribit-install/`. The other three were installed by adb before Obtainium saw them (detection only); REL-4 (KARTUN update) was done by `adb install -r`, not by Obtainium.
+
+**BLD-1 (≈13:35–14:05):** fresh `git clone` of each repo from GitHub into an empty scratch folder, then the README's "Build it yourself" commands literally (JAVA_HOME per Requirements, ANDROID_HOME=C:\Android\Sdk): KrinikTribitApp `assembleDebug` BUILD SUCCESSFUL 13 s; KrinikCam `assembleDebug` 15 m 52 s; KAST `git clone --recurse-submodules` + `assembleNonRoot_gameDebug` 2 m 13 s (enet and moonlight-common-c checked out); KARTUN `node tools/build-ncnn.mjs` (ready: ncnn 20260526-kartun.1, fix present) → `fetch-libtiff` → four model files via `gh release download models` → `stage-models` (hashes OK) → `assembleDebug` 1 m 29 s. Each run READ: the build line and the APK at the README's output path. **pass ×4.**
 
 **Verdict:** pass for REL-1…REL-4, OBT-1…OBT-4, KEY-1 on all applicable apps; REL-5 shown by signatures, not reproduced on the device.
 

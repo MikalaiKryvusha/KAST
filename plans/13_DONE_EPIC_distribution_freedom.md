@@ -85,8 +85,32 @@ README / HOUSE_RULES / картах проекта переписать. **Ос�
 - KAST на паузе (владелец 2026-11-06), но входит в список владельца — делаем.
 - FreeDroidWarn #49: окно показывается и на системах без Google — принимаем как есть (текст библиотеки фиксирован).
 
+## Ход фаз (2026-11-07)
+
+- [x] **Ф0** ключ KAST `keys/` вне git, `tools/make-release-key.py`, подпись из `keys/release.env` (`eacdf4a0`).
+- [x] **Ф0b** KrinikTribitApp: MIT (`28820a7`); инструменты прежнего пути убраны, документы и README про сборку нашего приложения (`7881dbc`).
+- [x] **Ф1** FreeDroidWarn V1.14 ×4 (`9603064` KARTUN, `15f6cf6` KrinikTribitApp, `00b436a` KrinikCam, `3afa2200` KAST); FDW-0…7 pass ×4 —
+      `testcases/reports/2026-11-07_distribution-fdw.md`; судья: проверено с оговорками (FDW-8 не прогонялся).
+- [x] **Ф2** кнопка Obtainium утверждена («вот теперь идеально»), блок «Build it yourself» ×4, шапка и розовая заставка KAST, новый логотип
+      KAST (утверждён «утверждено»), «Short name» убран у KrinikCam.
+- [x] **Ф3** релизы: KAST `v20.2.7`, KrinikCam `v0.9.1`, KARTUN `v1.0.1`, KrinikTribitApp `v0.1.1` — свои ключи, тег = versionName.
+- [x] **Ф4** Titan: релизы ставятся (KARTUN поверх 1.0), FreeDroidWarn в релизах, Obtainium по кнопке из README ×4 «Установлена/Последняя» —
+      `testcases/reports/2026-11-07_distribution-releases-obtainium.md`. BLD-1 (чистый клон по README) pass ×4; установка самим Obtainium — Krinik Tribit (`installerPackageName=dev.imranr.obtainium.fdroid`).
+- [x] **Ф4.5** картинка 9:16 `reports/distribution/final/kast-family-9x16.webp`.
+- [x] **Ф5** независимый судья по эпику: VERIFIED WITH CAVEATS; найденное исправлено (установка самим Obtainium — Krinik Tribit; ключ `matchGroupToUse` в ссылке KAST; значки версий KrinikCam/KARTUN; `release.yml` KrinikCam — только ручной запуск и только со своим ключом из секретов; `bash build.sh` в навыках KrinikTribitApp; дубли файлов KAST); STATUS; DONE.
+
+**Статус: ✅ DONE 2026-11-07.** Оговорки, оставленные как есть: FDW-8 (язык окна принудительно) не прогонялся; REL-5 показан подписями, не на устройстве; обновление нажатием в Obtainium (не adb) — проверится на следующем релизе; ссылка в приложении KAST 20.2.7 ещё с опечаткой `matchGroutToUse` (ключ просто игнорируется, исправлено в коде к следующему релизу).
+
 ## Решения, принятые без владельца
 
-(заполняется по ходу и при закрытии эпика)
+[AI] по мандату «работай автономно» и по ходу работ (каждое записано и обратимо):
 
 - Ключ KAST и пароль — в одной папке `keys/` (а не в корневом `.env`, где лежит PIN стенда), чтобы владелец копировал одну папку.
+- «x.x.+1» понято как последняя цифра (0.9 → 0.9.1); у KrinikCam и KARTUN `versionName` переведён в чистый x.y.z = тег (Obtainium читает версию из тега).
+- KrinikCam `release.yml` больше не публикует по тегу (подписывал временным debug-ключом раннера); выпуск — локально своим ключом.
+- Иконка приложения KAST заменена утверждённым розовым логотипом (исходник `assets/logo/kast-icon.svg`; синий сохранён как `kast-icon-blue.svg`).
+- KAST: в релиз — 4 APK nonRoot по ABI; фильтр Obtainium `nonRoot.*arm64-v8a` (в README и в приложении одинаково); APK root-флейвора не публикуется.
+- KARTUN: имя файла релиза оставлено `KARTUN.apk` (ссылка `releases/latest/download/KARTUN.apk` в README продолжает работать).
+- Строки витрины KAST: «Game streaming that survives network drops» · «Open source · For Vibepollo and Apollo · Android»; карточка Krinik Tribit на
+  картинке и слоганы README — «Our own app for Tribit speakers» (по слову владельца «не клон, не патч, не взлом»); описание репозитория KrinikTribitApp на GitHub — так же.
+- Бейдж FreeDroidWarn на картинке составлен (у библиотеки нет своего); бейдж Keep Android Open — их подлинный (CC0; образ Вейдера — Lucasfilm).

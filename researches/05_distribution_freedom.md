@@ -1,6 +1,6 @@
 # 05 — Свобода дистрибуции: FreeDroidWarn, Obtainium, релизы для четырёх Android-проектов
 
-Разведка 2026-11-07 для эпика `plans/13_EPIC_distribution_freedom.md`. Слова владельца дословно — `ideas/18_distribution_freedom_android_apps.md`.
+Разведка 2026-11-07 для эпика `plans/13_DONE_EPIC_distribution_freedom.md`. Слова владельца дословно — `ideas/18_distribution_freedom_android_apps.md`.
 Источник веб-части — веб-разведка с URL у каждого утверждения; источник локальной — чтение клонов `D:\work\ai_sandbox\{KAST,KrinikCam,KARTUN,KrinikTribit}`.
 
 ## 1. Требования (владелец, сжатием; дословно — ideas/18)

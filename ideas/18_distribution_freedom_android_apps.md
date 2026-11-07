@@ -158,10 +158,12 @@
 
 > утверждено
 
-(к снимку карточки «Ещё темнее (новая)»: итог — `assets/logo/kast-icon-pink.svg`, плашка `#250519`; знак без плашки — `assets/logo/kast-mark-pink.svg`)
+(к снимку карточки «Ещё темнее (новая)»: итог — `assets/logo/kast-icon.svg` (исходник иконки приложения), плашка `#250519`; знак без плашки — `assets/logo/kast-mark-pink.svg`)
 
 (заставка — `assets/logo/kast-logo.png`, 2048×565: слева ПК с плашкой «Vibepollo», дуга кадров, справа планшет-получатель, в центре иконка и «KAST»)
 
 ## Статус
 
-Принято в работу 2026-11-07: разведка → эпик-план (`researches/05_…`, `plans/13_EPIC_…`).
+Принято в работу 2026-11-07: разведка `researches/05_distribution_freedom.md` → эпик `plans/13_DONE_EPIC_distribution_freedom.md`.
+
+**Реализовано 2026-11-07:** FreeDroidWarn во всех четырёх; только Obtainium (F-Droid и IzzyOnDroid отменены владельцем), утверждённая розовая кнопка и блок «Build it yourself» в README ×4; релизы KAST `v20.2.7`, KrinikCam `v0.9.1`, KARTUN `v1.0.1`, Krinik Tribit `v0.1.1` (свои ключи, x.x.+1); проверено на Titan 1 по Wi-Fi; KrinikTribitApp — MIT и без инструментов прежнего пути; новый розовый логотип и заставка KAST; картинка 9:16 `reports/distribution/final/kast-family-9x16.webp`. Отчёты: `testcases/reports/2026-11-07_distribution-fdw.md`, `…_distribution-releases-obtainium.md`.

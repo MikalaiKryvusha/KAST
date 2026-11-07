@@ -1,6 +1,6 @@
 # Run report — FreeDroidWarn in KAST, KrinikCam, KARTUN, KrinikTribitApp (epic 13, phase F1)
 
-**Work:** plan 15 (`plans/15_epic13_F1_freedroidwarn.md`), cases FDW-0…FDW-8 of `testcases/TC_distribution_freedom.md`; owner's word
+**Work:** plan 15 (`plans/15_DONE_epic13_F1_freedroidwarn.md`), cases FDW-0…FDW-8 of `testcases/TC_distribution_freedom.md`; owner's word
 2026-11-07 «во все их нужно встроить https://github.com/woheller69/FreeDroidWarn», «ГОУ, план начинаем делать!».
 
 **Contour:** HEADWOLF Titan 1 (Android 16, system language ru-BY) over wireless adb `192.168.1.3:37447`, adb =

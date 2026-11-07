@@ -1,6 +1,6 @@
 # Plan 14 (epic 13, Ф0b) — KrinikTribitApp: убрать инструменты прежнего пути из публичного репозитория
 
-> **Created:** 2026-11-07 · **Parent:** `plans/13_EPIC_distribution_freedom.md` → строка «Ф0b — что убирается из публичного KrinikTribitApp»
+> **Created:** 2026-11-07 · **Parent:** `plans/13_DONE_EPIC_distribution_freedom.md` → строка «Ф0b — что убирается из публичного KrinikTribitApp»
 > · **Owner's word:** «Инструменты прежнего пути: убрать…» → «e,hfnm» (= «убрать»), 2026-11-07; «ГОУ, план начинаем делать!»
 > · **Repo:** `D:\work\ai_sandbox\KrinikTribit` (MikalaiKryvusha/KrinikTribitApp, `main`) · **Tests:** `testcases/TC_distribution_freedom.md` → TRB-1…TRB-4
 

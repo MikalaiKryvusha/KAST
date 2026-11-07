@@ -6,7 +6,7 @@
 Open source · For Vibepollo and Apollo · Android</p>
 
 <p align="center">
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.kast%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FMikalaiKryvusha%2FKAST%22%2C%22author%22%3A%22MikalaiKryvusha%22%2C%22name%22%3A%22KAST%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot.*arm64-v8a%5C%22%2C%5C%22matchGroutToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"><img src="docs/get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.kast%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FMikalaiKryvusha%2FKAST%22%2C%22author%22%3A%22MikalaiKryvusha%22%2C%22name%22%3A%22KAST%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot.*arm64-v8a%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"><img src="docs/get-it-on-obtainium-en.svg" height="72" alt="Get it on Obtainium"></a>
 </p>
 
 # KAST — KRINIK Artemis Streaming Tool
@@ -162,7 +162,7 @@ release APKs stay unsigned. Keep a copy of the `keys/` folder outside the projec
 Открытый код · Для Vibepollo и Apollo · Android</p>
 
 <p align="center">
-  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.kast%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FMikalaiKryvusha%2FKAST%22%2C%22author%22%3A%22MikalaiKryvusha%22%2C%22name%22%3A%22KAST%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot.*arm64-v8a%5C%22%2C%5C%22matchGroutToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"><img src="docs/get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
+  <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.limelight.kast%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FMikalaiKryvusha%2FKAST%22%2C%22author%22%3A%22MikalaiKryvusha%22%2C%22name%22%3A%22KAST%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22nonRoot.*arm64-v8a%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.%2B)%5C%22%7D%22%7D"><img src="docs/get-it-on-obtainium-ru.svg" height="72" alt="Скачать через Obtainium"></a>
 </p>
 
 [Read in English →](#english)

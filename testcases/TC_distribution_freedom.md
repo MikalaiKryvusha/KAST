@@ -3,7 +3,7 @@
 **Created:** 2026-11-07 · **Under test:** KAST, KrinikCam, KARTUN, KrinikTribitApp — the FreeDroidWarn dialog, the README Obtainium button and
 build block, signed GitHub releases x.x.+1 installable and updatable through Obtainium · **Version/build:** baseline = current debug builds
 (KAST 20.2.6, KrinikCam 0.9, KARTUN 1.0, KrinikTribitApp 0.1); target = KAST 20.2.7, KrinikCam 0.9.1, KARTUN 1.0.1, KrinikTribitApp 0.1.1
-**Test basis:** `ideas/18_distribution_freedom_android_apps.md` (owner's words); acceptance К1–К5 of `plans/13_EPIC_distribution_freedom.md`;
+**Test basis:** `ideas/18_distribution_freedom_android_apps.md` (owner's words); acceptance К1–К5 of `plans/13_DONE_EPIC_distribution_freedom.md`;
 operational plans 14, 15, 16. **Device:** HEADWOLF Titan 1, Android 16, wireless adb `192.168.1.3:<port>`, adb = `C:\Android\Sdk\platform-tools\adb.exe`.
 
 ## 1. Goal vector
@@ -58,15 +58,15 @@ Machinery: adb (SDK), `UI_SERIAL=<serial> node tools/ui.mjs texts|tap|seek|shot`
 | TRB-4 | KrinikTribitApp README build section = Gradle build of `app/` (EN/RU/ZH) | inspection | **pass** 2026-11-07 — Gradle build block EN/RU/ZH |
 | OBT-1 | README on GitHub (EN and RU sections) shows the pink Obtainium button, image loads, link = redirect with the right JSON (×4) | inspection + rendering | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 | OBT-2 | Titan with Obtainium: open README link → Obtainium add screen with id, name, author prefilled → Add (×4) | use case | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
-| OBT-3 | Obtainium installs the latest release; card shows X.Y.Z; no version-detection warning (×4) | use case | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| OBT-3 | Obtainium installs the latest release; card shows X.Y.Z; no version-detection warning (×4) | use case | **pass** 2026-11-07 — detection ×4 after refresh («Установлена/Последняя», right asset); a real install BY Obtainium shown for Krinik Tribit: uninstalled → card «Не установлено, v0.1.1 Последняя» → «Установить» → system installer → installed 0.1.1, `installerPackageName=dev.imranr.obtainium.fdroid` — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 | OBT-4 | installed version on Titan = release versionName (`dumpsys package <pkg> \| grep versionName`) (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 | REL-1 | `gh release view vX.Y.Z` exists, not pre-release, marked latest; tag = versionName (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 | REL-2 | `apksigner verify --print-certs <asset>` → own cert (KAST `O=KAST`, KARTUN `O=KARTUN`, KrinikCam / KrinikTribitApp their release keys), never `CN=Android Debug` (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 | REL-3 | versionCode of the asset > previous release's (KrinikCam > 90001, KARTUN > 285, KAST > 57, KrinikTribitApp > 1) (×4) | boundary | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
-| REL-4 | KARTUN: GitHub 1.0 installed → Obtainium updates to 1.0.1 in place, data kept | state transition (update path) | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| REL-4 | KARTUN: GitHub 1.0 installed → Obtainium updates to 1.0.1 in place, data kept | state transition (update path) | **pass (by adb, not by Obtainium)** 2026-11-07 — KARTUN 1.0 (285) → 1.0.1 (298) with `adb install -r`, same key, in place; an update pressed in Obtainium was not run (1.0 was already replaced) — same report |
 | REL-5 | KrinikCam: GitHub 0.9 installed → update to 0.9.1 is REFUSED (signature) — the release notes say «reinstall once» | negative (expected failure) | shown by signatures (GitHub v0.9 asset `CN=Android Debug` vs 0.9.1 own key), not reproduced on Titan — same report |
-| BLD-1 | README build block followed literally on a temp clone → debug APK built (×4) | use case | [NOT-TESTED] |
-| BLD-2 | README build block identical in headings and order across the four (diff of headings) | inspection | [NOT-TESTED] |
+| BLD-1 | README build block followed literally on a temp clone → debug APK built (×4) | use case | **pass** 2026-11-07 ×4 — fresh `git clone` from GitHub + README commands: KrinikTribitApp 13 s, KrinikCam 16 min (cold deps), KAST 2 min (submodules + NDK), KARTUN 5 min (build-ncnn 4 min, libtiff, models from the release, stage-models hashes OK) — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
+| BLD-2 | README build block identical in headings and order across the four (diff of headings) | inspection | **pass** 2026-11-07 — same five subsection names EN/RU in all four (outline read from each README) |
 | KEY-1 | `git check-ignore -v` on each release keystore and its env file (×4) | inspection | **pass** 2026-11-07 — `testcases/reports/2026-11-07_distribution-releases-obtainium.md` |
 
 ## 5. Control cases
