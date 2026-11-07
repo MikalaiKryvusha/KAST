@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  KAST app icon — the editable vector source (bugs/05). The owner's choice: logo sheet KAST_LOGO_raw.png, top row,
+  second from the left. Traced over the owner's 4x upscale (KAST_LOGO_raw_upscayl_4x_ultramix-balanced-4x.png):
+  every coordinate below is a pixel of the 960x960 crop +1160+250 of that upscale, and the viewBox is the plate.
+  Groups: #plate (the dark rounded square) and #glyph (the screen, its frame and the pixel squares).
+  Android layers are generated from this file by tools/make-launcher-icon.mjs — edit HERE, then rerun the script.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="52 56 840 840" width="1024" height="1024">
+  <defs>
+    <linearGradient id="screenFill" gradientUnits="userSpaceOnUse" x1="434" y1="660" x2="717" y2="330">
+      <stop offset="0" stop-color="#0292D6"/>
+      <stop offset="0.5" stop-color="#06D2F8"/>
+      <stop offset="1" stop-color="#86FBFE"/>
+    </linearGradient>
+  </defs>
+  <rect id="plate" x="52" y="56" width="840" height="840" rx="170" ry="170" fill="#001B43"/>
+  <g id="glyph">
+    <!-- the frame: an open bracket in perspective; the top bar ends in a short hook on the left -->
+    <path id="frame" fill="#08E2FD" d="M 338 318 Q 338 308 350 306 L 720 244.6 C 790 233 804 262 804 330 L 804 690
+      C 804 760 780 776 720 770.7 L 430 716.8 Q 417 714 417 702 L 417 697 Q 417 684 430 685.3 L 721 723.8
+      C 745 727 756 720 756 700 L 756 310 C 756 290 748 283 725 287.8 L 398 342.7 L 398 359 L 350 359
+      Q 338 359 338 347 Z"/>
+    <!-- the screen panel with the notch on its left side -->
+    <path id="screen" fill="url(#screenFill)" d="M 434 392 Q 434 376 450 372 L 697 331.2 Q 717 328 717 348 L 717 665
+      Q 717 686 697 681 L 462 652.8 Q 445 651 445 636 L 445 624 Q 445 617 452 617 L 476 617 L 476 496 L 441 496
+      Q 434 496 434 489 Z"/>
+    <!-- the notch: the shaded part of the screen behind the orange pixel -->
+    <rect id="notch" x="434" y="494" width="42" height="123" rx="6" fill="#084678"/>
+    <!-- the pixels streaming into the screen -->
+    <rect id="px1" x="133" y="345" width="88" height="91" rx="10" fill="#10E3FF"/>
+    <rect id="px2" x="120" y="510" width="95" height="96" rx="10" fill="#10E3FF"/>
+    <rect id="px3" x="261" y="387" width="118" height="117" rx="12" fill="#10E3FF"/>
+    <rect id="px4" x="274" y="597" width="96" height="97" rx="10" fill="#10E3FF"/>
+    <rect id="px5" x="371" y="514" width="84" height="90" rx="9" fill="#FEC12C"/>
+  </g>
+</svg>

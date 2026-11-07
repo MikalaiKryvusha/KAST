@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Krinik apps</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+body {
+  background: radial-gradient(ellipse 900px 700px at 50% 47%, #3A0A26 0%, #250519 38%, #0D0D0D 78%);
+  color: #F5EEF2; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  position: relative;
+}
+header { position: absolute; top: 70px; left: 0; right: 0; text-align: center; }
+header h1 { font-size: 70px; font-weight: 800; letter-spacing: .5px; line-height: 1.05; }
+header h1 span { color: #FF1A8C; }
+header p { margin-top: 14px; font-size: 26px; font-weight: 600; color: #FF6BBD; letter-spacing: 3px; text-transform: uppercase; }
+.row { position: absolute; left: 44px; right: 44px; display: flex; gap: 32px; }
+.row.top { top: 253px; }
+.row.bottom { top: 1220px; }
+.card {
+  flex: 1; height: 560px; border-radius: 34px; padding: 55px 30px 0; text-align: center;
+  background: linear-gradient(180deg, #1B1218 0%, #140D12 100%);
+  border: 2px solid #FF1A8C40; box-shadow: 0 18px 50px #00000080;
+}
+.card img.icon { width: 230px; height: 230px; border-radius: 52px; display: block; margin: 0 auto; box-shadow: 0 10px 30px #FF1A8C33; }
+.card h2 { font-size: 48px; font-weight: 700; margin-top: 22px; line-height: 1.1; }
+.card hr { border: 0; height: 2px; background: #FF1A8C66; margin: 18px 34px 18px; }
+.card .purpose { font-size: 27px; font-weight: 700; line-height: 1.25; min-height: 68px; text-wrap: balance; }
+.card .facts { font-size: 21px; color: #CBBFC6; margin-top: 12px; line-height: 1.35; }
+.band { position: absolute; top: 845px; left: 44px; right: 44px; height: 343px; display: flex; gap: 32px; align-items: stretch; }
+.badge { flex: 1; border-radius: 34px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.badge.kao { background: #FFFFFF0D; border: 2px solid #FFFFFF2E; }
+.badge.kao img { width: 200px; height: 200px; }
+.badge.kao .name { font-size: 34px; font-weight: 800; margin-top: 12px; letter-spacing: 1px; }
+.badge.kao .url { font-size: 21px; color: #CBBFC6; margin-top: 2px; }
+.badge.fdw img { width: 100%; height: 100%; display: block; }
+footer { position: absolute; left: 0; right: 0; top: 1822px; display: flex; justify-content: center; align-items: center; gap: 16px; font-size: 30px; font-weight: 600; }
+footer img { height: 44px; }
+footer b { color: #FF1A8C; font-weight: 800; }
+footer .dot { color: #FF6BBD; }
+</style></head>
+<body>
+<header>
+  <h1>Free Android apps<br>by <span>Krinik</span></h1>
+</header>
+
+<div class="row top">
+  <div class="card">
+    <img class="icon" src="img/kast-icon.svg" alt="KAST">
+    <h2>KAST</h2><hr>
+    <div class="purpose">Game streaming that survives network drops</div>
+    <div class="facts">Open source · For Vibepollo and Apollo</div>
+  </div>
+  <div class="card">
+    <img class="icon" src="img/krinikcam-icon.svg" alt="KrinikCam">
+    <h2>KrinikCam</h2><hr>
+    <div class="purpose">A mobile OBS for Android</div>
+    <div class="facts">Open source · For streamers and bloggers</div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="badge kao">
+    <img src="img/kao-emblem.webp" alt="Keep Android Open">
+    <div class="name">KEEP ANDROID OPEN</div>
+    <div class="url">keepandroidopen.org</div>
+  </div>
+  <div class="badge fdw"><img src="img/freedroidwarn-badge.svg" alt="FreeDroidWarn"></div>
+</div>
+
+<div class="row bottom">
+  <div class="card">
+    <img class="icon" src="img/kartun-icon.svg" alt="KARTUN">
+    <h2>KARTUN</h2><hr>
+    <div class="purpose">Makes blurry photos big and sharp</div>
+    <div class="facts">Open source · Offline · AI on the device</div>
+  </div>
+  <div class="card">
+    <img class="icon" src="img/krinik-tribit-icon.svg" alt="Krinik Tribit">
+    <h2>Krinik Tribit</h2><hr>
+    <div class="purpose">Our own app for Tribit speakers</div>
+    <div class="facts">Open source · No analytics · No location</div>
+  </div>
+</div>
+
+<footer><span>Get them on <b>GitHub</b></span><span class="dot">·</span><img src="img/obtainium-diamond.svg" alt=""><span><b>Obtainium</b></span></footer>
+</body></html>

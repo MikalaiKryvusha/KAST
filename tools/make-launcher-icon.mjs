@@ -37,7 +37,9 @@ const pathData = (a) => (a.tag === 'rect' ? rectPath(a) : a.d.replace(/\s+/g, ' 
 const plate = attrsOf('plate');
 const [px, py, pw, ph] = ['x', 'y', 'width', 'height'].map((k) => Number(plate[k]));
 const cx = px + pw / 2, cy = py + ph / 2;
-const GLYPH = ['frame', 'screen', 'notch', 'px1', 'px2', 'px3', 'px4', 'px5'];
+// The notch is optional since the pink logo of 2026-11-07: the owner replaced the shade by a soft cut-out in the screen path
+// («мягкий вырез в кадре нужно, а не тень»), so the element is absent from the source.
+const GLYPH = ['frame', 'screen', 'notch', 'px1', 'px2', 'px3', 'px4', 'px5'].filter((id) => new RegExp(`id="${id}"`).test(src));
 const parts = GLYPH.map((id) => ({ id, ...attrsOf(id) }));
 
 // Farthest glyph point from the plate centre, sampled on the path data's numbers (coordinates come in x y pairs).
