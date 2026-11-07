@@ -1,6 +1,33 @@
 apply plugin: 'com.android.application'
 
+// KAST release key: keys/kast-release.jks + keys/release.env, outside git (made once by tools/make-release-key.py on the
+// owner's word 2026-11-07 «делаем, как в KARTUN, вне гита»). Without keys/release.env the release build stays unsigned,
+// so a clean clone still builds.
+// [TESTED: 2026-11-07 · gradlew :app:signingReport: nonRoot_gameRelease → Config release, Store keys\kast-release.jks, Alias kast]
+def releaseEnvFile = rootProject.file('keys/release.env')
+def releaseEnv = [:]
+if (releaseEnvFile.exists()) {
+    releaseEnvFile.eachLine { String line ->
+        line = line.trim()
+        if (line && !line.startsWith('#') && line.contains('=')) {
+            int i = line.indexOf('=')
+            releaseEnv[line.substring(0, i).trim()] = line.substring(i + 1).trim()
+        }
+    }
+}
+
 android {
+    if (releaseEnv) {
+        signingConfigs {
+            release {
+                storeFile rootProject.file(releaseEnv.KAST_KEYSTORE)
+                storePassword releaseEnv.KAST_KEYSTORE_PASSWORD
+                keyAlias releaseEnv.KAST_KEY_ALIAS
+                keyPassword releaseEnv.KAST_KEY_PASSWORD
+            }
+        }
+    }
+
     ndkVersion "27.0.12077973"
 
     compileSdk = 36
@@ -145,6 +172,7 @@ android {
             resValue "string", "app_label", "KAST"
             resValue "string", "app_label_root", "KAST (Root)"
             resValue "string", "app_label_game", "KAST (Game)"
+            if (releaseEnv) signingConfig signingConfigs.release
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

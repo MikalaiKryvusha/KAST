@@ -75,3 +75,8 @@ assets/logo/*_upscayl_*
 # local secrets (passwords, tokens) — never public
 .env
 .env.*
+
+# Release signing key of KAST - outside git (owner 2026-11-07: «вне гита»); the owner keeps a copy in his secret store
+keys/
+*.jks
+*.keystore
